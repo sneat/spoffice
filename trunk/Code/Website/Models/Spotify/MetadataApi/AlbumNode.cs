@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 using SharpSpotLib.Media;
 using SharpSpotLib.Util;
+using Newtonsoft.Json;
 
 namespace Spoffice.Website.Models.Spotify.MetadataApi
 {
@@ -29,7 +30,9 @@ namespace Spoffice.Website.Models.Spotify.MetadataApi
         public bool IsAvailable = true;
         [XmlArrayItem(ElementName = "Track")] 
         public List<TrackNode> Tracks;
+
         [XmlIgnore]
+        [JsonIgnore]
         public string AlbumartCachePath
         {
             get
@@ -38,11 +41,12 @@ namespace Spoffice.Website.Models.Spotify.MetadataApi
             }
         }
         [XmlIgnore]
+        [JsonIgnore]
         public string AlbumartCacheWebPath
         {
             get
             {
-                return String.Format("~/Cache/albumart/{1}.jpg", PrivateId.ToString());
+                return String.Format("~/Cache/albumart/{0}.jpg", PrivateId.ToString());
             }
         }
         #endregion

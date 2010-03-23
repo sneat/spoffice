@@ -10,10 +10,10 @@ namespace Spoffice.Website.Models
         Rating GetTrackRatingForUser(Track track, User user);
         void DeleteRatingsForTrack(Track track);
 
-        bool VoteForTrack(Track track, Guid userGuid);
-        bool VoteAgainstTrack(Track track, Guid userGuid);
+        Status VoteForTrack(Track track, Guid userGuid);
+        Status VoteAgainstTrack(Track track, Guid userGuid);
 
-        bool VoteForTrack(string trackid, Guid userGuid);
-        bool VoteAgainstTrack(string trackid, Guid userGuid);
+        Status VoteForTrack(string trackid, Guid userGuid);
+        Status VoteAgainstTrack(string trackid, Guid userGuid);
     }
 }

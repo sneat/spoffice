@@ -6,6 +6,7 @@ using System.Web;
 using SharpSpotLib.Util;
 using System.Xml.Serialization;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Spoffice.Website.Models.Spotify.MetadataApi
 {
@@ -19,6 +20,7 @@ namespace Spoffice.Website.Models.Spotify.MetadataApi
         [XmlAttribute("musicbrainz")]
         public Guid MusicBrainzId;
         [XmlIgnore]
+        [JsonIgnore]
         public Guid PrivateId
         {
             get

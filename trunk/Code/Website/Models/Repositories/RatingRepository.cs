@@ -33,11 +33,11 @@ namespace Spoffice.Website.Models
             }
             DataContext.Context.SaveChanges();
         }
-        public bool VoteForTrack(string trackid, Guid userGuid)
+        public Status VoteForTrack(string trackid, Guid userGuid)
         {
             return VoteForTrack(DataContext.TrackRepository.GetTrackById(trackid), userGuid);
         }
-        public bool VoteForTrack(Track track, Guid userGuid)
+        public Status VoteForTrack(Track track, Guid userGuid)
         {
             if (track != null)
             {
@@ -56,7 +56,7 @@ namespace Spoffice.Website.Models
                     }
                     else
                     {
-                        return false;
+                        return new Status { StatusCode = "Error", Message = "You've already voted for this"};
                     }
                 }
                 DataContext.Context.AddToRatings(new Rating
@@ -66,16 +66,17 @@ namespace Spoffice.Website.Models
                     Value = 1
                 });
                 DataContext.Context.SaveChanges();
-                return true;
+
+                return new Status { StatusCode = "Success", Message = "Track successfully voted for" };
             }
-            return false;
+
+            return new Status { StatusCode = "Error", Message = "Track unknown" };
         }
-        public bool VoteAgainstTrack(string trackid, Guid userGuid)
+        public Status VoteAgainstTrack(string trackid, Guid userGuid)
         {
-            TrackRepository trackRepos = new TrackRepository();
-            return VoteAgainstTrack(trackRepos.GetTrackById(trackid), userGuid);
+            return VoteAgainstTrack(DataContext.TrackRepository.GetTrackById(trackid), userGuid);
         }
-        public bool VoteAgainstTrack(Track track, Guid userGuid)
+        public Status VoteAgainstTrack(Track track, Guid userGuid)
         {
             if (track != null)
             {
@@ -83,7 +84,7 @@ namespace Spoffice.Website.Models
                              where m.UserId == userGuid
                              select m).FirstOrDefault();
 
-                Rating rating = DataContext.RatingRepository.GetTrackRatingForUser(track, user);
+                Rating rating = GetTrackRatingForUser(track, user);
                 if (rating != null)
                 {
                     if (rating.Value == 1)
@@ -94,7 +95,7 @@ namespace Spoffice.Website.Models
                     }
                     else
                     {
-                        return false;
+                        return new Status { StatusCode = "Error", Message = "You've already voted against this" };
                     }
 
                 }
@@ -105,9 +106,9 @@ namespace Spoffice.Website.Models
                     Value = -1
                 });
                 DataContext.Context.SaveChanges();
-                return true;
+                return new Status { StatusCode = "Success", Message = "Track successfully voted against" };
             }
-            return false;
+            return new Status { StatusCode = "Error", Message = "Track unknown" };
         }
         #endregion
     }

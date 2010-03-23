@@ -12,7 +12,7 @@ using Spoffice.Website.Helpers;
 namespace Spoffice.Website.Controllers
 {
     [HandleError, Authorize]
-    public class HomeController : BaseController
+    public class HomeController : AuthorizedController
     {
         spofficeEntities _db;
 

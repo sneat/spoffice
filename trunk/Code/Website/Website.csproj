@@ -56,6 +56,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\External DLLs\irrKlang.NET2.0.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External DLLs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core">
@@ -91,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuthorizedController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\FavouritesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -105,8 +110,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Containers\LoggedInStatus.cs" />
+    <Compile Include="Models\Containers\Status.cs" />
     <Compile Include="Models\DataContext.cs" />
+    <Compile Include="Models\Repositories\AlbumRepository.cs" />
+    <Compile Include="Models\Repositories\ArtistRepository.cs" />
     <Compile Include="Models\Repositories\FavouriteRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\IAlbumRepository.cs" />
+    <Compile Include="Models\Repositories\Interfaces\IArtistRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\IFavouriteRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\IRatingRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\ITrackRepository.cs" />

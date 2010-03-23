@@ -17,7 +17,7 @@ using Spoffice.Website.Services.Music;
 namespace Spoffice.Website.Controllers
 {
     [Authorize]
-    public class MusicController : BaseController
+    public class MusicController : AuthorizedController
     {
         
         private CoverGrabber covergrabber;
@@ -39,7 +39,7 @@ namespace Spoffice.Website.Controllers
             ModelState.Clear(); // Clear the model state so that we don't have the search term in the box anymore
             return View();
         }
-
+        
         public ActionResult Search(string id)
         {
             ViewData["search_term"] = id;
@@ -83,40 +83,24 @@ namespace Spoffice.Website.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Vote(string id, string value)
         {
-            JsonFavouriteResult result = new JsonFavouriteResult();
+            Status result = null;
             User user = (from m in DataContext.Context.Users
                          where m.UserId == UserGuid
                          select m).FirstOrDefault();
 
-            bool status = false;
             switch (value)
             {
                 case "for":
-                    status = DataContext.RatingRepository.VoteForTrack(id, UserGuid);
+                    result = DataContext.RatingRepository.VoteForTrack(id, UserGuid);
                     break;
                 case "against":
-                    status = DataContext.RatingRepository.VoteAgainstTrack(id, UserGuid);
+                    result = DataContext.RatingRepository.VoteAgainstTrack(id, UserGuid);
                     break;
             }
 
-            return Json(result);
+            return MultiformatView(typeof(Status), result);
         }
 
-        public ActionResult MultiformatView(Type type, object obj)
-        {
-            if (Request.ContentType.Contains("text/xml"))
-            {
-                StringWriter sw = new StringWriter();
-                new XmlSerializer(type).Serialize(sw, obj);
-                string xml = sw.ToString();
-                sw.Close();
-                return new ContentResult
-                {
-                    ContentType = "text/xml",
-                    Content = xml
-                };
-            }
-            return View(obj);
-        }
+
     }  
 }

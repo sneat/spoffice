@@ -1,73 +1,57 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
-using System.Web.Security;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
-using Spoffice.Website.Helpers;
-using Spoffice.Website.Models;
-using Spoffice.Website.Services.Music;
-using Spoffice.Website.Services.Music.Downloader;
-using Spoffice.Website.Services.Music.Player;
-using System.Configuration;
+using System.IO;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Spoffice.Website.Controllers
 {
-    public class NotAuthorizeAttribute : FilterAttribute
-    {
-        // Does nothing, just used for decoration
-    }
     public class BaseController : Controller
     {
-        private Guid _userguid = Guid.Empty;
-        protected Guid UserGuid
+        public ActionResult MultiformatView(Type type, object obj)
         {
-            get
-            {
-                if (_userguid == Guid.Empty)
-                {
-                    if (Membership.GetUser() != null)
-                    {
-                        _userguid = (Guid)Membership.GetUser().ProviderUserKey;
-                    }
-                }
-                return _userguid;
-            }
+            return MultiformatView(type, obj, null);
         }
-        public static MusicService MusicService;
-        public static SpotifyDownloader Downloader;
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        public ActionResult MultiformatView(Type type, object obj, string redirect)
         {
-            if (MusicService == null)
+            bool xml = IsXmlRequest();
+            bool json = IsJsonRequest();
+            if (xml || json)
             {
-                string spotifyUsername = ConfigurationSettings.AppSettings["Spotify.Username"];
-                string spotifyPassword = ConfigurationSettings.AppSettings["Spotify.Password"];
-                if (!String.IsNullOrEmpty(spotifyUsername) && !String.IsNullOrEmpty(spotifyPassword))
+                string response;
+                if (xml)
                 {
-                    if (Downloader == null)
-                    {
-                        Downloader = new SpotifyDownloader(spotifyUsername, spotifyPassword);
-                    }
-                    IrrklangMusicPlayer player = new IrrklangMusicPlayer(DataContext.TrackRepository.GetTotalBytesPlayed());
-                    MusicService = new MusicService(Downloader, player);
+                    StringWriter sw = new StringWriter();
+                    new XmlSerializer(type).Serialize(sw, obj);
+                    response = sw.ToString();
+                    sw.Close();
                 }
                 else
                 {
-                    throw new Exception("No username or password specified in app settings!");
+                    response = JsonConvert.SerializeObject(obj);
                 }
+                return new ContentResult
+                {
+                    ContentType = xml ? "text/xml" : "application/json",
+                    Content = response
+                };
             }
-
-            // Check if this action has NotAuthorizeAttribute
-            object[] attributes = filterContext.ActionDescriptor.GetCustomAttributes(true);
-            if (attributes.Any(a => a is NotAuthorizeAttribute)) return;
-
-            // Must login
-            if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
+            else if (!String.IsNullOrEmpty(redirect))
             {
-                filterContext.Result = new HttpUnauthorizedResult();
+                return Redirect(redirect);
             }
+            return View(obj);
+        }
+        protected bool IsJsonRequest()
+        {
+            return (Request.Headers["HTTP_X_EXPECT_FORMAT"] ?? string.Empty) == "json";
+        }
+        protected bool IsXmlRequest()
+        {
+            return (Request.Headers["HTTP_X_EXPECT_FORMAT"] ?? string.Empty) == "xml";
         }
     }
 }

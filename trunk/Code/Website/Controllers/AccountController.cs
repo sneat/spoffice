@@ -8,12 +8,13 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.UI;
 using Spoffice.Website.Helpers;
+using Spoffice.Website.Models;
 
 namespace Spoffice.Website.Controllers
 {
 
     [HandleError]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
 
         // This constructor is used by the MVC framework to instantiate the controller using
@@ -47,8 +48,7 @@ namespace Spoffice.Website.Controllers
 
         public ActionResult LogOn()
         {
-
-            return View();
+            return MultiformatView(typeof(LoggedInStatus), new LoggedInStatus { LoggedIn = false });
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -56,21 +56,24 @@ namespace Spoffice.Website.Controllers
             Justification = "Needs to take same parameter type as Controller.Redirect()")]
         public ActionResult LogOn(string userName, string password, bool rememberMe, string returnUrl)
         {
-
+            LoggedInStatus status = new LoggedInStatus { LoggedIn = false };
             if (!ValidateLogOn(userName, password))
             {
-                return View();
+                status.Errors = ModelState;
+                return MultiformatView(typeof(LoggedInStatus), status);
             }
 
             FormsAuth.SignIn(userName, rememberMe);
 
+            status.LoggedIn = true;
+
             if (!String.IsNullOrEmpty(returnUrl))
             {
-                return Redirect(returnUrl);
+                return MultiformatView(typeof(LoggedInStatus), status, returnUrl);
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return MultiformatView(typeof(LoggedInStatus), status, "~/Home/Index");
             }
         }
 

@@ -31,7 +31,6 @@
          <% foreach (Favourite favourite in ViewData.Model)
             { %>
             <tr>
-           
                 <td class="actions"><% Html.RenderPartial("AddToFavourites", TrackNode.ConvertPrivateToPublic(favourite.Track.Id)); %></td>
                 <td><%= favourite.Track.Title %></td>
                 <td><%= favourite.Track.Artist.Name %></td>

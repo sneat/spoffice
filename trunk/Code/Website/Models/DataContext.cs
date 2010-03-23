@@ -39,5 +39,21 @@ namespace Spoffice.Website.Models
                 return _favouriteRepository ?? (_favouriteRepository = new FavouriteRepository());
             }
         }
+        private static IArtistRepository _artistRepository;
+        public static IArtistRepository ArtistRepository
+        {
+            get
+            {
+                return _artistRepository ?? (_artistRepository = new ArtistRepository());
+            }
+        }
+        private static IAlbumRepository _albumRepository;
+        public static IAlbumRepository AlbumRepository
+        {
+            get
+            {
+                return _albumRepository ?? (_albumRepository = new AlbumRepository());
+            }
+        }
     }
 }
