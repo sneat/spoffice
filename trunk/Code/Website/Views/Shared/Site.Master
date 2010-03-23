@@ -7,50 +7,29 @@
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
     <% Html.ScriptManager().ScriptInclude("jquery", "~/Scripts/jquery-latest.min.js"); %>
     <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="../../Content/jixed/jx.bar.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-    <div class="page">
-
-        <div id="header">
-            <div id="title">
-                <h1><%= Html.ActionLink(ViewRes.SharedStrings.Title, "Index", "Home", null, new { title = ViewRes.SharedStrings.Title })%></h1>
-            </div>
-              
-            <div id="logindisplay">
-                <% Html.RenderPartial("LogOnUserControl"); %>
-            </div> 
+<%= Html.ActionLink(ViewRes.SharedStrings.Title, "Index", "Home", null, new { title = ViewRes.SharedStrings.Title })%>
+<% Html.RenderPartial("LogOnUserControl"); %>
+           
             
-            <% if (Request.IsAuthenticated)
-               { %>
-            <div id="search">
-                <% Html.RenderPartial("SearchBox"); %>
-            </div>
-            <% } %>
+<% if (Request.IsAuthenticated)
+{ %>
+<% Html.RenderPartial("SearchBox"); %>
+<% } %>
             
-            <div id="menucontainer">
-            
-                <ul id="menu">
-                    <li><%= Html.ActionLink(ViewRes.SiteStrings.SongHistory, "Playlist", "Music", null, new { title = ViewRes.SiteStrings.SongHistory })%></li>
-                    <li><%= Html.ActionLink(ViewRes.SiteStrings.Favourites, "Index", "Favourites", null, new { title = ViewRes.SiteStrings.Favourites })%></li>
-                    <li><%= Html.ActionLink(ViewRes.SiteStrings.Account, "Index", "Account", null, new { title = ViewRes.SiteStrings.Account })%></li>
-                </ul>
-            
-            </div>
-        </div>
-
-        <div id="main">
-            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-        </div>
         
-        <div id="footer">
-            Wouldn't it be cool if there was something down here that said how many MB/GB/TB of music had been played? Hell yeah!
-            <% if (ViewData["totalBytes"] != null){ %>
-            <p>Yes, Blair, it would: <span id="tb_formatted"></span> (<span id="totalbytestotal"><%=(long)ViewData["totalBytes"] %></span> bytes)</p>
-           <%} %>
-        </div>
-    </div>
-    <% Html.ScriptManager().Render(); %>
+<ul>
+    <li><%= Html.ActionLink(ViewRes.SiteStrings.SongHistory, "Playlist", "Music", null, new { title = ViewRes.SiteStrings.SongHistory })%></li>
+    <li><%= Html.ActionLink(ViewRes.SiteStrings.Favourites, "Index", "Favourites", null, new { title = ViewRes.SiteStrings.Favourites })%></li>
+    <li><%= Html.ActionLink(ViewRes.SiteStrings.Account, "Index", "Account", null, new { title = ViewRes.SiteStrings.Account })%></li>
+</ul>
+            
+
+<asp:ContentPlaceHolder ID="MainContent" runat="server" />
+     
+ 
+<% Html.ScriptManager().Render(); %>
 </body>
 </html>

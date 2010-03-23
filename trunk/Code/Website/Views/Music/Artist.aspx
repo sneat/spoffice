@@ -6,24 +6,14 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%= ViewRes.SharedStrings.Artist %>: <%= Html.Encode(Model.Name) %></h2>     
-    
-    <table>
-        <thead>
-            <tr>
-                <th scope="col"><%= ViewRes.SharedStrings.Album %></th>
-            </tr>
-        </thead>
-        <tbody>
-            <% foreach (AlbumNode album in (IEnumerable)Model.Albums)
+    <%= ViewRes.SharedStrings.Artist %>: <%= Html.Encode(Model.Name) %>    <br />
+    <%= ViewRes.SharedStrings.Album %><br />
+      <% foreach (AlbumNode album in (IEnumerable)Model.Albums)
             { %>
-            <tr>
-                <td><%= album.IsAvailable ? Html.ActionLink(album.Name, "Album", new { id = album.PublicId }) : album.Name%></td>
-            </tr>
+            
+                <%= album.IsAvailable ? Html.ActionLink(album.Name, "Album", new { id = album.PublicId }) : album.Name%><br />
+            
           <% } %>
-        </tbody>
-    </table>
- 
 
 </asp:Content>
 

@@ -19,9 +19,8 @@ namespace Spoffice.Website.Controllers
     [Authorize]
     public class MusicController : BaseController
     {
-        private Guid userGuid;
+        
         private CoverGrabber covergrabber;
-        private FavouriteRepository favouriteRepository;
         public MusicController()
         {
             List<ICoverGrabber> grabbers = new List<ICoverGrabber>();
@@ -31,14 +30,8 @@ namespace Spoffice.Website.Controllers
 
             covergrabber = new CoverGrabber(grabbers);
 
-            if (Membership.GetUser() != null)
-            {
-                userGuid = (Guid)Membership.GetUser().ProviderUserKey;
-            }
-
-            favouriteRepository = new FavouriteRepository();
-            ViewData["favourites"] = favouriteRepository.GetUsersFavourites(userGuid);
-        }
+            ViewData["favourites"] = DataContext.FavouriteRepository.GetUsersFavourites(UserGuid);
+        }   
         //
         // GET: /Music/
         public ActionResult Index()
@@ -92,17 +85,17 @@ namespace Spoffice.Website.Controllers
         {
             JsonFavouriteResult result = new JsonFavouriteResult();
             User user = (from m in DataContext.Context.Users
-                         where m.UserId == userGuid
+                         where m.UserId == UserGuid
                          select m).FirstOrDefault();
 
             bool status = false;
             switch (value)
             {
                 case "for":
-                    status = DataContext.RatingRepository.VoteForTrack(id, userGuid);
+                    status = DataContext.RatingRepository.VoteForTrack(id, UserGuid);
                     break;
                 case "against":
-                    status = DataContext.RatingRepository.VoteAgainstTrack(id, userGuid);
+                    status = DataContext.RatingRepository.VoteAgainstTrack(id, UserGuid);
                     break;
             }
 

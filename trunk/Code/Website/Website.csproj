@@ -182,9 +182,6 @@
     <Compile Include="Services\Music\Player\IrrklangMusicPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\images\blank_album.png" />
-    <Content Include="Content\images\thumb_down.png" />
-    <Content Include="Content\images\thumb_up.png" />
     <Content Include="Scripts\CoolTunes.js" />
     <Content Include="Scripts\jquery-latest.min.js" />
     <Content Include="Scripts\jquery.defaultvalue.js" />
@@ -277,12 +274,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\images\accept.png" />
-    <Content Include="Content\images\add.png" />
-    <Content Include="Content\images\ajax-loader.gif" />
-    <Content Include="Content\images\blank_album_small.png" />
-    <Content Include="Content\images\delete.png" />
-    <Content Include="Content\jixed\jx.bar.css" />
     <Content Include="Scripts\jixedbar-0.0.2.js" />
     <Content Include="Scripts\MusicInfoUpdater.js" />
     <Content Include="Views\Favourites\NotFound.aspx" />

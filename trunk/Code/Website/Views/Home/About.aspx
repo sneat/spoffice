@@ -5,8 +5,6 @@
 </asp:Content>
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2><%= ViewRes.AboutStrings.Title %></h2>
-    <p>
-        <%= ViewRes.AboutStrings.Content %>
-    </p>
+    <%= ViewRes.AboutStrings.Title %>
+    <%= ViewRes.AboutStrings.Content %>
 </asp:Content>

@@ -46,7 +46,7 @@
     
 <%}); %>
 
-    <h2><%= String.Format("{0}: {1}", ViewRes.SharedStrings.Album, String.Format(ViewRes.MusicStrings.AlbumArtist, Model.Name, Html.ActionLink(Model.Artist.Name, "Artist", new { id = Model.Artist.PublicId }, new { title = ViewRes.MusicStrings.ArtistDetails })))%></h2>
+    <%= String.Format("{0}: {1}", ViewRes.SharedStrings.Album, String.Format(ViewRes.MusicStrings.AlbumArtist, Model.Name, Html.ActionLink(Model.Artist.Name, "Artist", new { id = Model.Artist.PublicId }, new { title = ViewRes.MusicStrings.ArtistDetails })))%>
     
     <table>
         <thead>

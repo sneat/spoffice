@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<CoolTunes.Models.Favourite>>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<Favourite>>" %>
 <%@ Import Namespace="Spoffice.Website.Models" %>
 <%@ Import Namespace="Spoffice.Website.Models.Spotify.MetadataApi" %>
 
@@ -31,7 +31,8 @@
          <% foreach (Favourite favourite in ViewData.Model)
             { %>
             <tr>
-                <td class="actions"><% Html.RenderPartial("RemoveFromFavourites", TrackNode.ConvertPrivateToPublic(favourite.Track.Id)); %></td>
+           
+                <td class="actions"><% Html.RenderPartial("AddToFavourites", TrackNode.ConvertPrivateToPublic(favourite.Track.Id)); %></td>
                 <td><%= favourite.Track.Title %></td>
                 <td><%= favourite.Track.Artist.Name %></td>
             </tr>

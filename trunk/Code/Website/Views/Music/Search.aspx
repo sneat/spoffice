@@ -13,7 +13,7 @@
 <% }
    else
    { %>
-    <h3><%= ViewRes.MusicStrings.SearchedFor.Replace("{0}", Html.Encode(ViewData["search_term"]))%></h3>
+   <%= ViewRes.MusicStrings.SearchedFor.Replace("{0}", Html.Encode(ViewData["search_term"]))%>
     
     <table summary="<%= ViewRes.MusicStrings.SearchSummary %>">
         <thead>
@@ -30,19 +30,11 @@
                {
                %>
             <tr>
-                <td class="actions">
+                <td>
                     <% 
                         if (track.Album != null && track.Album.IsAvailable)
                         {
-                            if (!(ViewData["favourites"] as List<Favourite>).Select(t=> t.Track.Id).Contains(track.PrivateId))
-                            {   %>
-                        <% Html.RenderPartial("AddToFavourites", track.PublicId); %>
-                    <% }
-                            else
-                            { %>
-                        <img src="<%= ResolveUrl("~/Content/images/accept.png") %>" alt="<%= ViewRes.FavouritesStrings.AlreadyFavourite %>" title="<%= ViewRes.FavouritesStrings.AlreadyFavourite %>" />
-                    <% }
-
+                        Html.RenderPartial("AddToFavourites", track.PublicId);
                         }
                    %>
                 </td>

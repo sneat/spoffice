@@ -14,25 +14,16 @@ namespace Spoffice.Website.Controllers
     [Authorize]
     public class FavouritesController : BaseController
     {
-        spofficeEntities _db;
-        Guid userGuid;
-
         public FavouritesController()
         {
-            _db = new spofficeEntities();
-            if (Membership.GetUser() != null)
-            {
-                userGuid = (Guid)Membership.GetUser().ProviderUserKey;
-            }
+            ViewData["favourites"] = DataContext.FavouriteRepository.GetUsersFavourites(UserGuid);
         }
 
         //
         // GET: /Favourites/
         public ActionResult Index()
         {
-          
-            List<Favourite> favourites = _db.Favourites.Include("Track.Artist").Where(f => f.User.UserId == userGuid).ToList();
-            return View(favourites);
+            return View(ViewData["favourites"] as List<Favourite>);
         }
 
         //
@@ -47,7 +38,7 @@ namespace Spoffice.Website.Controllers
             ArtistNode artistNode = trackNode.Artist;
             AlbumNode albumNode = trackNode.Album;
 
-            Artist artist = (from m in _db.Artists
+            Artist artist = (from m in DataContext.Context.Artists
                              where m.Id == artistNode.PrivateId
                              select m).FirstOrDefault();
 
@@ -60,7 +51,7 @@ namespace Spoffice.Website.Controllers
                     Id = artistNode.PrivateId,
                     MusicBrainzId = trackNode.MusicBrainzId
                 };
-                _db.AddToArtists(artist);
+                DataContext.Context.AddToArtists(artist);
                 dbChanged = true;
             }
             else if ((artist.MusicBrainzId == null || artist.MusicBrainzId == Guid.Empty) && artistNode.MusicBrainzId != null)
@@ -69,7 +60,7 @@ namespace Spoffice.Website.Controllers
                 dbChanged = true;
             }
 
-            Album album = (from m in _db.Albums
+            Album album = (from m in DataContext.Context.Albums
                            where m.Id == albumNode.PrivateId
                            select m).FirstOrDefault();
             if (album == null)
@@ -80,7 +71,7 @@ namespace Spoffice.Website.Controllers
                     Id = albumNode.PrivateId,
                     MusicBrainzId = albumNode.MusicBrainzId
                 };
-                _db.AddToAlbums(album);
+                DataContext.Context.AddToAlbums(album);
                 dbChanged = true;
             }
             else if ((album.MusicBrainzId == null || album.MusicBrainzId == Guid.Empty) && albumNode.MusicBrainzId != null)
@@ -89,7 +80,7 @@ namespace Spoffice.Website.Controllers
                 dbChanged = true;
             }
 
-            Track track = (from m in _db.Tracks
+            Track track = (from m in DataContext.Context.Tracks
                            where m.Id == trackNode.PrivateId
                            select m).FirstOrDefault();
             if (track == null)
@@ -103,7 +94,7 @@ namespace Spoffice.Website.Controllers
                     Length = trackNode.Length,
                     MusicBrainzId = trackNode.MusicBrainzId
                 };
-                _db.AddToTracks(track);
+                DataContext.Context.AddToTracks(track);
                 dbChanged = true;
             }
             else if ((track.MusicBrainzId == null || track.MusicBrainzId == Guid.Empty) && trackNode.MusicBrainzId != null)
@@ -112,10 +103,10 @@ namespace Spoffice.Website.Controllers
                 dbChanged = true;
             }
 
-            User user = (from m in _db.Users
-                         where m.UserId == userGuid
+            User user = (from m in DataContext.Context.Users
+                         where m.UserId == UserGuid
                          select m).FirstOrDefault();
-            Favourite favourite = (from m in _db.Favourites
+            Favourite favourite = (from m in DataContext.Context.Favourites
                                    where m.Track.Id == track.Id && m.User.UserId == user.UserId
                                    select m).FirstOrDefault();
             if (favourite == null)
@@ -125,11 +116,11 @@ namespace Spoffice.Website.Controllers
                     User = user,
                     Track = track
                 };
-                _db.AddToFavourites(favourite);
+                DataContext.Context.AddToFavourites(favourite);
                 dbChanged = true;
             }
 
-            Rating rating = (from m in _db.Ratings
+            Rating rating = (from m in DataContext.Context.Ratings
                              where m.Track.Id == track.Id && m.User.UserId == user.UserId
                              select m).FirstOrDefault();
             if (rating == null)
@@ -140,7 +131,7 @@ namespace Spoffice.Website.Controllers
                     User = user,
                     Value = 1
                 };
-                _db.AddToRatings(rating);
+                DataContext.Context.AddToRatings(rating);
                 dbChanged = true;
             }
 
@@ -148,7 +139,7 @@ namespace Spoffice.Website.Controllers
             {
                 try
                 {
-                    _db.SaveChanges();
+                    DataContext.Context.SaveChanges();
                     result = new JsonFavouriteResult
                     {
                         Status = "OK"
@@ -181,11 +172,11 @@ namespace Spoffice.Website.Controllers
         {
             ModelState.Clear(); // Clear the model state so that we don't have the search term in the box anymore
             Guid privateId = TrackNode.ConvertPublicToPrivate(id);
-            User user = (from m in _db.Users
-                         where m.UserId == userGuid
+            User user = (from m in DataContext.Context.Users
+                         where m.UserId == UserGuid
                          select m).FirstOrDefault();
 
-            Favourite favourite = (from m in _db.Favourites.Include("Track")
+            Favourite favourite = (from m in DataContext.Context.Favourites.Include("Track")
                                    where m.Track.Id == privateId && m.User.UserId == user.UserId
                                    select m).FirstOrDefault();
             if (favourite == null)
@@ -200,11 +191,11 @@ namespace Spoffice.Website.Controllers
             JsonFavouriteResult result;
 
             Guid privateId = TrackNode.ConvertPublicToPrivate(id);
-            User user = (from m in _db.Users
-                         where m.UserId == userGuid
+            User user = (from m in DataContext.Context.Users
+                         where m.UserId == UserGuid
                          select m).FirstOrDefault();
 
-            Favourite favourite = (from m in _db.Favourites
+            Favourite favourite = (from m in DataContext.Context.Favourites
                                    where m.Track.Id == privateId && m.User.UserId == user.UserId
                                    select m).FirstOrDefault();
 
@@ -212,16 +203,16 @@ namespace Spoffice.Website.Controllers
             {
                 try
                 {
-                    Rating rating = (from m in _db.Ratings
+                    Rating rating = (from m in DataContext.Context.Ratings
                                      where m.Track.Id == favourite.Track.Id && m.User.UserId == user.UserId
                                      select m).FirstOrDefault();
                     if (rating != null)
                     {
-                        _db.DeleteObject(rating);
+                        DataContext.Context.DeleteObject(rating);
                     }
-                    _db.DeleteObject(favourite);
+                    DataContext.Context.DeleteObject(favourite);
 
-                    _db.SaveChanges();
+                    DataContext.Context.SaveChanges();
 
                     result = new JsonFavouriteResult
                     {

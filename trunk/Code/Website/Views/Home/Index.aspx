@@ -5,8 +5,6 @@
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
     <% Html.RenderPartial("NowPlaying"); %>
-    <h2><%= Html.Encode(ViewData["Message"]) %></h2>
-    <p>
-        <%= ViewRes.HomeStrings.Content %>
-    </p>
+    <%= Html.Encode(ViewData["Message"]) %>
+    <%= ViewRes.HomeStrings.Content %>    
 </asp:Content>

@@ -21,6 +21,21 @@ namespace Spoffice.Website.Controllers
     }
     public class BaseController : Controller
     {
+        private Guid _userguid = Guid.Empty;
+        protected Guid UserGuid
+        {
+            get
+            {
+                if (_userguid == Guid.Empty)
+                {
+                    if (Membership.GetUser() != null)
+                    {
+                        _userguid = (Guid)Membership.GetUser().ProviderUserKey;
+                    }
+                }
+                return _userguid;
+            }
+        }
         public static MusicService MusicService;
         public static SpotifyDownloader Downloader;
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
