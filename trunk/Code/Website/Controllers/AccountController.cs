@@ -69,11 +69,11 @@ namespace Spoffice.Website.Controllers
 
             if (!String.IsNullOrEmpty(returnUrl))
             {
-                return MultiformatView(typeof(LoggedInStatus), status, returnUrl);
+                return MultiformatView(typeof(LoggedInStatus), status, Redirect(returnUrl));
             }
             else
             {
-                return MultiformatView(typeof(LoggedInStatus), status, "~/Home/Index");
+                return MultiformatView(typeof(LoggedInStatus), status, Redirect("~/Home/Index"));
             }
         }
 

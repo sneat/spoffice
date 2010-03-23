@@ -15,7 +15,7 @@ namespace Spoffice.Website.Controllers
         {
             return MultiformatView(type, obj, null);
         }
-        public ActionResult MultiformatView(Type type, object obj, string redirect)
+        public ActionResult MultiformatView(Type type, object obj, ActionResult redirect)
         {
             bool xml = IsXmlRequest();
             bool json = IsJsonRequest();
@@ -39,9 +39,9 @@ namespace Spoffice.Website.Controllers
                     Content = response
                 };
             }
-            else if (!String.IsNullOrEmpty(redirect))
+            else if (redirect != null)
             {
-                return Redirect(redirect);
+                return redirect;
             }
             return View(obj);
         }

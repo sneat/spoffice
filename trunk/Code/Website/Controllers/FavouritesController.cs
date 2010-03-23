@@ -26,17 +26,15 @@ namespace Spoffice.Website.Controllers
         {
             ModelState.Clear();
             Status status = DataContext.FavouriteRepository.AddToFavourites(id, UserGuid);
-            string referrer = Request.UrlReferrer.AbsolutePath.ToString();
-            return MultiformatView(typeof(Status), status, referrer);
+            return MultiformatView(typeof(Status), status, RedirectToAction("Search", "Music"));
         }
         public ActionResult Remove(string id)
         {
             ModelState.Clear();
             Status status = DataContext.FavouriteRepository.RemoveFromFavourites(id, UserGuid);
             string referrer = Request.UrlReferrer.AbsolutePath.ToString();
-            return MultiformatView(typeof(Status), status, referrer);
-        } 
-       
+            return MultiformatView(typeof(Status), status, RedirectToAction("Search", "Music"));
+        }
     }
  
 }

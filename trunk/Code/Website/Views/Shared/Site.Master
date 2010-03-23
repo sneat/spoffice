@@ -6,29 +6,44 @@
 <head runat="server">
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
     <% Html.ScriptManager().ScriptInclude("jquery", "~/Scripts/jquery-latest.min.js"); %>
+    <% Html.ScriptManager().ScriptInclude("jquery_ui", "~/Scripts/jquery.ui.all.js"); %>
+    <% Html.ScriptManager().ScriptInclude("jquery_layout", "~/Scripts/jquery.layout.min.js"); %>
     <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/themes/redmond/jquery-ui-1.7.1.custom.css" rel="stylesheet" type="text/css" />
+<% Html.ScriptManager().Script(() =>
+   {%>
+    $(document).ready(function() {
+        $('body').layout({ 
+            applyDefaultStyles: true,
+        	west__size:	$('body').innerWidth() * 0.3,
+			east__size:	$('body').innerWidth() * 0.3
+         });
+    });
+<% }); %>
+
 </head>
-
 <body>
-<%= Html.ActionLink(ViewRes.SharedStrings.Title, "Index", "Home", null, new { title = ViewRes.SharedStrings.Title })%>
-<% Html.RenderPartial("LogOnUserControl"); %>
-           
-            
-<% if (Request.IsAuthenticated)
-{ %>
-<% Html.RenderPartial("SearchBox"); %>
-<% } %>
-            
-        
-<ul>
-    <li><%= Html.ActionLink(ViewRes.SiteStrings.SongHistory, "Playlist", "Music", null, new { title = ViewRes.SiteStrings.SongHistory })%></li>
-    <li><%= Html.ActionLink(ViewRes.SiteStrings.Favourites, "Index", "Favourites", null, new { title = ViewRes.SiteStrings.Favourites })%></li>
-    <li><%= Html.ActionLink(ViewRes.SiteStrings.Account, "Index", "Account", null, new { title = ViewRes.SiteStrings.Account })%></li>
-</ul>
-            
+<div class="ui-layout-north">
+    <%= Html.ActionLink(ViewRes.SharedStrings.Title, "Index", "Home", null, new { title = ViewRes.SharedStrings.Title })%>
+    <% Html.RenderPartial("LogOnUserControl"); %>
+    <% if (Request.IsAuthenticated)
+    { %>
+    <% Html.RenderPartial("SearchBox"); %>
+    <% } %>
+    <ul>
+        <li><%= Html.ActionLink(ViewRes.SiteStrings.SongHistory, "Playlist", "Music", null, new { title = ViewRes.SiteStrings.SongHistory })%></li>
+        <li><%= Html.ActionLink(ViewRes.SiteStrings.Favourites, "Index", "Favourites", null, new { title = ViewRes.SiteStrings.Favourites })%></li>
+        <li><%= Html.ActionLink(ViewRes.SiteStrings.Account, "Index", "Account", null, new { title = ViewRes.SiteStrings.Account })%></li>
+    </ul>
+    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+</div>
 
-<asp:ContentPlaceHolder ID="MainContent" runat="server" />
-     
+<div class="ui-layout-center">
+</div>
+<div class="ui-layout-east">
+</div>
+<div class="ui-layout-west">
+</div>
  
 <% Html.ScriptManager().Render(); %>
 </body>
