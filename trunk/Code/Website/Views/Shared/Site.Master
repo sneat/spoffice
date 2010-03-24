@@ -9,20 +9,52 @@
     <% Html.ScriptManager().ScriptInclude("jquery_ui", "~/Scripts/jquery.ui.all.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_layout", "~/Scripts/jquery.layout.min.js"); %>
     <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="../../Content/themes/redmond/jquery-ui-1.7.1.custom.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/themes/smoothness/jquery-ui-1.8.custom.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    .ui-layout-resizer { /* all 'resizer-bars' */ 
+		background: #DDD; 
+		}
+		.ui-layout-resizer:hover { /* all 'resizer-bars' */ 
+			background: #FED; 
+		}
+		.ui-layout-resizer-west {
+			border-left: 1px solid #BBB;
+		}
+		.ui-layout-resizer-east {
+			border-right: 1px solid #BBB;
+		}
+ 
+	.ui-layout-toggler { /* all 'toggler-buttons' */ 
+		background: #AAA; 
+		} 
+		.ui-layout-toggler:hover { /* all 'toggler-buttons' */ 
+			background: #FC3; 
+		} 
+    </style>
+    
 <% Html.ScriptManager().Script(() =>
    {%>
     $(document).ready(function() {
-        $('body').layout({ 
-            applyDefaultStyles: true,
-        	west__size:	$('body').innerWidth() * 0.3,
-			east__size:	$('body').innerWidth() * 0.3
+        $('body').append('<div class="ui-layout-east" />').layout({ 
+            north__resizable : false,
+            north__slidable : false,
+            north__togglerLength_closed : -1,
+            north__togglerLength_open: 0,
+            north__spacing_open: 0,
+            center__onresize:		function () { $("#accordion1").accordion("resize"); }
          });
+         $('#main-content').wrap('<div class="ui-layout-center" />');
+         
+        $('#middle').append('<div class="ui-layout-east" />').layout({});
+        $("#accordion1").accordion({
+			fillSpace:	true
+		});
     });
 <% }); %>
 
 </head>
 <body>
+
 <div class="ui-layout-north">
     <%= Html.ActionLink(ViewRes.SharedStrings.Title, "Index", "Home", null, new { title = ViewRes.SharedStrings.Title })%>
     <% Html.RenderPartial("LogOnUserControl"); %>
@@ -30,20 +62,40 @@
     { %>
     <% Html.RenderPartial("SearchBox"); %>
     <% } %>
-    <ul>
-        <li><%= Html.ActionLink(ViewRes.SiteStrings.SongHistory, "Playlist", "Music", null, new { title = ViewRes.SiteStrings.SongHistory })%></li>
-        <li><%= Html.ActionLink(ViewRes.SiteStrings.Favourites, "Index", "Favourites", null, new { title = ViewRes.SiteStrings.Favourites })%></li>
-        <li><%= Html.ActionLink(ViewRes.SiteStrings.Account, "Index", "Account", null, new { title = ViewRes.SiteStrings.Account })%></li>
-    </ul>
-    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+    <div class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+        <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+            <li class="ui-state-default ui-corner-top"><%= Html.ActionLink(ViewRes.SiteStrings.BrowseMusic, "Playlist", "Music", null, new { title = ViewRes.SiteStrings.SongHistory })%></li>
+            <li class="ui-state-default ui-corner-top"><%= Html.ActionLink(ViewRes.SiteStrings.SongHistory, "Playlist", "Music", null, new { title = ViewRes.SiteStrings.SongHistory })%></li>
+            <li class="ui-state-default ui-corner-top"><%= Html.ActionLink(ViewRes.SiteStrings.Favourites, "Index", "Favourites", null, new { title = ViewRes.SiteStrings.Favourites })%></li>
+            <li class="ui-state-default ui-corner-top"><%= Html.ActionLink(ViewRes.SiteStrings.Account, "Index", "Account", null, new { title = ViewRes.SiteStrings.Account })%></li>
+        </ul>
+    </div>
 </div>
-
-<div class="ui-layout-center">
-</div>
-<div class="ui-layout-east">
-</div>
-<div class="ui-layout-west">
-</div>
+  
+ <div class="ui-layout-center" id="middle">
+   
+    <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="main-content">
+    <div id="accordion1" class="basic"> 
+ 
+			<a href="#">Section 1</a> 
+			<div> 
+		
+        <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+			</div> 
+ 
+			<a href="#">Section 2</a> 
+			<div> 
+				<p style="font-weight: bold;">Sed Non Urna</p> 
+				<p>Donec et ante. Phasellus eu ligula. Vestibulum sit amet purus.
+					Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor velit,
+					faucibus interdum tellus libero ac justo.</p> 
+				<p>Vivamus non quam. In suscipit faucibus urna.</p> 
+			</div> 
+ 
+ 
+	</div> 
+    </div>
+</div>  
  
 <% Html.ScriptManager().Render(); %>
 </body>

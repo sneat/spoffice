@@ -79,6 +79,15 @@ namespace ViewRes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Browse Music.
+        /// </summary>
+        public static string BrowseMusic {
+            get {
+                return ResourceManager.GetString("BrowseMusic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string Error {

@@ -123,6 +123,9 @@
   <data name="Account" xml:space="preserve">
     <value>Account</value>
   </data>
+  <data name="BrowseMusic" xml:space="preserve">
+    <value>Browse Music</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
