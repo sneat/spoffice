@@ -1,0 +1,142 @@
+<html>
+ <head>
+  <title>Layout Example</title>
+  <script type="text/javascript" src="jquery-1.3.2.min.js"></script>
+  <script type="text/javascript" src="jquery-ui-1.7.2.custom.min.js"></script>
+  <script type="text/javascript" src="http://layout.jquery-dev.net/demos/jquery.layout.js"></script>
+  <link rel="stylesheet" href="css/smoothness/jquery-ui-1.7.2.custom.css" type="text/css" media="all" />
+  <style type="text/css">
+  body {
+  	font-size: 65.2%;
+  	background-color: #000;
+  }
+
+  .ui-layout-resizer {
+  	background-color: #ddd;
+  }
+  #home {
+  	height: 100%;
+  }
+  .ui-tabs .ui-tabs-panel {
+  	padding: 0;
+  }
+  </style>
+  <script type="text/javascript">
+  	var bodylayout;
+  	var tabs;
+  	function resizeTabLayout(){
+		if (!tabs) return;
+		bodylayout.resizeAll();
+  	}
+	$(document).ready(function () {
+		tabs = $('#main').tabs({
+			show: resizeTabLayout
+		});
+
+		bodylayout = $('body').layout({
+				center__paneSelector:	"#main",
+				north__paneSelector:	"#header",
+				north__size:			100,
+				spacing_open:			0,
+				north__slidable				: false
+		});
+		$('#main').layout({
+				center__paneSelector:	".tabs-panel-container",
+				north__paneSelector:	"#tabs",
+				spacing_open:			0,
+				north__slidable				: false
+		});
+		$('#home').layout({
+				east__paneSelector:		"#right",
+				//east__initClosed : true,
+				//west__initClosed : true,
+				spacing_open:			2,
+				spacing_closed:			0,
+				center__paneSelector:	"#middle",
+				west__paneSelector:		"#left",
+				center__onresize:		"InnerLayout.resizeAll",
+				west__onresize : function (){$("#left_content").accordion("resize");},
+				east__onresize : function (){$("#right_content").accordion("resize");}
+		});
+		resizeTabLayout();
+		$('#left-content').accordion({
+			fillSpace:	true
+		});
+		$('#right-content').accordion({
+			fillSpace:	true
+		});
+	});
+  </script>
+ </head>
+ <body>
+  <div id="header"></div>
+  <div id="main">
+   <ul id="tabs">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#trackhistory">Track History</a></li>
+    <li><a href="#favourites">Manage Favourites</a></li>
+    <li><a href="#myaccount">My Account</a></li>
+   </ul>
+   <div class="tabs-panel-container">
+     <div id="home">
+      <div id="left">
+       <div id="left-content">
+       <h3><a href="#">Section 1</a></h3>
+	   	<div>
+	   		<p>
+	   		Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+	   		ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+	   		amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+	   		odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+	   		</p>
+	   	</div>
+	   	<h3><a href="#">Section 2</a></h3>
+	   	<div>
+	   		<p>
+	   		Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+	   		purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+	   		velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+	   		suscipit faucibus urna.
+	   		</p>
+	   	 </div>
+	   	</div>
+      </div>
+      <div id="middle">
+       middle
+      </div>
+      <div id="right">
+       <div id="right-content">
+       <h3><a href="#">Section 1</a></h3>
+	   	<div>
+	   		<p>
+	   		Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+	   		ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+	   		amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+	   		odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+	   		</p>
+	   	</div>
+	   	<h3><a href="#">Section 2</a></h3>
+	   	<div>
+	   		<p>
+	   		Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+	   		purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+	   		velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+	   		suscipit faucibus urna.
+	   		</p>
+	   	 </div>
+	   	</div>
+      </div>
+     </div>
+    <div id="trackhistory">
+	 track history
+    </div>
+    <div id="favourites">
+	 favourites
+    </div>
+    <div id="myaccount">
+	 my account
+    </div>
+   </div>
+  </div>
+ </body>
+</html>
