@@ -3,8 +3,6 @@
     <%= ViewRes.SharedStrings.Title %>
 </asp:Content>
 
-<asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-    <% Html.RenderPartial("NowPlaying"); %>
-    <%= Html.Encode(ViewData["Message"]) %>
-    <%= ViewRes.HomeStrings.Content %>    
+<asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">   
+    <% Html.RenderPartial("Welcome"); %>
 </asp:Content>

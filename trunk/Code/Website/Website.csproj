@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AjaxHtmlController.cs" />
     <Compile Include="Controllers\AuthorizedController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\FavouritesController.cs" />
@@ -318,8 +319,11 @@
     <Content Include="Content\themes\smoothness\jquery-ui-1.8.custom.css" />
     <Content Include="Content\themes\ui.jqgrid.css" />
     <Content Include="Content\themes\ui.multiselect.css" />
+    <Content Include="Scripts\interface.js" />
     <Content Include="Scripts\jixedbar-0.0.2.js" />
+    <Content Include="Scripts\jquery-ui-1.7.2.custom.min.js" />
     <Content Include="Scripts\jquery.jqGrid.min.js" />
+    <Content Include="Scripts\jquery.layout.js" />
     <Content Include="Scripts\jquery.layout.min.js" />
     <Content Include="Scripts\jquery.tablednd.js" />
     <Content Include="Scripts\jquery.ui.all.js" />
@@ -327,7 +331,10 @@
     <Content Include="Views\Favourites\NotFound.aspx" />
     <Content Include="Views\Favourites\Remove.aspx" />
     <Content Include="Views\Music\Playlist.aspx" />
+    <Content Include="Views\Shared\LoginForm.ascx" />
     <Content Include="Views\Shared\SearchBox.ascx" />
+    <Content Include="Views\Shared\Tabs.ascx" />
+    <Content Include="Views\Shared\Welcome.ascx" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Models\Spoffice.edmx">

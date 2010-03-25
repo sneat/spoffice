@@ -5,7 +5,7 @@
 <% Html.ScriptManager().ScriptInclude("jixed", "~/Scripts/jixedbar-0.0.2.js"); %>
 <% Html.ScriptManager().ScriptInclude("musicinfo", "~/Scripts/MusicInfoUpdater.js"); %>
 <% Html.ScriptManager().Script( "nowPlaying", () => {%>
-$(document).ready(function (){
+/*$(document).ready(function (){
 	$('#now_playing .album img').error(function (){
 		$(this).attr("src", "/Content/images/blank_album_small.png");
 	});
@@ -67,11 +67,11 @@ $(document).ready(function (){
 		}
 	});
 });
-
+*/
     
 <%}); %>
 <% Html.ScriptManager().Script( "vote", () => {%>
-    var cacheImage = document.createElement('img');
+   /* var cacheImage = document.createElement('img');
     cacheImage.src = "<%= ResolveUrl("~/Content/images/ajax-loader.gif") %>";
     cacheImage.setAttribute('alt', '<%= ViewRes.FavouritesStrings.PleaseWait %>');
     
@@ -131,7 +131,7 @@ $(document).ready(function (){
                     $('#now_playing div.voting').slideUp('fast');
                 }
         }, 'json');
-    });
+    });*/
     
 <%}); %>
 
