@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
-    <% Html.ScriptManager().ScriptInclude("jquery", "~/Scripts/jquery-1.3.2.min.js"); %>
+    <% Html.ScriptManager().ScriptInclude("jquery", "~/Scripts/jquery-1.4.2.min.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_ui", "~/Scripts/jquery-ui-1.7.2.custom.min.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_layout", "~/Scripts/jquery.layout.js"); %>
     <% Html.ScriptManager().ScriptInclude("interface", "~/Scripts/interface.js"); %>
@@ -16,32 +16,59 @@
  <script type="text/javascript">
      document.write('<div id="loading"></div>');
  </script>
-  <div id="header">
-   <%= Html.ActionLink(ViewRes.SharedStrings.Title, "Index", "Home", null, new { title = ViewRes.SharedStrings.Title })%>
-    <% Html.RenderPartial("LogOnUserControl"); %>
-    <% if (Request.IsAuthenticated)
-    { %>
-    <% Html.RenderPartial("SearchBox"); %>
-    <% } %>
-    
-    <% Html.RenderPartial("NowPlaying"); %>
-  </div>
-  <div id="main" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-    <% if (Request.IsAuthenticated)
-       { %>
-   <% Html.RenderPartial("Tabs"); %>
-   <%
-        }
-   %>
+ <div id="static-content">
+   <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+ </div>
+<% Html.ScriptManager().Render(); %>
+
+<div id="login-form">
+  <form>
+   <fielset>
+    <label>{username}</label>
+    <input type="text" name="username" password="username" />
+    <label>{password}</label>
+    <input type="password" name="password" password="password" />
+    <input type="checkbox" value="true" name="rememberMe" id="rememberMe">
+    <input type="hidden" value="false" name="rememberMe">
+   </fielset>
+  </form>
+</div>
+<div id="layout">
+  <div id="header"></div>
+  <div id="main">
+   <ul id="tabs">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#trackhistory">Track History</a></li>
+    <li><a href="#favourites">Manage Favourites</a></li>
+    <li><a href="#myaccount">My Account</a></li>
+    <li id="results-tab"><a href="#searchresults">Search Results</a></li>
+   </ul>
    <div class="tabs-panel-container">
-    <div id="home">
-      <div id="static-content">
-       <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+    <div id="searchresults">
+      <div id="left">
+       <div id="left-content">
+	   	</div>
       </div>
+      <div id="middle">
+      </div>
+      <div id="right">
+       <div id="right-content">
+	   	</div>
+      </div>
+     </div>
+    <div id="home">home
+    </div>
+    <div id="trackhistory">
+    track history
+    </div>
+    <div id="myaccount">
+    myaccount
+    </div>
+    <div id="favourites">
+    favourites
     </div>
    </div>
-  </div> 
- 
-<% Html.ScriptManager().Render(); %>
+  </div>
+</div>
 </body>
 </html>

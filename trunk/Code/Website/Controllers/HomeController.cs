@@ -11,8 +11,8 @@ using Spoffice.Website.Helpers;
 
 namespace Spoffice.Website.Controllers
 {
-    [HandleError, Authorize]
-    public class HomeController : AuthorizedController
+    [HandleError]
+    public class HomeController : BaseController
     {
         spofficeEntities _db;
 
@@ -25,6 +25,11 @@ namespace Spoffice.Website.Controllers
         {
             ViewData["Message"] = "Welcome to Cooltunes!";
             return View();
+        }
+        public ActionResult Localization()
+        {
+            System.Resources.ResourceReader reader = new System.Resources.ResourceReader(Server.MapPath("~/Resources/Views/Account/AccountStrings.resx"));
+            return MultiformatView(typeof(System.Resources.ResourceReader), reader);
         }
 
         public ActionResult About()

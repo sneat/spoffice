@@ -2,6 +2,18 @@
 	font-size: 62.5%;
 	opacity: 1 !important;
 }
+#login-form 
+{
+    display: none;
+}
+.tabs-panel-container  
+{
+    overflow: auto;
+}
+#layout 
+{
+    display: none;
+}
 #loading 
 {
 	width: 100%;
@@ -10,7 +22,7 @@
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	z-index: 99999;
+	z-index: 2;
 }
 table {
 	width: 100%;
