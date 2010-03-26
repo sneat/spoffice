@@ -63,9 +63,14 @@ namespace Spoffice.Website.Controllers
             {
                 start = Convert.ToInt32(Request.QueryString["from"]);
             }
+            int amount = 40;
+            if (!String.IsNullOrEmpty(Request.QueryString["amount"]))
+            {
+                amount = Convert.ToInt32(Request.QueryString["amount"]);
+            }
             return MultiformatView(typeof(TrackHistoryList), new TrackHistoryList
             {
-                TrackHistories = DataContext.Context.TrackHistories.Include("Track.Artist").Include("Track.Album").OrderByDescending(t => t.Datetime).Skip(start).Take(40).ToList()
+                TrackHistories = DataContext.Context.TrackHistories.Include("Track.Artist").Include("Track.Album").OrderByDescending(t => t.Datetime).Skip(start).Take(amount).ToList()
             });
         }
         public ActionResult Artist(string id)

@@ -10,6 +10,7 @@
             var layout;
             var tabs;
             var trackHistoryTable;
+            var oldTrackHistoryTop = 0;
             var artistaccordion;
             var albumaccordion;
             var loadingTrackHistory = false;
@@ -105,7 +106,7 @@
                     east__paneSelector: "#right",
                     east__initClosed: true,
                     west__initClosed: true,
-                    east__size: 300,
+                    east__size: 326,
                     west__size: 300,
                     spacing_open: 4,
                     spacing_closed: 4,
@@ -117,26 +118,35 @@
                 albumaccordion = $('#albumaccordion');
                 artistaccordion.accordion();
                 albumaccordion.accordion();
-                centrallayout.hide("west");
-                centrallayout.hide("east");
+                //centrallayout.hide("west");
+                //centrallayout.hide("east");
             }
             function load__TrackHistory() {
                 if (trackHistoryTable == null) {
-                    $('#trackhistory').html("loading..").scroll(function() {
-                        var th = $('#trackhistory');
-                        var thc = th[0];
-                        if ((thc.scrollHeight - th.scrollTop() < th.outerHeight() + 150) && !loadingTrackHistory) {
-                            loadingTrackHistory = true;
-                            var rowcount = trackHistoryTable.find("tr").length;
-                            load("/Music/Playlist/?from=" + rowcount, null, function(data) {
-                                addTrackHistoryRows(data);
-
-                                loadingTrackHistory = false;
-                            });
-                        }
-                    });
+                    var amount = 0;
                     loadingTrackHistory = true;
-                    load("/Music/Playlist", null, function(data) {
+                    $('#trackhistory').html("loading..").scroll(function() {
+                        if (trackHistoryTable != null) {
+                            var th = $('#trackhistory');
+                            var thc = th[0];
+                            if ((thc.scrollHeight - th.scrollTop() < th.outerHeight() + 150) && !loadingTrackHistory) {
+                                var rowcount = trackHistoryTable.find("tr").length;
+                                if (oldTrackHistoryTop != rowcount) {
+                                    oldTrackHistoryTop = rowcount;
+                                    loadingTrackHistory = true;
+
+                                    load("/Music/Playlist/?from=" + rowcount + "&amount=" + amount, null, function(data) {
+                                        addTrackHistoryRows(data);
+                                        loadingTrackHistory = false;
+                                    });
+                                }
+                            }
+                        }
+                    }).each(function() {
+                        var self = $(this);
+                        amount = Math.ceil((self.outerHeight() / 20) * 1.2);
+                    });
+                    load("/Music/Playlist/?amount=" + amount, null, function(data) {
                         $('#trackhistory').html("");
                         trackHistoryTable = $("<table></table>");
                         addTrackHistoryRows(data);
@@ -218,7 +228,10 @@
                         row.append(createTrackTd(data.Tracks[i], data.Tracks[i].Artist.Name != data.Artist.Name));
                         table.append(row);
                     }
-                    albumaccordion.find('.ui-accordion-content-active').append(table);
+                    var img = $('<img>').error(function() {
+                        $(this).remove();
+                    }).attr('src',  '/Music/AlbumImage/' + id);
+                    albumaccordion.find('.ui-accordion-content-active').append(img).append(table);
                 });
             }
             function displayArtist(id) {
@@ -254,6 +267,11 @@
             function displayLoginForm() {
                 if (loginForm == null) {
                     loginForm = $('#login-form').show();
+
+                    $(loginForm).find("form").submit(function() {
+                        submitForm($(this));
+                        return false;
+                    });
                     loginForm.dialog({ width: 350,
                         modal: true,
                         closeOnEscape: false,
@@ -263,11 +281,7 @@
                         },
                         buttons: {
                             'Login': function() {
-                                if (loginButton == null) {
-                                    loginButton = loginForm.parent().find("button:contains(Login)");
-                                }
-                                loginButton.html("Wait..");
-                                load("/Account/Logon", $(this).find("form").serialize());
+                                submitForm($(this).find("form"));
                             }
                         }
                     });
@@ -275,6 +289,13 @@
                     loginButton.html("Login");
                     loginForm.dialog();
                 }
+            }
+            function submitForm(form) {
+                if (loginButton == null) {
+                    loginButton = loginForm.parent().find("button:contains(Login)");
+                }
+                loginButton.html("Wait..");
+                load("/Account/Logon", form.serialize());
             }
             function removeStaticContent() {
                 $('#static-content').remove();

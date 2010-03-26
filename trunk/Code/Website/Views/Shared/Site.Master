@@ -22,15 +22,15 @@
 <% Html.ScriptManager().Render(); %>
 
 <div id="login-form">
-  <form>
-   <fielset>
+ <form>
+   <fieldset>
     <label>{username}</label>
     <input type="text" name="username" password="username" />
     <label>{password}</label>
     <input type="password" name="password" password="password" />
     <input type="checkbox" value="true" name="rememberMe" id="rememberMe">
     <input type="hidden" value="false" name="rememberMe">
-   </fielset>
+   </fieldset>
   </form>
 </div>
 <div id="layout">
