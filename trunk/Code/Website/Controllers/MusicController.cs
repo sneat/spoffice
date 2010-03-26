@@ -55,11 +55,17 @@ namespace Spoffice.Website.Controllers
             //Spoffice.Website.Helpers.SpotifyConnector.Current.Skip();
             return null;
         }
+
         public ActionResult Playlist()
         {
+            int start = 0;
+            if (!String.IsNullOrEmpty(Request.QueryString["from"]))
+            {
+                start = Convert.ToInt32(Request.QueryString["from"]);
+            }
             return MultiformatView(typeof(TrackHistoryList), new TrackHistoryList
             {
-                TrackHistories = DataContext.Context.TrackHistories.Include("Track.Artist").Include("Track.Album").Top("10").OrderByDescending(t => t.Datetime).ToList()
+                TrackHistories = DataContext.Context.TrackHistories.Include("Track.Artist").Include("Track.Album").OrderByDescending(t => t.Datetime).Skip(start).Take(40).ToList()
             });
         }
         public ActionResult Artist(string id)

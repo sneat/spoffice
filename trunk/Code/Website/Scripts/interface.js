@@ -12,6 +12,7 @@
             var trackHistoryTable;
             var artistaccordion;
             var albumaccordion;
+            var loadingTrackHistory = false;
             var icons = {
                 header: "ui-icon-folder-collapsed",
                 headerSelected: "ui-icon-folder-open"
@@ -121,26 +122,43 @@
             }
             function load__TrackHistory() {
                 if (trackHistoryTable == null) {
-                    $('#trackhistory').html("loading..");
+                    $('#trackhistory').html("loading..").scroll(function() {
+                        var th = $('#trackhistory');
+                        var thc = th[0];
+                        if ((thc.scrollHeight - th.scrollTop() < th.outerHeight() + 150) && !loadingTrackHistory) {
+                            loadingTrackHistory = true;
+                            var rowcount = trackHistoryTable.find("tr").length;
+                            load("/Music/Playlist/?from=" + rowcount, null, function(data) {
+                                addTrackHistoryRows(data);
+
+                                loadingTrackHistory = false;
+                            });
+                        }
+                    });
+                    loadingTrackHistory = true;
                     load("/Music/Playlist", null, function(data) {
                         $('#trackhistory').html("");
                         trackHistoryTable = $("<table></table>");
-                        var rows = [];
-                        for (var i = 0; i < data.History.length; i++) {
-                            var historyItem = data.History[i];
-                            var row = $("<tr />");
-                            row.append(createTrackTd(historyItem.Track));
-                            row.append(createTrackLengthTd(historyItem.Track));
-                            row.append(createArtistTd(historyItem.Track.Artist));
-                            row.append(createAlbumTd(historyItem.Track.Album));
-                            rows.push(row.appendTo(trackHistoryTable));
-                            rows[i].find("td").hide();
-                        }
-                        $(trackHistoryTable).appendTo('#trackhistory');
-                        for (var i = 0; i < rows.length; i++) {
-                            rows[i].find("td").delay(10 * i).fadeIn(100);
-                        }
+                        addTrackHistoryRows(data);
+                        loadingTrackHistory = false;
                     });
+                }
+            }
+            function addTrackHistoryRows(data) {
+                var rows = [];
+                for (var i = 0; i < data.History.length; i++) {
+                    var historyItem = data.History[i];
+                    var row = $("<tr />");
+                    row.append(createTrackTd(historyItem.Track));
+                    row.append(createTrackLengthTd(historyItem.Track));
+                    row.append(createArtistTd(historyItem.Track.Artist));
+                    row.append(createAlbumTd(historyItem.Track.Album));
+                    rows.push(row.appendTo(trackHistoryTable));
+                    rows[i].find("td").hide();
+                }
+                $(trackHistoryTable).appendTo('#trackhistory');
+                for (var i = 0; i < rows.length; i++) {
+                    rows[i].find("td").delay(10 * i).fadeIn(100);
                 }
             }
             function createTrackTd(track, showartist) {
@@ -148,7 +166,7 @@
                 if (track.Artist != null && track.Artist.Name != null) {
                     link.attr("title", track.Artist.Name);
                     if (showartist) {
-                        $('<span class="track-artist ui-priority-secondary">'+track.Artist.Name+'</span>').click(function (){
+                        $('<span class="track-artist ui-priority-secondary">' + track.Artist.Name + '</span>').click(function() {
                             displayArtist(track.Artist.PublicId);
                         }).appendTo(link);
                     }
