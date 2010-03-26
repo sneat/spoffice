@@ -58,8 +58,8 @@ namespace Spoffice.Website.Controllers
         public ActionResult Playlist()
         {
             return MultiformatView(typeof(TrackHistoryList), new TrackHistoryList
-            { 
-                    TrackHistories = DataContext.Context.TrackHistories.Include("Track.Artist").OrderByDescending(t => t.Datetime).ToList()
+            {
+                TrackHistories = DataContext.Context.TrackHistories.Include("Track.Artist").Include("Track.Album").Top("10").OrderByDescending(t => t.Datetime).ToList()
             });
         }
         public ActionResult Artist(string id)

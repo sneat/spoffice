@@ -1,6 +1,3 @@
-
-
-
 (function($) {
     $.fn.spofficeInterface = function(settings) {
         var config = { 'foo': 'bar' };
@@ -9,11 +6,17 @@
             if (this.nodeName.toLowerCase() != "body") return;
             var loginForm;
             var loginButton;
+            var centrallayout;
             var layout;
             var tabs;
             var trackHistoryTable;
+            var artistaccordion;
+            var albumaccordion;
+            var icons = {
+                header: "ui-icon-folder-collapsed",
+                headerSelected: "ui-icon-folder-open"
+            };
             function init() {
-                console.log("init");
                 removeStaticContent();
                 getLoginStatus();
             }
@@ -21,7 +24,6 @@
                 load("/Account/Logon");
             }
             function load(url, data, callback) {
-                console.log("load");
                 $.ajax({
                     url: url,
                     type: data != null ? "POST" : "GET",
@@ -36,16 +38,13 @@
                         } else if (callback) {
                             callback(data);
                         }
-
                     }
                 });
             }
             function isLoginData(data) {
-                console.log("isLoginData");
                 return (data.LoggedIn != null);
             }
             function dealWithLoginData(data) {
-                console.log("dealWithLoginData");
                 var loadingdiv = $('#loading');
                 if (loadingdiv.is(":visible")) {
                     loadingdiv.fadeOut();
@@ -59,20 +58,17 @@
                 }
             }
             function onLogin() {
-                console.log("onLogin");
                 if (loginForm != null)
-                    loginForm.hide();
+                    loginForm.dialog("close");
 
                 if (layout == null)
                     createLayout();
             }
             function resizeTabLayout() {
-                console.log("resizeTabLayout");
                 if (!tabs) return;
                 layout.resizeAll();
             }
             function createLayout() {
-                console.log("createLayout");
                 $(document.body).append($('#layout').html());
                 $('#layout').remove();
                 layout = $('body').layout({
@@ -102,6 +98,26 @@
                     spacing_open: 0,
                     north__slidable: false
                 });
+                centrallayout = $('.tabs-panel-container').layout({
+                    center__paneSelector: "#middle",
+                    west__paneSelector: "#left",
+                    east__paneSelector: "#right",
+                    east__initClosed: true,
+                    west__initClosed: true,
+                    east__size: 300,
+                    west__size: 300,
+                    spacing_open: 4,
+                    spacing_closed: 4,
+                    west__onresize: function() { artistaccordion.accordion("resize"); },
+                    east__onresize: function() { albumaccordion.accordion("resize"); }
+                });
+
+                artistaccordion = $('#artistaccordion');
+                albumaccordion = $('#albumaccordion');
+                artistaccordion.accordion();
+                albumaccordion.accordion();
+                centrallayout.hide("west");
+                centrallayout.hide("east");
             }
             function load__TrackHistory() {
                 if (trackHistoryTable != null) {
@@ -115,24 +131,106 @@
                     var rows = [];
                     for (var i = 0; i < data.History.length; i++) {
                         var historyItem = data.History[i];
-                        rows.push($("<tr><td>" + historyItem.Track.Title + "</td></tr>").appendTo(trackHistoryTable));
+                        var row = $("<tr />");
+                        row.append(createTrackTd(historyItem.Track));
+                        row.append(createAlbumTd(historyItem.Track.Album));
+                        row.append(createArtistTd(historyItem.Track.Artist));
+                        rows.push(row.appendTo(trackHistoryTable));
                         rows[i].find("td").hide();
                     }
                     $(trackHistoryTable).appendTo('#trackhistory');
                     for (var i = 0; i < rows.length; i++) {
-                        rows[i].find("td").delay(10*i).fadeIn(100);
+                        rows[i].find("td").delay(10 * i).fadeIn(100);
                     }
                 });
             }
+            function createTrackTd(track, showartist) {
+                var link = $('<a href="javascript:void(0);" class="track ui-state-default" />').html('<span class="ui-icon-circle-plus ui-icon"></span><span class="track-title">' + track.Title + '</span>');
+                if (track.Artist != null && track.Artist.Name != null) {
+                    link.attr("title", track.Artist.Name);
+                    if (showartist) {
+                        $('<span class="track-artist ui-priority-secondary">'+track.Artist.Name+'</span>').click(function (){
+                            displayArtist(track.Artist.PublicId);
+                        }).appendTo(link);
+                    }
+                }
+                link.click(function() {
+                    console.log("track clicked");
+                }).mouseenter(function() {
+                    $(this).toggleClass("ui-state-highlight", true);
+                }).mouseleave(function() {
+                    $(this).toggleClass("ui-state-highlight", false);
+                });
+                return $("<td />").append(link);
+            }
+            function createAlbumTd(album) {
+                var link = $('<a href="javascript:void(0);" class="ui-state-default">' + album.Name + '</a>').click(function() {
+                    displayAlbum(album.PublicId);
+                });
+                return $("<td />").append(link);
+            }
+            function createArtistTd(artist) {
+                var link = $('<a href="javascript:void(0);" class="ui-state-default">' + artist.Name + '</a>').click(function() {
+                    displayArtist(artist.PublicId);
+                });
+                return $("<td />").append(link);
+            }
+            function displayAlbum(id) {
+                centrallayout.open("east");
+                load("/Music/Album/" + id, null, function(data) {
+                    var accordionLength = albumaccordion.find("h3").length;
+                    albumaccordion.accordion("destroy");
+                    if (accordionLength > 4) {
+                        albumaccordion.find('h3:first').remove();
+                        albumaccordion.find('div:first').remove();
+                        accordionLength--;
+                    }
+                    albumaccordion.append('<h3><a href="#">' + data.Artist.Name + ' - ' + data.Name + '</a></h3><div></div>');
+                    albumaccordion.accordion({
+                        fillSpace: true,
+                        icons: icons,
+                        active: accordionLength < 0 ? 0 : accordionLength
+                    });
+                    var table = $('<table class="ui-helper-reset" cellspacing="0" />');
+                    for (i = 0; i < data.Tracks.length; i++) {
+                        var row = $('<tr />');
+                        row.append(createTrackTd(data.Tracks[i], data.Tracks[i].Artist.Name != data.Artist.Name));
+                        table.append(row);
+                    }
+                    albumaccordion.find('.ui-accordion-content-active').append(table);
+                });
+            }
+            function displayArtist(id) {
+                centrallayout.open("west");
+                load("/Music/Artist/" + id, null, function(data) {
+                    var accordionLength = artistaccordion.find("h3").length;
+                    artistaccordion.accordion("destroy");
+                    if (accordionLength > 4) {
+                        artistaccordion.find('h3:first').remove();
+                        artistaccordion.find('div:first').remove();
+                        accordionLength--;
+                    }
+                    artistaccordion.append('<h3><a href="#">' + data.Name + ' Albums</a></h3><div></div>');
+                    artistaccordion.accordion({
+                        fillSpace: true,
+                        icons: icons,
+                        active: accordionLength < 0 ? 0 : accordionLength
+                    });
+                    var table = $('<table class="ui-helper-reset" cellspacing="0" />');
+                    for (i = 0; i < data.Albums.length; i++) {
+                        var row = $('<tr />');
+                        row.append(createAlbumTd(data.Albums[i]));
+                        table.append(row);
+                    }
+                    artistaccordion.find('.ui-accordion-content-active').append(table);
+                });
+            }
             function load__Favourites() {
-                console.log("loading favourites");
             }
             function isLoginFormVisible() {
-                console.log("isLoginFormVisible");
                 return (loginForm != null && loginForm.is(":visible"));
             }
             function displayLoginForm() {
-                console.log("displayLoginForm");
                 if (loginForm == null) {
                     loginForm = $('#login-form').show();
                     loginForm.dialog({ width: 350,
@@ -158,7 +256,6 @@
                 }
             }
             function removeStaticContent() {
-                console.log("removeStaticContent");
                 $('#static-content').remove();
             }
             init();

@@ -2,11 +2,23 @@
 	font-size: 62.5%;
 	opacity: 1 !important;
 }
+a 
+{
+	outline: 0px solid #000;
+}
+h1 
+{
+	margin: 0;
+	padding: 0;
+	display: block;
+	margin-top: 20px;
+	margin-left: 15px;
+}
 #login-form 
 {
     display: none;
 }
-.tabs-panel-container  
+#middle
 {
     overflow: auto;
 }
@@ -26,9 +38,52 @@
 }
 table {
 	width: 100%;
+	border-collapse: collapse;
+}
+td 
+{
+	background-image: url(border.png);
+	background-repeat: repeat-x;
+	background-position: bottom left;
+	padding: 4px;
+}
+.ui-widget-content table td a 
+{
+	text-decoration: none;
+	display: block;
+	border: 0 !important;
+	background-image: none !important;
+	background-color: transparent !important;
+	position: relative;
+}
+#main .ui-state-default 
+{
+	background-image: none;
+}
+.ui-widget-content a.track 
+{
+	display: block;
+}
+span.track-artist 
+{
+	padding-left:20px;
+	display: block;
+}
+span.track-title 
+{
+	display: block;
+	padding-left: 20px;	
+}
+a.track .ui-icon 
+{
+	left: 0;
+	position: absolute;
+	top: 0;
 }
 .ui-accordion .ui-accordion-content {
-	padding: 3px;
+	padding: 5px !important;
+	background-image: none !important;
+	background-color: transparent !important;
 }
 .ui-widget .ui-widget {
 	font-size: 1em;
@@ -36,6 +91,10 @@ table {
 .ui-layout-resizer {
 	background-color: #ddd;
 	opacity: 0.5;
+}
+.ui-layout-toggler 
+{
+	background-color: #999;
 }
 #results {
 	height: 100%;

@@ -34,7 +34,9 @@
   </form>
 </div>
 <div id="layout">
-  <div id="header"></div>
+  <div id="header">
+   <h1><img src="~/Content/spoffice.png" runat="server" /></h1>
+  </div>
   <div id="main">
    <ul id="tabs">
     <li><a href="#home">Home</a></li>
@@ -43,19 +45,18 @@
     <li><a href="#myaccount">My Account</a></li>
     <li id="results-tab"><a href="#searchresults">Search Results</a></li>
    </ul>
-   <div class="tabs-panel-container">
+   <div class="tabs-panel-container ui-state-default">
+    <div id="left">
+     <div id="artistaccordion">
+	 </div>
+    </div>
+    <div id="right">
+     <div id="albumaccordion">
+	 </div>
+    </div>
+    <div id="middle">
     <div id="searchresults">
-      <div id="left">
-       <div id="left-content">
-	   	</div>
-      </div>
-      <div id="middle">
-      </div>
-      <div id="right">
-       <div id="right-content">
-	   	</div>
-      </div>
-     </div>
+    </div>
     <div id="home">home
     </div>
     <div id="trackhistory">
@@ -66,6 +67,7 @@
     </div>
     <div id="favourites">
     favourites
+    </div>
     </div>
    </div>
   </div>
