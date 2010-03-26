@@ -69,12 +69,15 @@ span.track-artist
 	padding-left:20px;
 	display: block;
 }
-span.track-title 
+span.track-title, span.album-title, span.artist-title, span.track-length 
 {
 	display: block;
 	padding-left: 20px;	
 }
-a.track .ui-icon 
+span.track-length {
+    position: relative;
+}
+a .ui-icon, span .ui-icon 
 {
 	left: 0;
 	position: absolute;

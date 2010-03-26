@@ -45,7 +45,7 @@
     <li><a href="#myaccount">My Account</a></li>
     <li id="results-tab"><a href="#searchresults">Search Results</a></li>
    </ul>
-   <div class="tabs-panel-container ui-state-default">
+   <div class="tabs-panel-container ui-widget-content">
     <div id="left">
      <div id="artistaccordion">
 	 </div>

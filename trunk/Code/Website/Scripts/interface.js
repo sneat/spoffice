@@ -120,32 +120,31 @@
                 centrallayout.hide("east");
             }
             function load__TrackHistory() {
-                if (trackHistoryTable != null) {
-                    trackHistoryTable.remove();
-                    trackHistoryTable = null;
+                if (trackHistoryTable == null) {
+                    $('#trackhistory').html("loading..");
+                    load("/Music/Playlist", null, function(data) {
+                        $('#trackhistory').html("");
+                        trackHistoryTable = $("<table></table>");
+                        var rows = [];
+                        for (var i = 0; i < data.History.length; i++) {
+                            var historyItem = data.History[i];
+                            var row = $("<tr />");
+                            row.append(createTrackTd(historyItem.Track));
+                            row.append(createTrackLengthTd(historyItem.Track));
+                            row.append(createArtistTd(historyItem.Track.Artist));
+                            row.append(createAlbumTd(historyItem.Track.Album));
+                            rows.push(row.appendTo(trackHistoryTable));
+                            rows[i].find("td").hide();
+                        }
+                        $(trackHistoryTable).appendTo('#trackhistory');
+                        for (var i = 0; i < rows.length; i++) {
+                            rows[i].find("td").delay(10 * i).fadeIn(100);
+                        }
+                    });
                 }
-                $('#trackhistory').html("loading..");
-                load("/Music/Playlist", null, function(data) {
-                    $('#trackhistory').html("");
-                    trackHistoryTable = $("<table></table>");
-                    var rows = [];
-                    for (var i = 0; i < data.History.length; i++) {
-                        var historyItem = data.History[i];
-                        var row = $("<tr />");
-                        row.append(createTrackTd(historyItem.Track));
-                        row.append(createAlbumTd(historyItem.Track.Album));
-                        row.append(createArtistTd(historyItem.Track.Artist));
-                        rows.push(row.appendTo(trackHistoryTable));
-                        rows[i].find("td").hide();
-                    }
-                    $(trackHistoryTable).appendTo('#trackhistory');
-                    for (var i = 0; i < rows.length; i++) {
-                        rows[i].find("td").delay(10 * i).fadeIn(100);
-                    }
-                });
             }
             function createTrackTd(track, showartist) {
-                var link = $('<a href="javascript:void(0);" class="track ui-state-default" />').html('<span class="ui-icon-circle-plus ui-icon"></span><span class="track-title">' + track.Title + '</span>');
+                var link = $('<a href="javascript:void(0);" class="track" />').html('<span class="ui-icon-circle-plus ui-icon"></span><span class="track-title">' + track.Title + '</span>');
                 if (track.Artist != null && track.Artist.Name != null) {
                     link.attr("title", track.Artist.Name);
                     if (showartist) {
@@ -163,14 +162,18 @@
                 });
                 return $("<td />").append(link);
             }
+            function createTrackLengthTd(track) {
+                var link = $('<span class="track-length"><span class="ui-icon-clock ui-icon"></span>' + track.FormattedLength + '</span>');
+                return $("<td />").append(link);
+            }
             function createAlbumTd(album) {
-                var link = $('<a href="javascript:void(0);" class="ui-state-default">' + album.Name + '</a>').click(function() {
+                var link = $('<a href="javascript:void(0);"><span class="ui-icon-newwin ui-icon"></span><span class="album-title">' + album.Name + '</span></a>').click(function() {
                     displayAlbum(album.PublicId);
                 });
                 return $("<td />").append(link);
             }
             function createArtistTd(artist) {
-                var link = $('<a href="javascript:void(0);" class="ui-state-default">' + artist.Name + '</a>').click(function() {
+                var link = $('<a href="javascript:void(0);"><span class="ui-icon-newwin ui-icon"></span><span class="artist-title">' + artist.Name + '</span></a>').click(function() {
                     displayArtist(artist.PublicId);
                 });
                 return $("<td />").append(link);
