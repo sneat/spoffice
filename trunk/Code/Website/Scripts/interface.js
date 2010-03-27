@@ -14,6 +14,7 @@
             var artistaccordion;
             var albumaccordion;
             var loadingTrackHistory = false;
+            var favourites = null;
             var icons = {
                 header: "ui-icon-folder-collapsed",
                 headerSelected: "ui-icon-folder-open"
@@ -52,6 +53,7 @@
                     loadingdiv.fadeOut();
                 };
                 if (data.LoggedIn) {
+                    favourites = data.Favourites;
                     onLogin();
                 } else {
                     if (!isLoginFormVisible()) {
@@ -104,8 +106,8 @@
                     center__paneSelector: "#middle",
                     west__paneSelector: "#left",
                     east__paneSelector: "#right",
-                    east__initClosed: true,
-                    west__initClosed: true,
+                    //east__initClosed: true,
+                    //west__initClosed: true,
                     east__size: 326,
                     west__size: 300,
                     spacing_open: 4,
@@ -118,8 +120,8 @@
                 albumaccordion = $('#albumaccordion');
                 artistaccordion.accordion();
                 albumaccordion.accordion();
-                //centrallayout.hide("west");
-                //centrallayout.hide("east");
+                centrallayout.hide("west");
+                centrallayout.hide("east");
             }
             function load__TrackHistory() {
                 if (trackHistoryTable == null) {
@@ -172,7 +174,13 @@
                 }
             }
             function createTrackTd(track, showartist) {
-                var link = $('<a href="javascript:void(0);" class="track" />').html('<span class="ui-icon-circle-plus ui-icon"></span><span class="track-title">' + track.Title + '</span>');
+                var link = $('<a href="javascript:void(0);" class="track" />');
+                if ($.inArray(track.PublicId, favourites) > -1) {
+                    link.html('<span class="ui-icon-circle-minus ui-icon"></span>');
+                } else {
+                    link.html('<span class="ui-icon-circle-plus ui-icon"></span>');
+                }
+                link.append('<span class="track-title">' + track.Title + '</span>');
                 if (track.Artist != null && track.Artist.Name != null) {
                     link.attr("title", track.Artist.Name);
                     if (showartist) {
@@ -181,8 +189,24 @@
                         }).appendTo(link);
                     }
                 }
-                link.click(function() {
-                    console.log("track clicked");
+                link.attr("trackid", track.PublicId).click(function() {
+                    var id = $(this).attr("trackid");
+                    var index = $.inArray(id, favourites);
+                    if (index > -1) {
+                        load("/Favourites/Remove/" + id, null, function(data) {
+                            if (data.StatusCode == "OK") {
+                                favourites.splice(index, 1);
+                                $(document.body).find("a[trackid="+id+"]").find(".ui-icon").removeClass("ui-icon-circle-minus").addClass("ui-icon-circle-plus");
+                            }
+                        });
+                    } else {
+                        load("/Favourites/Add/" + id, null, function(data) {
+                            if (data.StatusCode == "OK") {
+                                favourites.push(id);
+                                $(document.body).find("a[trackid=" + id + "]").find(".ui-icon").removeClass("ui-icon-circle-plus").addClass("ui-icon-circle-minus");
+                            }
+                        });
+                    }
                 }).mouseenter(function() {
                     $(this).toggleClass("ui-state-highlight", true);
                 }).mouseleave(function() {
@@ -230,7 +254,7 @@
                     }
                     var img = $('<img>').error(function() {
                         $(this).remove();
-                    }).attr('src',  '/Music/AlbumImage/' + id);
+                    }).attr('src', '/Music/AlbumImage/' + id);
                     albumaccordion.find('.ui-accordion-content-active').append(img).append(table);
                 });
             }

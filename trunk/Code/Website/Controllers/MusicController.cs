@@ -29,8 +29,6 @@ namespace Spoffice.Website.Controllers
             grabbers.Add(new LastFMCoverGrabber());
 
             covergrabber = new CoverGrabber(grabbers);
-
-            ViewData["favourites"] = DataContext.FavouriteRepository.GetUsersFavourites(UserGuid);
         }   
         //
         // GET: /Music/

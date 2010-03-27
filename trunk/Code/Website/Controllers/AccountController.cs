@@ -9,6 +9,7 @@ using System.Web.Security;
 using System.Web.UI;
 using Spoffice.Website.Helpers;
 using Spoffice.Website.Models;
+using Spoffice.Website.Models.Spotify.MetadataApi;
 
 namespace Spoffice.Website.Controllers
 {
@@ -45,10 +46,27 @@ namespace Spoffice.Website.Controllers
             get;
             private set;
         }
-
+        private List<string> GetFavourites(string username)
+        {
+            List<string> favs = new List<string>();
+            Guid userid;
+            if (String.IsNullOrEmpty(username))
+            {
+                userid = (Guid)Membership.GetUser().ProviderUserKey;
+            }
+            else
+            {
+                userid = (Guid)Membership.GetUser(username).ProviderUserKey;
+            }
+            foreach (Favourite favourite in DataContext.FavouriteRepository.GetUsersFavourites(userid))
+            {
+                favs.Add(FeedNode.ConvertPrivateToPublic(favourite.Track.Id));
+            }
+            return favs;
+        }
         public ActionResult LogOn()
         {
-            return MultiformatView(typeof(LoggedInStatus), new LoggedInStatus { LoggedIn = Request.IsAuthenticated });
+            return MultiformatView(typeof(LoggedInStatus), new LoggedInStatus { LoggedIn = Request.IsAuthenticated, Favourites = GetFavourites(null) });
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -64,25 +82,16 @@ namespace Spoffice.Website.Controllers
             }
 
             FormsAuth.SignIn(userName, rememberMe);
-
             status.LoggedIn = true;
 
-            if (!String.IsNullOrEmpty(returnUrl))
-            {
-                return MultiformatView(typeof(LoggedInStatus), status, Redirect(returnUrl));
-            }
-            else
-            {
-                return MultiformatView(typeof(LoggedInStatus), status, Redirect("~/Home/Index"));
-            }
+            status.Favourites = GetFavourites(userName);
+            return MultiformatView(typeof(LoggedInStatus), status);
         }
 
         public ActionResult LogOff()
         {
-
             FormsAuth.SignOut();
-
-            return RedirectToAction("Index", "Home");
+            return MultiformatView(typeof(LoggedInStatus), new LoggedInStatus());
         }
 
         public ActionResult Register()

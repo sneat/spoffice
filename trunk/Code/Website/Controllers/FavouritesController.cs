@@ -16,11 +16,10 @@ namespace Spoffice.Website.Controllers
     {
         public FavouritesController()
         {
-            ViewData["favourites"] = DataContext.FavouriteRepository.GetUsersFavourites(UserGuid);
         }
         public ActionResult Index()
         {
-            return View(ViewData["favourites"] as List<Favourite>);
+            return View();
         }
         public ActionResult Add(string id)
         {
