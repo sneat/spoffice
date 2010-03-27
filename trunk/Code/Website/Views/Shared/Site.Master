@@ -6,7 +6,7 @@
 <head runat="server">
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
     <% Html.ScriptManager().ScriptInclude("jquery", "~/Scripts/jquery-1.4.2.min.js"); %>
-    <% Html.ScriptManager().ScriptInclude("jquery_ui", "~/Scripts/jquery-ui-1.7.2.custom.min.js"); %>
+    <% Html.ScriptManager().ScriptInclude("jquery_ui", "~/Scripts/jquery-ui-1.8.custom.min.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_layout", "~/Scripts/jquery.layout.js"); %>
     <% Html.ScriptManager().ScriptInclude("interface", "~/Scripts/interface.js"); %>
     <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
