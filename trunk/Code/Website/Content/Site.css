@@ -76,10 +76,10 @@ td
 {
 	display: block;
 }
-span.track-artist 
+a.track-artist 
 {
-	padding-left:20px;
 	display: block;
+	margin-left: 15px;
 }
 span.track-title, span.album-title, span.artist-title, span.track-length 
 {

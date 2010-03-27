@@ -106,8 +106,8 @@
                     center__paneSelector: "#middle",
                     west__paneSelector: "#left",
                     east__paneSelector: "#right",
-                    //east__initClosed: true,
-                    //west__initClosed: true,
+                    east__initClosed: true,
+                    west__initClosed: true,
                     east__size: 326,
                     west__size: 300,
                     spacing_open: 4,
@@ -118,8 +118,6 @@
 
                 artistaccordion = $('#artistaccordion');
                 albumaccordion = $('#albumaccordion');
-                artistaccordion.accordion();
-                albumaccordion.accordion();
                 centrallayout.hide("west");
                 centrallayout.hide("east");
             }
@@ -175,6 +173,7 @@
             }
             function createTrackTd(track, showartist) {
                 var link = $('<a href="javascript:void(0);" class="track" />');
+                var td = $('<td />').append(link);
                 if ($.inArray(track.PublicId, favourites) > -1) {
                     link.html('<span class="ui-icon-circle-minus ui-icon"></span>');
                 } else {
@@ -184,9 +183,7 @@
                 if (track.Artist != null && track.Artist.Name != null) {
                     link.attr("title", track.Artist.Name);
                     if (showartist) {
-                        $('<span class="track-artist ui-priority-secondary">' + track.Artist.Name + '</span>').click(function() {
-                            displayArtist(track.Artist.PublicId);
-                        }).appendTo(link);
+                        createArtistLink(track.Artist).addClass("track-artist").addClass("ui-priority-secondary").appendTo(td);
                     }
                 }
                 link.attr("trackid", track.PublicId).click(function() {
@@ -196,7 +193,7 @@
                         load("/Favourites/Remove/" + id, null, function(data) {
                             if (data.StatusCode == "OK") {
                                 favourites.splice(index, 1);
-                                $(document.body).find("a[trackid="+id+"]").find(".ui-icon").removeClass("ui-icon-circle-minus").addClass("ui-icon-circle-plus");
+                                $(document.body).find("a[trackid=" + id + "]").find(".ui-icon").removeClass("ui-icon-circle-minus").addClass("ui-icon-circle-plus");
                             }
                         });
                     } else {
@@ -212,29 +209,43 @@
                 }).mouseleave(function() {
                     $(this).toggleClass("ui-state-highlight", false);
                 });
-                return $("<td />").append(link);
+                return td;
             }
             function createTrackLengthTd(track) {
                 var link = $('<span class="track-length"><span class="ui-icon-clock ui-icon"></span>' + track.FormattedLength + '</span>');
                 return $("<td />").append(link);
             }
-            function createAlbumTd(album) {
-                var link = $('<a href="javascript:void(0);"><span class="ui-icon-newwin ui-icon"></span><span class="album-title">' + album.Name + '</span></a>').click(function() {
+            function createAlbumLink(album) {
+                return $('<a href="javascript:void(0);"><span class="ui-icon-newwin ui-icon"></span><span class="album-title">' + album.Name + '</span></a>').click(function() {
                     displayAlbum(album.PublicId);
+                }).mouseenter(function() {
+                    $(this).toggleClass("ui-state-highlight", true);
+                }).mouseleave(function() {
+                    $(this).toggleClass("ui-state-highlight", false);
                 });
-                return $("<td />").append(link);
+            }
+            function createAlbumTd(album) {
+                return $("<td />").append(createAlbumLink(album));
+            }
+            function createArtistLink(artist) {
+                return $('<a href="javascript:void(0);"><span class="ui-icon-newwin ui-icon"></span><span class="artist-title">' + artist.Name + '</span></a>').click(function() {
+                    displayArtist(artist.PublicId);
+                }).mouseenter(function() {
+                    $(this).toggleClass("ui-state-highlight", true);
+                }).mouseleave(function() {
+                    $(this).toggleClass("ui-state-highlight", false);
+                });
             }
             function createArtistTd(artist) {
-                var link = $('<a href="javascript:void(0);"><span class="ui-icon-newwin ui-icon"></span><span class="artist-title">' + artist.Name + '</span></a>').click(function() {
-                    displayArtist(artist.PublicId);
-                });
-                return $("<td />").append(link);
+                return $("<td />").append(createArtistLink(artist));
             }
             function displayAlbum(id) {
                 centrallayout.open("east");
                 load("/Music/Album/" + id, null, function(data) {
                     var accordionLength = albumaccordion.find("h3").length;
-                    albumaccordion.accordion("destroy");
+                    if (albumaccordion.accordion != null) {
+                        albumaccordion.accordion("destroy");
+                    }
                     if (accordionLength > 4) {
                         albumaccordion.find('h3:first').remove();
                         albumaccordion.find('div:first').remove();
@@ -262,7 +273,9 @@
                 centrallayout.open("west");
                 load("/Music/Artist/" + id, null, function(data) {
                     var accordionLength = artistaccordion.find("h3").length;
-                    artistaccordion.accordion("destroy");
+                    if (artistaccordion.accordion != null) {
+                        artistaccordion.accordion("destroy");
+                    }
                     if (accordionLength > 4) {
                         artistaccordion.find('h3:first').remove();
                         artistaccordion.find('div:first').remove();
