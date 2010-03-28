@@ -19,7 +19,7 @@ namespace Spoffice.Website.Controllers
         }
         public ActionResult Index()
         {
-            return View();
+            return MultiformatView(typeof(FavouritesList), new FavouritesList { Favourites = DataContext.FavouriteRepository.GetUsersFavourites(UserGuid) });
         }
         public ActionResult Add(string id)
         {

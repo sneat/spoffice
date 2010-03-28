@@ -111,6 +111,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Album.cs" />
+    <Compile Include="Models\Artist.cs" />
+    <Compile Include="Models\Containers\FavouritesList.cs" />
     <Compile Include="Models\Containers\LoggedInStatus.cs" />
     <Compile Include="Models\Containers\Status.cs" />
     <Compile Include="Models\DataContext.cs" />

@@ -14,6 +14,9 @@
             var artistaccordion;
             var albumaccordion;
             var loadingTrackHistory = false;
+            var loadingFavourites = false;
+            var favouritesTable;
+            var oldFavouritesTop = 0;
             var favourites = null;
             var icons = {
                 header: "ui-icon-folder-collapsed",
@@ -297,6 +300,53 @@
                 });
             }
             function load__Favourites() {
+                if (favouritesTable == null) {
+                    var amount = 0;
+                    loadingFavourites = true;
+                    $('#favourites').html("loading..").scroll(function() {
+                        if (favouritesTable != null) {
+                            var th = $('#favourites');
+                            var thc = th[0];
+                            if ((thc.scrollHeight - th.scrollTop() < th.outerHeight() + 150) && !loadingFavourites) {
+                                var rowcount = favouritesTable.find("tr").length;
+                                if (oldFavouritesTop != rowcount) {
+                                    oldFavouritesTop = rowcount;
+                                    loadingFavourites = true;
+                                    load("/Favourites/?from=" + rowcount + "&amount=" + amount, null, function(data) {
+                                        addTrackHistoryRows(data);
+                                        loadingFavourites = false;
+                                    });
+                                }
+                            }
+                        }
+                    }).each(function() {
+                        var self = $(this);
+                        amount = Math.ceil((self.outerHeight() / 20) * 1.2);
+                    });
+                    load("/Favourites/?amount=" + amount, null, function(data) {
+                        $('#trackhistory').html("");
+                        trackHistoryTable = $("<table></table>");
+                        addFavouritesRows(data);
+                        loadingTrackHistory = false;
+                    });
+                }
+            }
+            function addFavouritesRows(data) {
+                var rows = [];
+                for (var i = 0; i < data.History.length; i++) {
+                    var historyItem = data.History[i];
+                    var row = $("<tr />");
+                    row.append(createTrackTd(historyItem.Track));
+                    row.append(createTrackLengthTd(historyItem.Track));
+                    row.append(createArtistTd(historyItem.Track.Artist));
+                    row.append(createAlbumTd(historyItem.Track.Album));
+                    rows.push(row.appendTo(trackHistoryTable));
+                    rows[i].find("td").hide();
+                }
+                $(trackHistoryTable).appendTo('#trackhistory');
+                for (var i = 0; i < rows.length; i++) {
+                    rows[i].find("td").delay(10 * i).fadeIn(100);
+                }
             }
             function isLoginFormVisible() {
                 return (loginForm != null && loginForm.is(":visible"));

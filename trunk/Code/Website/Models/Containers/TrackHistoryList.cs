@@ -45,26 +45,7 @@ namespace Spoffice.Website.Models
         public TrackHistoryItem(TrackHistory history)
         {
             Timestamp = history.Datetime.Ticks;
-            Track = new TrackNode
-            {
-                PrivateId = history.Track.Id,
-                Title = history.Track.Title,
-                Length = history.Track.Length
-            };
-            if (history.Track.Album != null){
-                Track.Album = new AlbumNode{
-                    PrivateId = history.Track.Album.Id,
-                    Name = history.Track.Album.Name
-                };
-            }
-            if (history.Track.Artist != null)
-            {
-                Track.Artist = new ArtistNode
-                {
-                    PrivateId = history.Track.Artist.Id,
-                    Name = history.Track.Artist.Name
-                };
-            }
+            Track = history.Track.ConvertToNode();
         }
     }
 }

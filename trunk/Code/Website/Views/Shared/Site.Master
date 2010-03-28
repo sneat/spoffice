@@ -28,8 +28,8 @@
     <input type="text" name="username" password="username" />
     <label>{password}</label>
     <input type="password" name="password" password="password" />
-    <input type="checkbox" value="true" name="rememberMe" id="rememberMe">
-    <input type="hidden" value="false" name="rememberMe">
+    <input type="checkbox" value="true" name="rememberMe" id="rememberMe" />
+    <input type="hidden" value="false" name="rememberMe" />
    </fieldset>
   </form>
 </div>
@@ -45,32 +45,22 @@
     <li><a href="#myaccount">My Account</a></li>
     <li id="results-tab"><a href="#searchresults">Search Results</a></li>
    </ul>
-   <div class="tabs-panel-container ui-widget-content">
-    <div id="left">
-     <div id="artistaccordion">
-	 </div>
-    </div>
-    <div id="right">
-     <div id="albumaccordion">
-	 </div>
-    </div>
-    <div id="middle">
-    <div id="searchresults">
-    </div>
-    <div id="home">home
-    </div>
-    <div id="trackhistory">
-    track history
-    </div>
-    <div id="myaccount">
-    myaccount
-    </div>
-    <div id="favourites">
-    favourites
-    </div>
+    <div class="tabs-panel-container ui-widget-content">
+     <div id="left">
+      <div id="artistaccordion"></div>
+     </div>
+     <div id="right">
+      <div id="albumaccordion"></div>
+     </div>
+     <div id="middle">
+      <div id="searchresults"></div>
+      <div id="home"></div>
+      <div id="trackhistory"></div>
+      <div id="myaccount"></div>
+      <div id="favourites"></div>
+     </div>
     </div>
    </div>
   </div>
-</div>
-</body>
+ </body>
 </html>

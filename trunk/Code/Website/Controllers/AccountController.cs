@@ -66,7 +66,7 @@ namespace Spoffice.Website.Controllers
         }
         public ActionResult LogOn()
         {
-            return MultiformatView(typeof(LoggedInStatus), new LoggedInStatus { LoggedIn = Request.IsAuthenticated, Favourites = GetFavourites(null) });
+            return MultiformatView(typeof(LoggedInStatus), new LoggedInStatus { LoggedIn = Request.IsAuthenticated, Favourites = Request.IsAuthenticated?GetFavourites(null):null });
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
