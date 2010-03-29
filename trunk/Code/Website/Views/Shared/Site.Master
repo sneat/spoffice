@@ -7,6 +7,7 @@
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
     <% Html.ScriptManager().ScriptInclude("jquery", "~/Scripts/jquery-1.4.2.min.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_ui", "~/Scripts/jquery-ui-1.8.custom.min.js"); %>
+    <% Html.ScriptManager().ScriptInclude("jquery_ui_themeswitcher", "http://jqueryui.com/themeroller/themeswitchertool/"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_layout", "~/Scripts/jquery.layout.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_lazyloader", "~/Scripts/lazyloader.jquery.js"); %>
     <% Html.ScriptManager().ScriptInclude("interface", "~/Scripts/interface.js"); %>
@@ -36,6 +37,7 @@
 <div id="layout">
   <div id="header">
    <h1><img src="~/Content/spoffice.png" runat="server" /></h1>
+   <div id="switcher"></div>
   </div>
   <div id="main">
    <ul id="tabs">

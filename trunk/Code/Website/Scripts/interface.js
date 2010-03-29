@@ -218,6 +218,8 @@
                 albumaccordion = $(config.albumAccordionDiv);
                 centrallayout.hide(config.artistLocation);
                 centrallayout.hide(config.albumLocation);
+
+                $('#switcher').themeswitcher();
             }
 
 	        /**
