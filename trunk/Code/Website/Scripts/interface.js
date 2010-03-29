@@ -5,7 +5,41 @@
 	 */
     $.fn.spofficeInterface = function(settings) {
         var config = {
-	        'foo': 'bar'
+	        favouritesDiv : '#favourites',
+	        loadingDiv : '#loading',
+			loginDiv : '#login-form',
+			layoutDiv : '#layout',
+			resultsDiv : '#results-tab',
+			staticDiv : '#static-content',
+			artistAccordionDiv : '#artistaccordion',
+			albumAccordionDiv : '#albumaccordion',
+			trackHistoryDiv : '#trackhistory',
+
+			footerDistance : 150,
+
+			artistLocation : 'west',
+			albumLocation : 'east',
+
+			accordionLength : 5,
+
+			baseCenterPaneSelector : '#main',
+			baseNorthPaneSelector : '#header',
+			baseNorthSize : 100,
+			baseSpacingOpen : 0,
+			baseNorthSlidable : false,
+			tabsCenterPaneSelector : '.tabs-panel-container',
+			tabsNorthPaneSelector : '#tabs',
+			tabsSpacingOpen : 0,
+			tabsNorthSlidable : false,
+			mainCenterPaneSelector : '#middle',
+			mainWestPaneSelector : '#left',
+			mainEastPaneSelector : '#right',
+			mainWestClosed : true,
+			mainEastClosed : true,
+			mainWestSize : 326,
+			mainEastSize : 300,
+			mainSpacingOpen : 4,
+			mainSpacingClosed : 4
         };
         if (settings) $.extend(config, settings);
         this.each(function() {
@@ -85,7 +119,7 @@
 	         * @param {Object} data The user object
 	         */
             function dealWithLoginData(data) {
-                var loadingdiv = $('#loading');
+                var loadingdiv = $(config.loadingDiv);
                 if (loadingdiv.is(":visible")) {
                     loadingdiv.fadeOut();
                 };
@@ -121,27 +155,25 @@
 
 	        /**
 	         * Creates the interface layout
-	         * TODO Use config settings to determine layout options
 	         * @see <a href="http://layout.jquery-dev.net/">jQuery Layout</a>
 	         */
             function createLayout() {
-                $(document.body).append($('#layout').html());
+                $(document.body).append($(config.layoutDiv).html());
                 $('#layout').remove();
 	            /**
 	             * Create base layout consisting of a center and north pane
-	             * TODO Use config settings to determine layout options
 	             */
                 layout = $('body').layout({
-                    center__paneSelector: "#main",
-                    north__paneSelector: "#header",
-                    north__size: 100,
-                    spacing_open: 0,
-                    north__slidable: false
+                    center__paneSelector: config.baseCenterPaneSelector,
+                    north__paneSelector: config.baseNorthPaneSelector,
+                    north__size: config.baseNorthSize,
+                    spacing_open: config.baseSpacingOpen,
+                    north__slidable: config.baseNorthSlidable
                 });
 	            /**
 	             * Create the tab interface and configure the events that each tag represents
 	             */
-                tabs = $('#main').tabs({
+                tabs = $(config.baseCenterPaneSelector).tabs({
                     show: function(event, ui) {
                         resizeTabLayout();
                         switch (ui.panel.id) {
@@ -154,47 +186,44 @@
                         }
                     }
                 });
-                $('#results-tab').hide();
+                $(config.resultsDiv).hide();
 	            /**
 	             * Add the tab interface to the center pane of the base layout
-	             * TODO Use config settings to determine layout options
 	             */
-                $('#main').layout({
-                    center__paneSelector: ".tabs-panel-container",
-                    north__paneSelector: "#tabs",
-                    spacing_open: 0,
-                    north__slidable: false
+                $(config.baseCenterPaneSelector).layout({
+                    center__paneSelector: config.tabsCenterPaneSelector,
+                    north__paneSelector: config.tabsNorthPaneSelector,
+                    spacing_open: config.tabsSpacingOpen,
+                    north__slidable: config.tabsNorthSlidable
                 });
 	            /**
 	             * Set up the central tab panel
 	             * Configure east and west panels to use accordion
-	             * TODO Use config settings to determine layout options
 	             */
-                centrallayout = $('.tabs-panel-container').layout({
-                    center__paneSelector: "#middle",
-                    west__paneSelector: "#left",
-                    east__paneSelector: "#right",
-                    east__initClosed: true,
-                    west__initClosed: true,
-                    east__size: 326,
-                    west__size: 300,
-                    spacing_open: 4,
-                    spacing_closed: 4,
+                centrallayout = $(config.tabsCenterPaneSelector).layout({
+                    center__paneSelector: config.mainCenterPaneSelector,
+                    east__paneSelector: config.mainEastPaneSelector,
+                    west__paneSelector: config.mainWestPaneSelector,
+                    east__initClosed: config.mainEastClosed,
+                    west__initClosed: config.mainWestClosed,
+                    east__size: config.mainEastSize,
+                    west__size: config.mainWestSize,
+                    spacing_open: config.mainSpacingOpen,
+                    spacing_closed: config.mainSpacingClosed,
                     west__onresize: function() { artistaccordion.accordion("resize"); },
                     east__onresize: function() { albumaccordion.accordion("resize"); }
                 });
 
-                artistaccordion = $('#artistaccordion');
-                albumaccordion = $('#albumaccordion');
-                centrallayout.hide("west");
-                centrallayout.hide("east");
+                artistaccordion = $(config.artistAccordionDiv);
+                albumaccordion = $(config.albumAccordionDiv);
+                centrallayout.hide(config.artistLocation);
+                centrallayout.hide(config.albumLocation);
             }
 
 	        /**
 	         * Called when TrackHistory tab is clicked
 	         * Gets the track history in blocks from the database. If the user scrolls to near the bottom of the page,
 	         * the next block of track histories is requested and appended to the table.
-	         * TODO Use config settings to determine how close to the bottom of the page the user for a new request
 	         * TODO Ensure that requests stop once we have the entire track history list
 	         * @see addTrackHistoryRows
 	         */
@@ -202,9 +231,9 @@
                 if (trackHistoryTable == null) {
                     var amount = 0;
                     loadingTrackHistory = true;
-                    $('#trackhistory').html("loading..").scroll(function() {
+                    $(config.trackHistoryDiv).html("loading..").scroll(function() {
                         if (trackHistoryTable != null) {
-                            var th = $('#trackhistory');
+                            var th = $(config.trackHistoryDiv);
                             var thc = th[0];
 	                        /**
 	                         * Calculates whether the user has scrolled to within {@link configscrollDistance} of the
@@ -212,10 +241,9 @@
 	                         * scrollHeight = the total scrollable height of the trackhistory container
 	                         * scrollTop = the current vertical position of the scroll bar in the trackhistory container
 	                         * outerHeight = the height of the visible portion of the trackhistory container
-	                         * TODO Use config variable for distance to bottom
 	                         * TODO Fix oldTrackHistoryTop as it's meant to prevent extra calls to load more data
 	                         */
-                            if (!loadingTrackHistory && (thc.scrollHeight - (th.scrollTop() + th.outerHeight()) < 150)) {
+                            if (!loadingTrackHistory && (thc.scrollHeight - (th.scrollTop() + th.outerHeight()) < config.footerDistance)) {
                                 var rowcount = trackHistoryTable.find("tr").length;
                                 if (oldTrackHistoryTop != rowcount) {
                                     oldTrackHistoryTop = rowcount;
@@ -235,7 +263,7 @@
                     });
 	                // Load the initial block of track history data
                     load("/Music/Playlist/?amount=" + amount, null, function(data) {
-                        $('#trackhistory').empty();
+                        $(config.trackHistoryDiv).empty();
                         trackHistoryTable = $("<table></table>");
                         addTrackHistoryRows(data);
                         loadingTrackHistory = false;
@@ -250,6 +278,7 @@
 	         * @param {Object} data.History.Track The Track object
 	         * @param {Object} data.History.Track.Artist The track Artist object
 	         * @param {Object} data.History.Track.Album The track Album object
+	         * TODO Add config option for fadeIn
 	         */
             function addTrackHistoryRows(data) {
                 var rows = [];
@@ -267,7 +296,7 @@
                     rows[i].find("td").hide();
                 }
 	            // Append the trackHistoryTable to the trackhistory container
-                $(trackHistoryTable).appendTo('#trackhistory');
+                $(trackHistoryTable).appendTo(config.trackHistoryDiv);
 	            var rowsCount = rows.length;
                 for (var i = 0; i < rowsCount; i++) {
                     rows[i].find("td").delay(10 * i).fadeIn(100);
@@ -399,20 +428,18 @@
 	         * Display Album details in the album panel using jQuery UI Accordion
 	         * @param {String} id The Album Guid
 	         * @see <a href="http://docs.jquery.com/UI/Accordion">jQuery UI Accordion</a>
-	         * TODO Allow panel to be selected via config
 	         */
             function displayAlbum(id) {
-                centrallayout.open("east");
+                centrallayout.open(config.albumLocation);
                 load("/Music/Album/" + id, null, function(data) {
                     var accordionLength = albumaccordion.find("h3").length;
                     if (albumaccordion.accordion != null) {
 						// Remove the accordion functionality, makes initialising it easier later on
                         albumaccordion.accordion("destroy");
                     }
-                    if (accordionLength > 4) {
+                    if (accordionLength >= config.accordionLength) {
 	                    /**
-	                     * We only want a max of {@link configAccordionAmount}
-	                     * TODO Make this use config
+	                     * We only want a max of {@link config.accordionLength}
 	                     */
                         albumaccordion.find('h3:first').remove();
                         albumaccordion.find('div:first').remove();
@@ -449,21 +476,19 @@
 	         * Display Artist details in the artist panel using jQuery UI Accordion
 	         * @param {String} id The Artist Guid
 	         * @see <a href="http://docs.jquery.com/UI/Accordion">jQuery UI Accordion</a>
-	         * TODO Allow panel to be selected via config
 	         * TODO Add album cover thumbnail
 	         */
             function displayArtist(id) {
-                centrallayout.open("west");
+                centrallayout.open(config.artistLocation);
                 load("/Music/Artist/" + id, null, function(data) {
                     var accordionLength = artistaccordion.find("h3").length;
                     if (artistaccordion.accordion != null) {
 						// Remove the accordion functionality, makes initialising it easier later on
                         artistaccordion.accordion("destroy");
                     }
-                    if (accordionLength > 4) {
+                    if (accordionLength >= config.accordionLength) {
 	                    /**
-	                     * We only want a max of {@link configAccordionAmount}
-	                     * TODO Make this use config
+	                     * We only want a max of {@link config.accordionLength}
 	                     */
                         artistaccordion.find('h3:first').remove();
                         artistaccordion.find('div:first').remove();
@@ -493,7 +518,6 @@
 	         * Called when Favourites tab is clicked
 	         * Gets the track favourites in blocks from the database. If the user scrolls to near the bottom of the
 	         * page, the next block of track favourites is requested and appended to the table.
-	         * TODO Use config settings to determine how close to the bottom of the page the user for a new request
 	         * TODO Ensure that requests stop once we have the entire track favourites list
 	         * @see addTrackHistoryRows
 	         */
@@ -501,9 +525,9 @@
                 if (favouritesTable == null) {
                     var amount = 0;
                     loadingFavourites = true;
-                    $('#favourites').html("loading..").scroll(function() {
+                    $(config.favouritesDiv).html("loading..").scroll(function() {
                         if (favouritesTable != null) {
-                            var th = $('#favourites');
+                            var th = $(config.favouritesDiv);
                             var thc = th[0];
 	                        /**
 	                         * Calculates whether the user has scrolled to within {@link configscrollDistance} of the
@@ -511,10 +535,9 @@
 	                         * scrollHeight = the total scrollable height of the trackhistory container
 	                         * scrollTop = the current vertical position of the scroll bar in the trackhistory container
 	                         * outerHeight = the height of the visible portion of the trackhistory container
-	                         * TODO Use config variable for distance to bottom
 	                         * TODO Fix oldFavouritesTop as it's meant to prevent extra calls to load more data
 	                         */
-                            if ((thc.scrollHeight - th.scrollTop() < th.outerHeight() + 150) && !loadingFavourites) {
+                            if (!loadingFavourites && (thc.scrollHeight - th.scrollTop() < th.outerHeight() + config.footerDistance)) {
                                 var rowcount = favouritesTable.find("tr").length;
                                 if (oldFavouritesTop != rowcount) {
                                     oldFavouritesTop = rowcount;
@@ -533,7 +556,7 @@
                     });
 	                // Load the initial block of track favourites data
                     load("/Favourites/?amount=" + amount, null, function(data) {
-                        $('#trackhistory').empty();
+                        $(config.favouritesDiv).empty();
                         trackHistoryTable = $("<table></table>");
                         addFavouritesRows(data);
                         loadingTrackHistory = false;
@@ -548,6 +571,7 @@
 	         * @param {Object} data.History.Track The Track object
 	         * @param {Object} data.History.Track.Artist The track Artist object
 	         * @param {Object} data.History.Track.Album The track Album object
+	         * TODO Add config option for fadeIn
 	         */
             function addFavouritesRows(data) {
                 var rows = [];
@@ -565,7 +589,7 @@
                     rows[i].find("td").hide();
                 }
 	            // Append the trackHistoryTable to the trackhistory container
-                $(trackHistoryTable).appendTo('#trackhistory');
+                $(trackHistoryTable).appendTo(config.trackHistoryDiv);
 	            var rowsCount = rows.length;
                 for (var i = 0; i < rowsCount; i++) {
                     rows[i].find("td").delay(10 * i).fadeIn(100);
@@ -584,7 +608,7 @@
 	         */
             function displayLoginForm() {
                 if (loginForm == null) {
-                    loginForm = $('#login-form').show();
+                    loginForm = $(config.loginDiv).show();
 
                     $(loginForm).find("form").submit(function() {
 	                    // Bind to the submit event of the form
@@ -630,7 +654,7 @@
 	         * Removes the static content container
 	         */
             function removeStaticContent() {
-                $('#static-content').remove();
+                $(config.staticDiv).remove();
             }
 
 	        // Run the initialisation function
