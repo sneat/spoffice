@@ -121,15 +121,22 @@ namespace Spoffice.Website.Services.Music.Downloader
             }
             else
             {
-                SharpSpotLib.Media.Album spotify_album = connection.BrowseAlbum(album.PrivateId.ToString("N"));
-                if (spotify_album != null && spotify_album.Cover != null)
+                try
                 {
-                    System.Drawing.Image img = connection.Image(spotify_album.Cover);
-                    if (img != null)
+                    SharpSpotLib.Media.Album spotify_album = connection.BrowseAlbum(album.PrivateId.ToString("N"));
+                    if (spotify_album != null && spotify_album.Cover != null)
                     {
-                        img.Save(album.AlbumartCachePath, System.Drawing.Imaging.ImageFormat.Jpeg);
-                        return album.AlbumartCacheWebPath;
+                        System.Drawing.Image img = connection.Image(spotify_album.Cover);
+                        if (img != null)
+                        {
+                            img.Save(album.AlbumartCachePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            return album.AlbumartCacheWebPath;
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    //
                 }
             }
             return null;
