@@ -46,27 +46,10 @@ namespace Spoffice.Website.Controllers
             get;
             private set;
         }
-        private List<string> GetFavourites(string username)
-        {
-            List<string> favs = new List<string>();
-            Guid userid;
-            if (String.IsNullOrEmpty(username))
-            {
-                userid = (Guid)Membership.GetUser().ProviderUserKey;
-            }
-            else
-            {
-                userid = (Guid)Membership.GetUser(username).ProviderUserKey;
-            }
-            foreach (Favourite favourite in DataContext.FavouriteRepository.GetUsersFavourites(userid))
-            {
-                favs.Add(BaseOutput.ConvertPrivateToPublic(favourite.Track.Id));
-            }
-            return favs;
-        }
+ 
         public ActionResult LogOn()
         {
-            return MultiformatView(typeof(LoggedInStatusOutput), new LoggedInStatusOutput { LoggedIn = Request.IsAuthenticated, Favourites = Request.IsAuthenticated ? GetFavourites(null) : null });
+            return MultiformatView(typeof(LoggedInStatusOutput), new LoggedInStatusOutput { LoggedIn = Request.IsAuthenticated });
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -84,7 +67,6 @@ namespace Spoffice.Website.Controllers
             FormsAuth.SignIn(userName, rememberMe);
             status.LoggedIn = true;
 
-            status.Favourites = GetFavourites(userName);
             return MultiformatView(typeof(LoggedInStatusOutput), status);
         }
 

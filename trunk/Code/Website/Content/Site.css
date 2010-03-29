@@ -24,7 +24,8 @@ h1
 {
     display: none;
 }
-#trackhistory
+#trackhistory,
+#favourites
 {
 	overflow: auto;
 	height: 100%;

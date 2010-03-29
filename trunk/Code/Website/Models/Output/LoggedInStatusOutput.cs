@@ -24,12 +24,6 @@ namespace Spoffice.Website.Models.Output
             set;
         }
 
-        public List<string> Favourites
-        {
-            get;
-            set;
-        }
-
         public List<ErrorResult> ErrorMessages
         {
             get

@@ -14,7 +14,7 @@ namespace Spoffice.Website.Models
 
         public List<Favourite> GetUsersFavourites(Guid userid)
         {
-            return DataContext.Context.Favourites.Include("Track.Artist").Where(f => f.User.UserId == userid).ToList();
+            return DataContext.Context.Favourites.Include("Track.Artist").Include("Track.Album").Where(f => f.User.UserId == userid).ToList();
         }
 
         #endregion
