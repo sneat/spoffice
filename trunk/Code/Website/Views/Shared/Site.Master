@@ -5,14 +5,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
-    <% Html.ScriptManager().ScriptInclude("jquery", "~/Scripts/jquery-1.4.2.min.js"); %>
+    <% Html.ScriptManager().ScriptInclude("jquery", "~/Scripts/jquery-latest.min.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_ui", "~/Scripts/jquery-ui-1.8.custom.min.js"); %>
-    <% Html.ScriptManager().ScriptInclude("jquery_ui_themeswitcher", "http://jqueryui.com/themeroller/themeswitchertool/"); %>
+    <% Html.ScriptManager().ScriptInclude("jquery_ui_themeswitcher", "~/Scripts/jquery.themes.min.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_layout", "~/Scripts/jquery.layout.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_lazyloader", "~/Scripts/lazyloader.jquery.js"); %>
     <% Html.ScriptManager().ScriptInclude("interface", "~/Scripts/interface.js"); %>
     <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="../../Content/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/themes/jquery.themes.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" id="themecss" />
 </head>
 <body class="ui-widget-shadow">
  <script type="text/javascript">
@@ -36,7 +37,7 @@
 </div>
 <div id="layout">
   <div id="header">
-   <h1><img src="~/Content/spoffice.png" runat="server" /></h1>
+   <h1><a runat="server" href="~/" title="Spoffice home"><img src="~/Content/spoffice.png" runat="server" /></a></h1>
    <div id="switcher"></div>
   </div>
   <div id="main">

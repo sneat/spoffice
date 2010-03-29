@@ -218,8 +218,6 @@
                 albumaccordion = $(config.albumAccordionDiv);
                 centrallayout.hide(config.artistLocation);
                 centrallayout.hide(config.albumLocation);
-
-                $('#switcher').themeswitcher();
             }
 
 	        /**
@@ -666,9 +664,25 @@
     };
 })(jQuery);
 
+var first = true;
+
+// IE doesn't update the display immediately, so reload the page
+function reloadIE(id, display, url) {
+    if (!first && $.browser.msie) {
+        window.location.href = window.location.href;
+    }
+    first = false;
+}
+
 /**
  * When the DOM is ready, run the spofficeInterface on the document body
  */
 $(function() {
+    $.themes.init({ themeBase: 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/',
+        icons: 'Content/themes/themes.gif',
+        previews: 'Content/themes/themes-preview.gif',
+        onSelect: reloadIE
+    });
+    $('#switcher').themes();
     $(document.body).spofficeInterface();
 });
