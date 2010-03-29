@@ -6,7 +6,7 @@ using SharpSpotLib;
 using System.Threading;
 using System.IO;
 using Spoffice.Website.Models;
-using Spoffice.Website.Models.Spotify.MetadataApi;
+using Spoffice.Website.Models.Output;
 
 namespace Spoffice.Website.Services.Music.Downloader
 {
@@ -108,12 +108,12 @@ namespace Spoffice.Website.Services.Music.Downloader
 
         #region ICoverGrabber Members
 
-        public string GetCoverPath(TrackNode track)
+        public string GetCoverPath(TrackOutput track)
         {
             return GetCoverPath(track.Album);
         }
 
-        public string GetCoverPath(AlbumNode album)
+        public string GetCoverPath(AlbumOutput album)
         {
             if (File.Exists(album.AlbumartCachePath))
             {

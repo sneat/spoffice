@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Spoffice.Website.Models.Spotify.MetadataApi;
+using Spoffice.Website.Models.Output;
 
 namespace Spoffice.Website.Models
 {
@@ -33,14 +33,14 @@ namespace Spoffice.Website.Models
         #region IFavouriteRepository Members
 
 
-        public Status AddToFavourites(string trackid, Guid userid)
+        public StatusOutput AddToFavourites(string trackid, Guid userid)
         {
-            Status result = new Status();
+            StatusOutput result = new StatusOutput();
             Boolean dbChanged = false;
 
-            TrackNode trackNode = new TrackNode(trackid);
-            ArtistNode artistNode = trackNode.Artist;
-            AlbumNode albumNode = trackNode.Album;
+            TrackOutput trackNode = new TrackOutput(trackid);
+            ArtistOutput artistNode = trackNode.Artist;
+            AlbumOutput albumNode = trackNode.Album;
 
             Artist artist = DataContext.ArtistRepository.GetArtistById(artistNode.PrivateId);
 
@@ -124,14 +124,14 @@ namespace Spoffice.Website.Models
                 try
                 {
                     DataContext.Context.SaveChanges();
-                    result = new Status
+                    result = new StatusOutput
                     {
                         StatusCode = "OK"
                     };
                 }
                 catch
                 {
-                    result = new Status
+                    result = new StatusOutput
                     {
                         StatusCode = "Error",
                         Message = ViewRes.FavouritesStrings.ErrorSaving
@@ -140,7 +140,7 @@ namespace Spoffice.Website.Models
             }
             else
             {
-                result = new Status
+                result = new StatusOutput
                 {
                     StatusCode = "OK",
                     Message = ViewRes.FavouritesStrings.NothingToAdd
@@ -149,11 +149,11 @@ namespace Spoffice.Website.Models
             return result;
         }
 
-        public Status RemoveFromFavourites(string trackid, Guid userid)
+        public StatusOutput RemoveFromFavourites(string trackid, Guid userid)
         {
-            Status result;
+            StatusOutput result;
 
-            Guid privateId = TrackNode.ConvertPublicToPrivate(trackid);
+            Guid privateId = TrackOutput.ConvertPublicToPrivate(trackid);
 
             User user = (from m in DataContext.Context.Users
                          where m.UserId == userid
@@ -174,14 +174,14 @@ namespace Spoffice.Website.Models
 
                     DataContext.Context.SaveChanges();
 
-                    result = new Status
+                    result = new StatusOutput
                     {
                         StatusCode = "OK"
                     };
                 }
                 catch
                 {
-                    result = new Status
+                    result = new StatusOutput
                     {
                         StatusCode = "Error",
                         Message = ViewRes.FavouritesStrings.ErrorRemoving
@@ -190,7 +190,7 @@ namespace Spoffice.Website.Models
             }
             else
             {
-                result = new Status
+                result = new StatusOutput
                 {
                     StatusCode = "Error",
                     Message = ViewRes.FavouritesStrings.FavouriteNotFound

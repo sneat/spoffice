@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Spoffice.Website.Models.Spotify.MetadataApi;
+using Spoffice.Website.Models.Output;
 
 namespace Spoffice.Website.Services.Music
 {
@@ -17,7 +17,7 @@ namespace Spoffice.Website.Services.Music
             this.grabbers = grabbers;
         }
 
-        public string GetCoverPath(TrackNode track)
+        public string GetCoverPath(TrackOutput track)
         {
             foreach (ICoverGrabber grabber in grabbers)
             {
@@ -30,7 +30,7 @@ namespace Spoffice.Website.Services.Music
             throw new Exception("Cover not found. Consider adding a cover grabber that will always return a default image");
         }
 
-        public string GetCoverPath(AlbumNode album)
+        public string GetCoverPath(AlbumOutput album)
         {
             foreach (ICoverGrabber grabber in grabbers)
             {

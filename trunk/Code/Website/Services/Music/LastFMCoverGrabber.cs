@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Spoffice.Website.Models.Spotify.MetadataApi;
+using Spoffice.Website.Models.Output;
 using System.Xml.Linq;
 
 namespace Spoffice.Website.Services.Music
@@ -11,11 +11,11 @@ namespace Spoffice.Website.Services.Music
     {
         #region ICoverGrabber Members
 
-        public string GetCoverPath(TrackNode track)
+        public string GetCoverPath(TrackOutput track)
         {
             return GetCoverPath(track.Album);
         }
-        public string GetCoverPath(AlbumNode album)
+        public string GetCoverPath(AlbumOutput album)
         {
             String xml_request_url = "http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=b25b959554ed76058ac220b7b2e0a026&artist={0}&album={1}";
             try

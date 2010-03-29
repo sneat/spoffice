@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Spoffice.Website.Models.Output;
 
 namespace Spoffice.Website.Models
 {
@@ -10,10 +11,10 @@ namespace Spoffice.Website.Models
         Rating GetTrackRatingForUser(Track track, User user);
         void DeleteRatingsForTrack(Track track);
 
-        Status VoteForTrack(Track track, Guid userGuid);
-        Status VoteAgainstTrack(Track track, Guid userGuid);
+        StatusOutput VoteForTrack(Track track, Guid userGuid);
+        StatusOutput VoteAgainstTrack(Track track, Guid userGuid);
 
-        Status VoteForTrack(string trackid, Guid userGuid);
-        Status VoteAgainstTrack(string trackid, Guid userGuid);
+        StatusOutput VoteForTrack(string trackid, Guid userGuid);
+        StatusOutput VoteAgainstTrack(string trackid, Guid userGuid);
     }
 }

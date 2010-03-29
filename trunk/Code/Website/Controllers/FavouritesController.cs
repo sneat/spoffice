@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Security;
 using Spoffice.Website.Models;
-using Spoffice.Website.Models.Spotify.MetadataApi;
+using Spoffice.Website.Models.Output;
 
 namespace Spoffice.Website.Controllers
 {
@@ -19,20 +19,20 @@ namespace Spoffice.Website.Controllers
         }
         public ActionResult Index()
         {
-            return MultiformatView(typeof(FavouritesList), new FavouritesList { Favourites = DataContext.FavouriteRepository.GetUsersFavourites(UserGuid) });
+            return MultiformatView(typeof(FavouritesListOutput), new FavouritesListOutput { Favourites = DataContext.FavouriteRepository.GetUsersFavourites(UserGuid) });
         }
         public ActionResult Add(string id)
         {
             ModelState.Clear();
-            Status status = DataContext.FavouriteRepository.AddToFavourites(id, UserGuid);
-            return MultiformatView(typeof(Status), status, RedirectToAction("Search", "Music"));
+            StatusOutput status = DataContext.FavouriteRepository.AddToFavourites(id, UserGuid);
+            return MultiformatView(typeof(StatusOutput), status, RedirectToAction("Search", "Music"));
         }
         public ActionResult Remove(string id)
         {
             ModelState.Clear();
-            Status status = DataContext.FavouriteRepository.RemoveFromFavourites(id, UserGuid);
+            StatusOutput status = DataContext.FavouriteRepository.RemoveFromFavourites(id, UserGuid);
             string referrer = Request.UrlReferrer.AbsolutePath.ToString();
-            return MultiformatView(typeof(Status), status, RedirectToAction("Search", "Music"));
+            return MultiformatView(typeof(StatusOutput), status, RedirectToAction("Search", "Music"));
         }
     }
  

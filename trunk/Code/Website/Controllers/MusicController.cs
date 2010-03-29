@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Spoffice.Website.Models;
-using Spoffice.Website.Models.Spotify.MetadataApi;
+using Spoffice.Website.Models.Output;
 using System.Security.Principal;
 using System.Web.Security;
 using System.Xml.Serialization;
@@ -13,6 +13,7 @@ using System.IO;
 using Spoffice.Website.Helpers;
 using System.Xml.Linq;
 using Spoffice.Website.Services.Music;
+using Spoffice.Website.Models.Spotify;
 
 namespace Spoffice.Website.Controllers
 {
@@ -42,7 +43,7 @@ namespace Spoffice.Website.Controllers
         {
             ViewData["search_term"] = id;
             ModelState.Clear();
-            return MultiformatView(typeof(TrackList), new TrackList { Tracks = MusicSearch.SearchForTrack(id) });
+            return MultiformatView(typeof(TrackListOutput), new TrackListOutput { Tracks = MusicSearch.SearchForTrack(id) });
         }
         public ActionResult Current()
         {
@@ -66,7 +67,7 @@ namespace Spoffice.Website.Controllers
             {
                 amount = Convert.ToInt32(Request.QueryString["amount"]);
             }
-            return MultiformatView(typeof(TrackHistoryList), new TrackHistoryList
+            return MultiformatView(typeof(TrackHistoryListOutput), new TrackHistoryListOutput
             {
                 TrackHistories = DataContext.Context.TrackHistories.Include("Track.Artist").Include("Track.Album").OrderByDescending(t => t.Datetime).Skip(start).Take(amount).ToList()
             });
@@ -74,25 +75,25 @@ namespace Spoffice.Website.Controllers
         public ActionResult Artist(string id)
         {
             ModelState.Clear();
-            return MultiformatView(typeof(ArtistNode), new ArtistNode(id));
+            return MultiformatView(typeof(ArtistOutput), new ArtistOutput(id));
         }
         public ActionResult Album(string id)
         {
             ModelState.Clear();
-            return MultiformatView(typeof(AlbumNode), new AlbumNode(id));
+            return MultiformatView(typeof(AlbumOutput), new AlbumOutput(id));
         }
         public RedirectResult TrackImage(string id)
         {
-            return Redirect(covergrabber.GetCoverPath(new TrackNode(id)));
+            return Redirect(covergrabber.GetCoverPath(new TrackOutput(id)));
         }
         public RedirectResult AlbumImage(string id)
         {
-            return Redirect(covergrabber.GetCoverPath(new AlbumNode(id)));
+            return Redirect(covergrabber.GetCoverPath(new AlbumOutput(id)));
         }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Vote(string id, string value)
         {
-            Status result = null;
+            StatusOutput result = null;
             User user = (from m in DataContext.Context.Users
                          where m.UserId == UserGuid
                          select m).FirstOrDefault();
@@ -107,7 +108,7 @@ namespace Spoffice.Website.Controllers
                     break;
             }
 
-            return MultiformatView(typeof(Status), result);
+            return MultiformatView(typeof(StatusOutput), result);
         }
 
 

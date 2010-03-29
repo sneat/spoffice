@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Spoffice.Website.Services.Music.Downloader;
 using Spoffice.Website.Services.Music.Player;
-using Spoffice.Website.Models.Spotify.MetadataApi;
+using Spoffice.Website.Models.Output;
 namespace Spoffice.Website.Models
 {
     public enum TrackState
@@ -18,6 +18,7 @@ namespace Spoffice.Website.Models
     }
     public partial class Track
     {
+
         public IMusicPlayer Player;
         public IMusicDownloader Downloader;
 
@@ -118,9 +119,9 @@ namespace Spoffice.Website.Models
             State = TrackState.Failed;
             OnTrackDownloadError(this);
         }
-        public TrackNode ConvertToNode()
+        public TrackOutput AsOutput()
         {
-            TrackNode node = new TrackNode();
+            TrackOutput node = new TrackOutput();
             node.Length = Length;
             if (MusicBrainzId != null){
                 node.MusicBrainzId = (Guid)MusicBrainzId;
@@ -129,11 +130,11 @@ namespace Spoffice.Website.Models
             node.Title = Title;
             if (Album != null)
             {
-                node.Album = Album.ConvertToNode();
+                node.Album = Album.AsOutput();
             }
             if (Artist != null)
             {
-                node.Artist = Artist.ConvertToNode();
+                node.Artist = Artist.AsOutput();
             }
             return node;
         }

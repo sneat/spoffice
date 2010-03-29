@@ -9,7 +9,7 @@ using System.Web.Security;
 using System.Web.UI;
 using Spoffice.Website.Helpers;
 using Spoffice.Website.Models;
-using Spoffice.Website.Models.Spotify.MetadataApi;
+using Spoffice.Website.Models.Output;
 
 namespace Spoffice.Website.Controllers
 {
@@ -60,13 +60,13 @@ namespace Spoffice.Website.Controllers
             }
             foreach (Favourite favourite in DataContext.FavouriteRepository.GetUsersFavourites(userid))
             {
-                favs.Add(FeedNode.ConvertPrivateToPublic(favourite.Track.Id));
+                favs.Add(BaseOutput.ConvertPrivateToPublic(favourite.Track.Id));
             }
             return favs;
         }
         public ActionResult LogOn()
         {
-            return MultiformatView(typeof(LoggedInStatus), new LoggedInStatus { LoggedIn = Request.IsAuthenticated, Favourites = Request.IsAuthenticated?GetFavourites(null):null });
+            return MultiformatView(typeof(LoggedInStatusOutput), new LoggedInStatusOutput { LoggedIn = Request.IsAuthenticated, Favourites = Request.IsAuthenticated ? GetFavourites(null) : null });
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -74,24 +74,24 @@ namespace Spoffice.Website.Controllers
             Justification = "Needs to take same parameter type as Controller.Redirect()")]
         public ActionResult LogOn(string userName, string password, bool rememberMe, string returnUrl)
         {
-            LoggedInStatus status = new LoggedInStatus { LoggedIn = false };
+            LoggedInStatusOutput status = new LoggedInStatusOutput { LoggedIn = false };
             if (!ValidateLogOn(userName, password))
             {
                 status.Errors = ModelState;
-                return MultiformatView(typeof(LoggedInStatus), status);
+                return MultiformatView(typeof(LoggedInStatusOutput), status);
             }
 
             FormsAuth.SignIn(userName, rememberMe);
             status.LoggedIn = true;
 
             status.Favourites = GetFavourites(userName);
-            return MultiformatView(typeof(LoggedInStatus), status);
+            return MultiformatView(typeof(LoggedInStatusOutput), status);
         }
 
         public ActionResult LogOff()
         {
             FormsAuth.SignOut();
-            return MultiformatView(typeof(LoggedInStatus), new LoggedInStatus());
+            return MultiformatView(typeof(LoggedInStatusOutput), new LoggedInStatusOutput());
         }
 
         public ActionResult Register()

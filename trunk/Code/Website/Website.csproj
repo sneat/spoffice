@@ -113,9 +113,9 @@
     </Compile>
     <Compile Include="Models\Album.cs" />
     <Compile Include="Models\Artist.cs" />
-    <Compile Include="Models\Containers\FavouritesList.cs" />
-    <Compile Include="Models\Containers\LoggedInStatus.cs" />
-    <Compile Include="Models\Containers\Status.cs" />
+    <Compile Include="Models\Output\FavouritesListOutput.cs" />
+    <Compile Include="Models\Output\LoggedInStatusOutput.cs" />
+    <Compile Include="Models\Output\StatusOutput.cs" />
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\Repositories\AlbumRepository.cs" />
     <Compile Include="Models\Repositories\ArtistRepository.cs" />
@@ -125,19 +125,19 @@
     <Compile Include="Models\Repositories\Interfaces\IFavouriteRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\IRatingRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\ITrackRepository.cs" />
-    <Compile Include="Models\Containers\TrackHistoryList.cs" />
-    <Compile Include="Models\Containers\TrackList.cs" />
+    <Compile Include="Models\Output\TrackHistoryListOutput.cs" />
+    <Compile Include="Models\Output\TrackListOutput.cs" />
     <Compile Include="Models\Repositories\RatingRepository.cs" />
     <Compile Include="Models\Spoffice.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Spoffice.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Spotify\MetadataApi\AlbumNode.cs" />
-    <Compile Include="Models\Spotify\MetadataApi\ArtistNode.cs" />
-    <Compile Include="Models\Spotify\MetadataApi\FeedNode.cs" />
-    <Compile Include="Models\Spotify\MetadataApi\MusicSearch.cs" />
-    <Compile Include="Models\Spotify\MetadataApi\TrackNode.cs" />
+    <Compile Include="Models\Output\AlbumOutput.cs" />
+    <Compile Include="Models\Output\ArtistOutput.cs" />
+    <Compile Include="Models\Output\BaseOutput.cs" />
+    <Compile Include="Models\Spotify\MusicSearch.cs" />
+    <Compile Include="Models\Output\TrackOutput.cs" />
     <Compile Include="Models\Track.cs" />
     <Compile Include="Models\TrackProgress.cs" />
     <Compile Include="Models\Repositories\TrackRepository.cs" />

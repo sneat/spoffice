@@ -6,8 +6,9 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using SharpSpotLib.Util;
+using Spoffice.Website.Models.Output;
 
-namespace Spoffice.Website.Models.Spotify.MetadataApi
+namespace Spoffice.Website.Models.Spotify
 {
     public class MusicSearch
     {
@@ -16,29 +17,29 @@ namespace Spoffice.Website.Models.Spotify.MetadataApi
         public const string TRACK_SEARCH_URL = "http://ws.spotify.com/search/1/track?q={0}";
         public static XNamespace ns = "http://www.spotify.com/ns/music/1";
 
-        public static List<ArtistNode> SearchForArtist(string query)
+        public static List<ArtistOutput> SearchForArtist(string query)
         {
             XDocument data = XDocument.Load(String.Format(ARTIST_SEARCH_URL, query));
 
             var artists = from item in data.Descendants(ns + "artists").Elements(ns + "artist")
-                          select new ArtistNode(item);
+                          select new ArtistOutput(item);
 
             return artists.ToList();
         }
-        public static List<TrackNode> SearchForTrack(string query)
+        public static List<TrackOutput> SearchForTrack(string query)
         {
             XDocument data = XDocument.Load(String.Format(TRACK_SEARCH_URL, query));
 
             var tracks = from item in data.Descendants(ns + "tracks").Elements(ns + "track")
-                          select new TrackNode(item);
+                          select new TrackOutput(item);
             return tracks.ToList();
         }
-        public static List<AlbumNode> SearchForAlbum(string query)
+        public static List<AlbumOutput> SearchForAlbum(string query)
         {
             XDocument data = XDocument.Load(String.Format(ALBUM_SEARCH_URL, query));
 
             var albums = from item in data.Descendants(ns + "albums").Elements(ns + "album")
-                         select new AlbumNode(item);
+                         select new AlbumOutput(item);
 
             return albums.ToList();
         }

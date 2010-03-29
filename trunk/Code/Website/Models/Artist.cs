@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Spoffice.Website.Models.Spotify.MetadataApi;
+using Spoffice.Website.Models.Output;
 
 namespace Spoffice.Website.Models
 {
     public partial class Artist
     {
-        public ArtistNode ConvertToNode()
+        public ArtistOutput AsOutput()
         {
-            ArtistNode node = new ArtistNode();
+            ArtistOutput node = new ArtistOutput();
             if (MusicBrainzId != null)
             {
                 node.MusicBrainzId = (Guid)MusicBrainzId;
             }
             node.PrivateId = Id;
             node.Name = Name;
+            
             return node;
         }
     }

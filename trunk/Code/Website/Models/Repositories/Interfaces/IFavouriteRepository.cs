@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Spoffice.Website.Models.Output;
 
 namespace Spoffice.Website.Models
 {
@@ -9,7 +10,7 @@ namespace Spoffice.Website.Models
     {
         List<Favourite> GetUsersFavourites(Guid userid);
         Favourite GetTrackFavouriteForUser(Guid trackid, Guid userid);
-        Status AddToFavourites(string trackid, Guid userid);
-        Status RemoveFromFavourites(string trackid, Guid userid);
+        StatusOutput AddToFavourites(string trackid, Guid userid);
+        StatusOutput RemoveFromFavourites(string trackid, Guid userid);
     }
 }

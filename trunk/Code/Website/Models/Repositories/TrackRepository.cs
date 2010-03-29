@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Spoffice.Website.Models.Spotify.MetadataApi;
+using Spoffice.Website.Models.Output;
 
 namespace Spoffice.Website.Models
 {
@@ -99,7 +99,7 @@ namespace Spoffice.Website.Models
 
         public Track GetTrackById(string id)
         {
-            return GetTrackById(FeedNode.ConvertPublicToPrivate(id));
+            return GetTrackById(BaseOutput.ConvertPublicToPrivate(id));
         }
 
 
