@@ -47,7 +47,7 @@ namespace Spoffice.Website.Controllers
         }
         public ActionResult Current()
         {
-            return MultiformatView(typeof(TrackProgress), new TrackProgress());
+            return View();
         }
         public ActionResult Skip(string id)
         {
@@ -75,20 +75,20 @@ namespace Spoffice.Website.Controllers
         public ActionResult Artist(string id)
         {
             ModelState.Clear();
-            return MultiformatView(typeof(ArtistOutput), new ArtistOutput(id));
+            return MultiformatView(typeof(ArtistOutput), MetadataApiParser.GetArtistById(id));
         }
         public ActionResult Album(string id)
         {
             ModelState.Clear();
-            return MultiformatView(typeof(AlbumOutput), new AlbumOutput(id));
+            return MultiformatView(typeof(AlbumOutput), MetadataApiParser.GetAlbumById(id));
         }
         public RedirectResult TrackImage(string id)
         {
-            return Redirect(covergrabber.GetCoverPath(new TrackOutput(id)));
+            return Redirect(covergrabber.GetCoverPath(new TrackOutput { PublicId = id }));
         }
         public RedirectResult AlbumImage(string id)
         {
-            return Redirect(covergrabber.GetCoverPath(new AlbumOutput(id)));
+            return Redirect(covergrabber.GetCoverPath(new AlbumOutput { PublicId = id }));
         }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Vote(string id, string value)

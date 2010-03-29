@@ -19,27 +19,31 @@ namespace Spoffice.Website.Models.Spotify
 
         public static List<ArtistOutput> SearchForArtist(string query)
         {
+            MetadataApiParser parser = new MetadataApiParser();
+
             XDocument data = XDocument.Load(String.Format(ARTIST_SEARCH_URL, query));
 
             var artists = from item in data.Descendants(ns + "artists").Elements(ns + "artist")
-                          select new ArtistOutput(item);
+                          select parser.ParseArtist(item);
 
             return artists.ToList();
         }
         public static List<TrackOutput> SearchForTrack(string query)
         {
+            MetadataApiParser parser = new MetadataApiParser();
             XDocument data = XDocument.Load(String.Format(TRACK_SEARCH_URL, query));
 
             var tracks = from item in data.Descendants(ns + "tracks").Elements(ns + "track")
-                          select new TrackOutput(item);
+                         select parser.ParseTrack(item);
             return tracks.ToList();
         }
         public static List<AlbumOutput> SearchForAlbum(string query)
         {
+            MetadataApiParser parser = new MetadataApiParser();
             XDocument data = XDocument.Load(String.Format(ALBUM_SEARCH_URL, query));
 
             var albums = from item in data.Descendants(ns + "albums").Elements(ns + "album")
-                         select new AlbumOutput(item);
+                         select parser.ParseAlbum(item);
 
             return albums.ToList();
         }

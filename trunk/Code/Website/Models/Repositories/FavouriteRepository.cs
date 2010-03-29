@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Spoffice.Website.Models.Output;
+using Spoffice.Website.Models.Spotify;
 
 namespace Spoffice.Website.Models
 {
@@ -38,7 +39,7 @@ namespace Spoffice.Website.Models
             StatusOutput result = new StatusOutput();
             Boolean dbChanged = false;
 
-            TrackOutput trackNode = new TrackOutput(trackid);
+            TrackOutput trackNode = MetadataApiParser.GetTrackById(trackid);
             ArtistOutput artistNode = trackNode.Artist;
             AlbumOutput albumNode = trackNode.Album;
 

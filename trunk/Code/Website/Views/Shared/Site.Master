@@ -19,7 +19,6 @@
  <div id="static-content">
    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
  </div>
-<% Html.ScriptManager().Render(); %>
 
 <div id="login-form">
  <form>
@@ -62,5 +61,7 @@
     </div>
    </div>
   </div>
+  
+<% Html.ScriptManager().Render(); %>
  </body>
 </html>
