@@ -41,8 +41,6 @@ namespace Spoffice.Website.Controllers
         
         public ActionResult Search(string id)
         {
-            ViewData["search_term"] = id;
-            ModelState.Clear();
             return MultiformatView(typeof(TrackListOutput), new TrackListOutput { Tracks = MusicSearch.SearchForTrack(id) });
         }
         public ActionResult Current()
@@ -57,29 +55,17 @@ namespace Spoffice.Website.Controllers
 
         public ActionResult Playlist()
         {
-            int start = 0;
-            if (!String.IsNullOrEmpty(Request.QueryString["from"]))
-            {
-                start = Convert.ToInt32(Request.QueryString["from"]);
-            }
-            int amount = 40;
-            if (!String.IsNullOrEmpty(Request.QueryString["amount"]))
-            {
-                amount = Convert.ToInt32(Request.QueryString["amount"]);
-            }
-            return MultiformatView(typeof(TrackHistoryListOutput), new TrackHistoryListOutput
-            {
-                TrackHistories = DataContext.Context.TrackHistories.Include("Track.Artist").Include("Track.Album").OrderByDescending(t => t.Datetime).Skip(start).Take(amount).ToList()
-            });
+            int start = String.IsNullOrEmpty(Request.QueryString["from"]) ? 0 : Convert.ToInt32(Request.QueryString["from"]);
+            int amount = String.IsNullOrEmpty(Request.QueryString["amount"]) ? 40 : Convert.ToInt32(Request.QueryString["amount"]);
+
+            return MultiformatView(typeof(TrackHistoryListOutput), new TrackHistoryListOutput(DataContext.Context.TrackHistories.Include("Track.Artist").Include("Track.Album").OrderByDescending(t => t.Datetime).Skip(start).Take(amount).ToList()));
         }
         public ActionResult Artist(string id)
         {
-            ModelState.Clear();
             return MultiformatView(typeof(ArtistOutput), MetadataApiParser.GetArtistById(id));
         }
         public ActionResult Album(string id)
         {
-            ModelState.Clear();
             return MultiformatView(typeof(AlbumOutput), MetadataApiParser.GetAlbumById(id));
         }
         public RedirectResult TrackImage(string id)

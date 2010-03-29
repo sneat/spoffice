@@ -14,11 +14,8 @@ namespace Spoffice.Website.Controllers
     [HandleError]
     public class HomeController : BaseController
     {
-        spofficeEntities _db;
-
         public HomeController()
         {
-            _db = new spofficeEntities();
         }
 
         public ActionResult Index()

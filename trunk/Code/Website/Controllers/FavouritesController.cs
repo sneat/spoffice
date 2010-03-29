@@ -19,20 +19,15 @@ namespace Spoffice.Website.Controllers
         }
         public ActionResult Index()
         {
-            return MultiformatView(typeof(FavouritesListOutput), new FavouritesListOutput { Favourites = DataContext.FavouriteRepository.GetUsersFavourites(UserGuid) });
+            return MultiformatView(typeof(FavouritesListOutput), new FavouritesListOutput(DataContext.FavouriteRepository.GetUsersFavourites(UserGuid)));
         }
         public ActionResult Add(string id)
         {
-            ModelState.Clear();
-            StatusOutput status = DataContext.FavouriteRepository.AddToFavourites(id, UserGuid);
-            return MultiformatView(typeof(StatusOutput), status, RedirectToAction("Search", "Music"));
+            return MultiformatView(typeof(StatusOutput), DataContext.FavouriteRepository.AddToFavourites(id, UserGuid));
         }
         public ActionResult Remove(string id)
         {
-            ModelState.Clear();
-            StatusOutput status = DataContext.FavouriteRepository.RemoveFromFavourites(id, UserGuid);
-            string referrer = Request.UrlReferrer.AbsolutePath.ToString();
-            return MultiformatView(typeof(StatusOutput), status, RedirectToAction("Search", "Music"));
+            return MultiformatView(typeof(StatusOutput), DataContext.FavouriteRepository.RemoveFromFavourites(id, UserGuid));
         }
     }
  
