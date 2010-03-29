@@ -317,6 +317,7 @@
     <Content Include="Scripts\jquery.layout.min.js" />
     <Content Include="Scripts\jquery.tablednd.js" />
     <Content Include="Scripts\jquery.ui.all.js" />
+    <Content Include="Scripts\lazyloader.jquery.js" />
     <Content Include="Scripts\MusicInfoUpdater.js" />
     <Content Include="Views\Shared\Welcome.ascx" />
   </ItemGroup>

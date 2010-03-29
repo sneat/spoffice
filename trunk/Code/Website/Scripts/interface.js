@@ -643,6 +643,6 @@
 /**
  * When the DOM is ready, run the spofficeInterface on the document body
  */
- $(function (){
+$(function() {
     $(document.body).spofficeInterface();
- });
+});
