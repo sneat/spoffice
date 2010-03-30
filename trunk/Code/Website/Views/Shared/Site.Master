@@ -13,11 +13,14 @@
     <% Html.ScriptManager().ScriptInclude("interface", "~/Scripts/interface.js"); %>
     <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="../../Content/themes/jquery.themes.css" rel="stylesheet" type="text/css" />
-    <link href="../../Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" id="themecss" />
+    <link href="../../Content/themes/smoothness/jquery.ui.all.css" rel="stylesheet" type="text/css" id="themecss" />
 </head>
 <body class="ui-widget-shadow">
 
-   <div id="switcher"></div>
+   <div id="themes" class="ui-state-default">
+    <div id="themes_label" title="Change theme"></div>
+    <div id="switcher"></div>
+   </div>
  <script type="text/javascript">
      document.write('<div id="loading"></div>');
  </script>
@@ -39,7 +42,7 @@
 </div>
 <div id="layout">
   <div id="header">
-   <h1><a runat="server" href="~/" title="Spoffice home"><img src="~/Content/spoffice.png" runat="server" /></a></h1>
+   <h1><a runat="server" href="~/" title="Spoffice home"><img src="~/Content/spoffice.png" runat="server" alt="Spoffice logo" /></a></h1>
    <form id="search-form">
    <input type="text" name="id" id="search" /> 
    <input type="submit" name="Search" value="Search" />

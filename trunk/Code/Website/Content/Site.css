@@ -19,12 +19,22 @@ h1 a img
 	border: 0;
 	outline: 0;
 }
-#switcher
+#themes
 {
     position: absolute;
-    top: 106px;
+    top: 105px;
     right: 10px;
     z-index: 9;
+    height: 26px;
+}
+#switcher {
+    display: none;
+}
+#themes_label {
+    background: url(themes/img/themeroller.png) no-repeat center center;
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
 }
 #login-form 
 {

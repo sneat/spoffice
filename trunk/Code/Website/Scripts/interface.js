@@ -656,12 +656,18 @@ function reloadIE(id, display, url) {
  * When the DOM is ready, run the spofficeInterface on the document body
  */
 $(function() {
-    $.themes.init({ themeBase: 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/',
-        icons: 'Content/themes/themes.gif',
-        previews: 'Content/themes/themes-preview.gif',
-        onSelect: reloadIE,
-        showPreview: false
+    $('#themes').click(function() {
+        var offset = $(this).offset();
+        $('#switcher').css('left', offset.left).
+            css('top', offset.top + $(this).outerHeight());
+        $('#switcher,#themes_label').toggle();
     });
+    $.themes.init({ themeBase: 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/',
+        icons: 'Content/themes/img/themes.gif',
+        previews: 'Content/themes/img/themes-preview.gif',
+        onSelect: reloadIE
+    });
+    $('#switcher').themes();
     
     $(document.body).spofficeInterface();
 });
