@@ -31,7 +31,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(CCNetWorkingDirectory)' != '' ">
     <SourceFileRootFolder>$(CCNetWorkingDirectory)</SourceFileRootFolder>
-    <OutputPath>..\..\..\release</OutputPath>
+    <OutputPath>..\..\release</OutputPath>
     <UseMerge>false</UseMerge>
   </PropertyGroup>
   <ItemGroup>
