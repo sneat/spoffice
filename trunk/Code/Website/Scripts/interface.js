@@ -14,10 +14,11 @@
             artistAccordionDiv: '#artistaccordion',
             albumAccordionDiv: '#albumaccordion',
             trackHistoryDiv: '#trackhistory',
+            searchDiv: '#searchresults',
 
             searchForm: '#search-form',
             switcher: '#switcher',
-            resultsTab : '#results-tab',
+            resultsTab: '#results-tab',
 
             footerDistance: 150,
 
@@ -54,6 +55,7 @@
             var layout;
             var tabs;
             var trackHistoryTable;
+            var searchTable;
             var oldTrackHistoryTop = 0;
             var artistaccordion;
             var albumaccordion;
@@ -230,13 +232,7 @@
 
                 $(config.switcher).themes();
 
-                $(config.searchForm).submit(function() {
-                    load("/Music/Search/" + $(this).find("input[type=text]").val(), null, function(data) {
-                        $(config.resultsTab).show();
-                        tabs.tabs("select", 4);
-                    });
-                    return false;
-                }).find('input[type=submit]').button();
+                $(config.searchForm).submit(search).find('input[type=submit]').button();
             }
 
             /**
@@ -266,6 +262,32 @@
                         $(trackHistoryTable).appendTo(trackHistoryDiv);
                     });
                 }
+            }
+
+            /**
+            * Search for a track and list the results
+            */
+            function search() {
+                var search_value = $(this).find("input[type=text]").val();
+                load("/Music/Search/" + search_value, null, function(data) {
+                    $(config.resultsTab).show().find("a").html("Search Results: " + search_value);
+                    tabs.tabs("select", 4);
+                    if (searchTable == null) {
+                        var searchDiv = $(config.searchDiv);
+                        searchDiv.empty();
+                        searchTable = $("<table></table>").appendTo(searchDiv);
+                    }
+                    searchTable.empty();
+                    for (var i = 0; i < data.Tracks.length; i++) {
+                        var item = data.Tracks[i];
+                        var row = $("<tr />");
+                        row.append(createTrackTd(item));
+                        row.append(createArtistTd(item.Artist));
+                        row.append(createAlbumTd(item.Album));
+                        row.appendTo(searchTable);
+                    }
+                });
+                return false;
             }
 
             /**
