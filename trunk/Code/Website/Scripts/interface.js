@@ -248,11 +248,15 @@
                     trackHistoryDiv.empty();
                     trackHistoryTable = $("<table></table>").appendTo(trackHistoryDiv);
                     setupElementAsScrolling("/Music/Playlist", trackHistoryDiv, trackHistoryTable, 20, "History", function(data) {
+                        var now = new Date().getTime();
                         var rowcount = data.History.length;
                         for (var i = 0; i < rowcount; i++) {
                             var item = data.History[i];
                             var row = $("<tr />");
                             // Create the row containing the track history data
+                            var time = new Date(item.Timestamp).getTime();
+                            console.log(new Date(item.Timestamp));
+                            console.log(formatMillisecondsTimeSpan(now - time));
                             row.append(createTrackTd(item.Track));
                             row.append(createTrackLengthTd(item.Track));
                             row.append(createArtistTd(item.Track.Artist));
@@ -282,6 +286,7 @@
                         var item = data.Tracks[i];
                         var row = $("<tr />");
                         row.append(createTrackTd(item));
+                        row.append(createTrackLengthTd(item));
                         row.append(createArtistTd(item.Artist));
                         row.append(createAlbumTd(item.Album));
                         row.appendTo(searchTable);
@@ -613,6 +618,40 @@
                     loginButton.html("Login");
                     loginForm.dialog();
                 }
+            }
+
+            function formatMillisecondsTimeSpan(millis) {
+                var s = function(n) { return n == 1 ? '' : 's' };
+                var seconds = millis / 1000;
+                if (seconds < 0) {
+                    return 'just now';
+                }
+                if (seconds < 60) {
+                    var n = seconds;
+                    return n + ' second' + s(n) + ' ago';
+                }
+                if (seconds < 60 * 60) {
+                    var n = Math.floor(seconds / 60);
+                    return n + ' minute' + s(n) + ' ago';
+                }
+                if (seconds < 60 * 60 * 24) {
+                    var n = Math.floor(seconds / 60 / 60);
+                    return n + ' hour' + s(n) + ' ago';
+                }
+                if (seconds < 60 * 60 * 24 * 7) {
+                    var n = Math.floor(seconds / 60 / 60 / 24);
+                    return n + ' day' + s(n) + ' ago';
+                }
+                if (seconds < 60 * 60 * 24 * 31) {
+                    var n = Math.floor(seconds / 60 / 60 / 24 / 7);
+                    return n + ' week' + s(n) + ' ago';
+                }
+                if (seconds < 60 * 60 * 24 * 365) {
+                    var n = Math.floor(seconds / 60 / 60 / 24 / 31);
+                    return n + ' month' + s(n) + ' ago';
+                }
+                var n = Math.floor(seconds / 60 / 60 / 24 / 365);
+                return n + ' year' + s(n) + ' ago';
             }
 
             /**

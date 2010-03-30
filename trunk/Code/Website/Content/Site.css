@@ -48,7 +48,8 @@ h1 a img
 	right: 10px;
 }
 #trackhistory,
-#favourites
+#favourites,
+#searchresults
 {
 	overflow: auto;
 	height: 100%;
