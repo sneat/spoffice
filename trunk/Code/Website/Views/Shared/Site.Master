@@ -16,6 +16,8 @@
     <link href="../../Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" id="themecss" />
 </head>
 <body class="ui-widget-shadow">
+
+   <div id="switcher"></div>
  <script type="text/javascript">
      document.write('<div id="loading"></div>');
  </script>
@@ -38,7 +40,10 @@
 <div id="layout">
   <div id="header">
    <h1><a runat="server" href="~/" title="Spoffice home"><img src="~/Content/spoffice.png" runat="server" /></a></h1>
-   <div id="switcher"></div>
+   <form id="search-form">
+   <input type="text" name="id" id="search" /> 
+   <input type="submit" name="Search" value="Search" />
+   </form>
   </div>
   <div id="main">
    <ul id="tabs">

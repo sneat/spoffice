@@ -14,15 +14,28 @@ h1
 	margin-top: 20px;
 	margin-left: 15px;
 }
+h1 a img
+{
+	border: 0;
+	outline: 0;
+}
 #switcher
 {
     position: absolute;
-    bottom: 5px;
-    right: 5px;
+    top: 106px;
+    right: 10px;
+    z-index: 9;
 }
 #login-form 
 {
     display: none;
+}
+
+#search-form 
+{
+	position: absolute;
+	top: 50%;
+	right: 10px;
 }
 #trackhistory,
 #favourites
@@ -43,7 +56,7 @@ h1
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	z-index: 2;
+	z-index: 10;
 }
 table {
 	width: 100%;

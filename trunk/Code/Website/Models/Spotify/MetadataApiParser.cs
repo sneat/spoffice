@@ -77,16 +77,24 @@ namespace Spoffice.Website.Models.Spotify
         #region track parsing
         public TrackOutput ParseTrack(string id)
         {
-            return ParseTrack(GetData(id, "http://ws.spotify.com/lookup/1/?uri={0}", "track", String.Format("{0}:{1}:{2}", "spotify", "track", id)));
+            return ParseTrack(GetData(id, "http://ws.spotify.com/lookup/1/?uri={0}", "track", String.Format("{0}:{1}:{2}", "spotify", "track", id)), id);
         }
         public TrackOutput ParseTrack(XDocument track)
         {
-            return ParseTrack(track.Element(MusicSearch.ns + "track"));
+            return ParseTrack(track, null);
         }
-        public TrackOutput ParseTrack(XElement track)
+        public TrackOutput ParseTrack(XDocument track, string id)
+        {
+            return ParseTrack(track.Element(MusicSearch.ns + "track"), id);
+        }
+        public TrackOutput ParseTrack(XElement track, string id)
         {
             TrackOutput output = new TrackOutput();
             output.PublicId = ParseHref(track);
+            if (String.IsNullOrEmpty(output.PublicId) && !String.IsNullOrEmpty(id))
+            {
+                output.PublicId = id;
+            }
             output.MusicBrainzId = ParseMusicBrainz(track);
 
             XElement xname = track.Element(MusicSearch.ns + "name");
@@ -106,6 +114,11 @@ namespace Spoffice.Website.Models.Spotify
                 output.Length = (int)(Convert.ToDouble(xlength.Value) * 1000);
 
             return output;
+
+        }
+        public TrackOutput ParseTrack(XElement track)
+        {
+            return ParseTrack(track, null);
         }
         #endregion
 
@@ -171,8 +184,9 @@ namespace Spoffice.Website.Models.Spotify
         {
             XAttribute xhref = root.Attribute("href");
             if (xhref != null)
+            {
                 return new SpotifyURI(xhref.Value).Id;
-
+            }
             return null;
         }
 

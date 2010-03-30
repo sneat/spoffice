@@ -15,6 +15,10 @@
             albumAccordionDiv: '#albumaccordion',
             trackHistoryDiv: '#trackhistory',
 
+            searchForm: '#search-form',
+            switcher: '#switcher',
+            resultsTab : '#results-tab',
+
             footerDistance: 150,
 
             artistLocation: 'west',
@@ -223,6 +227,16 @@
                 albumaccordion = $(config.albumAccordionDiv);
                 centrallayout.hide(config.artistLocation);
                 centrallayout.hide(config.albumLocation);
+
+                $(config.switcher).themes();
+
+                $(config.searchForm).submit(function() {
+                    load("/Music/Search/" + $(this).find("input[type=text]").val(), null, function(data) {
+                        $(config.resultsTab).show();
+                        tabs.tabs("select", 4);
+                    });
+                    return false;
+                }).find('input[type=submit]').button();
             }
 
             /**
@@ -306,6 +320,9 @@
                         load("/Favourites/Remove/" + id, null, function(data) {
                             if (data.StatusCode == "OK") {
                                 favourites.splice(index, 1);
+                                if (favouritesTable != null) {
+                                    favouritesTable.find("a[trackid=" + id + "]").parents("tr").fadeOut("slow", function() { $(this).remove(); }); ;
+                                }
                                 $(document.body).find("a[trackid=" + id + "]").find(".ui-icon")
                                     .removeClass("ui-icon-circle-minus").addClass("ui-icon-circle-plus");
                             }
@@ -314,7 +331,7 @@
                         // Track is not already a Favourite, therefore we want to add it
                         load("/Favourites/Add/" + id, null, function(data) {
                             if (data.StatusCode == "OK") {
-                                favourites.push(id);
+                                favourites.push(data.Favourite);
                                 $(document.body).find("a[trackid=" + id + "]").find(".ui-icon")
                                     .removeClass("ui-icon-circle-plus").addClass("ui-icon-circle-minus");
                             }
@@ -534,37 +551,6 @@
                 });
             }
 
-            /**
-            * Adds track favourites rows to the trackhistory container, fading them in nicely
-            * @param {Object[]} data The rows of data to be added
-            * @param {Object} data.History The trackFavourites object
-            * @param {Object} data.History.Track The Track object
-            * @param {Object} data.History.Track.Artist The track Artist object
-            * @param {Object} data.History.Track.Album The track Album object
-            * TODO Add config option for fadeIn
-            */
-            function addFavouritesRows(data) {
-                var rows = [];
-                var rowCount = data.History.length;
-                for (var i = 0; i < rowCount; i++) {
-                    var historyItem = data.History[i];
-                    var row = $("<tr />");
-                    // Create the row containing the track favourites data
-                    row.append(createTrackTd(historyItem.Track));
-                    row.append(createTrackLengthTd(historyItem.Track));
-                    row.append(createArtistTd(historyItem.Track.Artist));
-                    row.append(createAlbumTd(historyItem.Track.Album));
-                    // Add the row to the trackHistoryTable variable
-                    rows.push(row.appendTo(trackHistoryTable));
-                    rows[i].find("td").hide();
-                }
-                // Append the trackHistoryTable to the trackhistory container
-                $(trackHistoryTable).appendTo(config.trackHistoryDiv);
-                var rowsCount = rows.length;
-                for (var i = 0; i < rowsCount; i++) {
-                    rows[i].find("td").delay(10 * i).fadeIn(100);
-                }
-            }
 
             /**
             * @returns {Boolean} Whether the login form exists and is visible
@@ -651,8 +637,9 @@ $(function() {
     $.themes.init({ themeBase: 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/',
         icons: 'Content/themes/themes.gif',
         previews: 'Content/themes/themes-preview.gif',
-        onSelect: reloadIE
+        onSelect: reloadIE,
+        showPreview: false
     });
-    $('#switcher').themes();
+    
     $(document.body).spofficeInterface();
 });

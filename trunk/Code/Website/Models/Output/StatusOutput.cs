@@ -9,5 +9,6 @@ namespace Spoffice.Website.Models.Output
     {
         public string StatusCode { get; set; }
         public string Message { get; set; }
+        public FavouriteOutput Favourite { get; set; }
     }
 }

@@ -38,7 +38,6 @@ namespace Spoffice.Website.Models
         {
             StatusOutput result = new StatusOutput();
             Boolean dbChanged = false;
-
             TrackOutput trackNode = MetadataApiParser.GetTrackById(trackid);
             ArtistOutput artistNode = trackNode.Artist;
             AlbumOutput albumNode = trackNode.Album;
@@ -127,7 +126,8 @@ namespace Spoffice.Website.Models
                     DataContext.Context.SaveChanges();
                     result = new StatusOutput
                     {
-                        StatusCode = "OK"
+                        StatusCode = "OK",
+                        Favourite = favourite.AsOutput()
                     };
                 }
                 catch
@@ -143,7 +143,7 @@ namespace Spoffice.Website.Models
             {
                 result = new StatusOutput
                 {
-                    StatusCode = "OK",
+                    StatusCode = "Error",
                     Message = ViewRes.FavouritesStrings.NothingToAdd
                 };
             }
