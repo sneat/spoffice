@@ -22,18 +22,20 @@ h1 a img
 #themes
 {
     position: absolute;
-    top: 105px;
+    top: 106px;
     right: 10px;
     z-index: 9;
-    height: 26px;
+    height: 25px;
+    margin: auto;
+    line-height: 25px; /* the same as the height */
+    text-align: center;
 }
 #switcher {
     display: none;
 }
 #themes_label {
-    background: url(themes/img/themeroller.png) no-repeat center center;
-    width: 30px;
-    height: 25px;
+    width: 28px;
+    height: 23px;
     cursor: pointer;
 }
 #login-form 

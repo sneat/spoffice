@@ -7,7 +7,7 @@
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
     <% Html.ScriptManager().ScriptInclude("jquery", "~/Scripts/jquery-latest.min.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_ui", "~/Scripts/jquery-ui-1.8.custom.min.js"); %>
-    <% Html.ScriptManager().ScriptInclude("jquery_ui_themeswitcher", "~/Scripts/jquery.themes.min.js"); %>
+    <% Html.ScriptManager().ScriptInclude("jquery_ui_themeswitcher", "~/Scripts/jquery.themes.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_layout", "~/Scripts/jquery.layout.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_lazyloader", "~/Scripts/lazyloader.jquery.js"); %>
     <% Html.ScriptManager().ScriptInclude("interface", "~/Scripts/interface.js"); %>
@@ -17,8 +17,8 @@
 </head>
 <body class="ui-widget-shadow">
 
-   <div id="themes" class="ui-state-default">
-    <div id="themes_label" title="Change theme"></div>
+   <div id="themes" class="ui-widget">
+    <div id="themes_label" title="Change theme" class="ui-widget-header ui-state-default"><img src="~/Content/themes/img/themeroller.png" runat="server" alt="Change theme" /></div>
     <div id="switcher"></div>
    </div>
  <script type="text/javascript">
