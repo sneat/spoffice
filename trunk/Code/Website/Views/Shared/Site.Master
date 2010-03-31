@@ -28,15 +28,43 @@
    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
  </div>
 
-<div id="login-form">
+<div id="login-form" title="Login">
  <form>
    <fieldset>
-    <label>{username}</label>
-    <input type="text" name="username" password="username" />
-    <label>{password}</label>
-    <input type="password" name="password" password="password" />
-    <input type="checkbox" value="true" name="rememberMe" id="rememberMe" />
-    <input type="hidden" value="false" name="rememberMe" />
+    <div class="form-row">
+        <label>{username}</label>
+        <input type="text" name="username" ref="userName" class="textfield ui-widget-content ui-corner-all" />
+    </div>
+    <div class="form-row">
+        <label>{password}</label>
+        <input type="password" name="password" ref="password" class="textfield ui-widget-content ui-corner-all" />
+    </div>
+    <div class="form-row">
+        <input type="checkbox" value="true" name="rememberMe" ref="rememberMe" /> <label>Remember me</label>
+        <input type="hidden" value="false" name="rememberMe" />
+    </div>
+   </fieldset>
+  </form>
+</div>
+<div id="register-form" title="Register">
+ <form>
+   <fieldset>
+    <div class="form-row">
+        <label>{username}</label>
+        <input type="text" name="username" ref="userName" class="textfield ui-widget-content ui-corner-all" />
+    </div>
+    <div class="form-row">
+        <label>{email}</label>
+        <input type="text" name="email" ref="email" class="textfield ui-widget-content ui-corner-all" />
+    </div>
+    <div class="form-row">
+        <label>{password}</label>
+        <input type="password" name="password" ref="password" class="textfield ui-widget-content ui-corner-all" />
+    </div>
+    <div class="form-row">
+        <label>{confirmpassword}</label>
+        <input type="password" name="confirmpassword" ref="confirmpassword" />
+    </div>
    </fieldset>
   </form>
 </div>

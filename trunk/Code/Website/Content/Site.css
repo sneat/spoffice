@@ -38,7 +38,18 @@ h1 a img
     height: 23px;
     cursor: pointer;
 }
-#login-form 
+form .ui-state-error 
+{
+	padding: 0pt 0.7em;
+	margin-bottom: 10px;
+}
+form .ui-state-error p span.ui-icon
+{
+	float: left;
+	margin-right: 0.3em;
+}
+#login-form,
+#register-form
 {
     display: none;
 }
@@ -61,6 +72,10 @@ h1 a img
 {
     display: none;
 }
+.ui-widget-overlay 
+{
+	position: fixed !important;  
+}
 #loading 
 {
 	width: 100%;
@@ -70,6 +85,31 @@ h1 a img
 	top: 0px;
 	left: 0px;
 	z-index: 10;
+}
+fieldset 
+{
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+.form-row 
+{
+	overflow: hidden;
+	zoom: 1;
+	margin-bottom: 10px;
+}
+.form-row label 
+{
+	width: 120px;
+	padding-top: 2px;
+	display: block;
+	float: left;
+}
+.form-row input.textfield 
+{
+	 padding: .4em; 
+	 float: left;
+	 margin: 0 !important;
 }
 table {
 	width: 100%;

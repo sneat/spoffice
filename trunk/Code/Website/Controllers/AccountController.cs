@@ -78,16 +78,12 @@ namespace Spoffice.Website.Controllers
 
         public ActionResult Register()
         {
-
-            ViewData["PasswordLength"] = MembershipService.MinPasswordLength;
-
-            return View();
+            return MultiformatView(typeof(LoggedInStatusOutput), new LoggedInStatusOutput());
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Register(string userName, string email, string password, string confirmPassword)
         {
-
             ViewData["PasswordLength"] = MembershipService.MinPasswordLength;
 
             if (ValidateRegistration(userName, email, password, confirmPassword))
@@ -98,7 +94,7 @@ namespace Spoffice.Website.Controllers
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     FormsAuth.SignIn(userName, false /* createPersistentCookie */);
-                    return RedirectToAction("Index", "Home");
+                    return MultiformatView(typeof(LoggedInStatusOutput), new LoggedInStatusOutput{ LoggedIn = true });
                 }
                 else
                 {
@@ -107,7 +103,7 @@ namespace Spoffice.Website.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View();
+            return MultiformatView(typeof(RegisterStatusOutput), new RegisterStatusOutput {  Success = false, Errors = ModelState});
         }
 
         [Authorize]

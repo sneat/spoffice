@@ -64,6 +64,8 @@
             var favouritesTable;
             var oldFavouritesTop = 0;
             var favourites = null;
+            var registerForm = null;
+            var registerButton = null;
             var icons = {
                 header: "ui-icon-folder-collapsed",
                 headerSelected: "ui-icon-folder-open"
@@ -134,8 +136,36 @@
                 } else {
                     if (!isLoginFormVisible()) {
                         displayLoginForm();
+                    } else {
+                        loginButton.find(".ui-button-text").html("Login");
+                        if (data.ErrorMessages != null && data.ErrorMessages.length > 0) {
+                            var messages = [];
+                            for (var i = 0; i < data.ErrorMessages.length; i++) {
+                                var error = data.ErrorMessages[i];
+                                loginForm.find("input[ref=" + error.Field + "]").addClass("ui-state-error");
+                                for (var a = 0; a < error.Message.length; a++) {
+                                    messages.push({ label: "Error", message: error.Message[0] });
+                                }
+                            }
+                            var errorMsg = createErrorMessage(messages).hide();
+                            loginForm.find("fieldset").prepend(errorMsg);
+                            errorMsg.slideDown();
+                        }
                     }
                 }
+            }
+
+            /**
+            * Creates an error message. This does not append to the HTML
+            * @param {String} label The label for the message
+            * @param {String} The text for the message
+            */
+            function createErrorMessage(messages) {
+                var outerdiv = $('<div class="ui-state-error ui-corner-all" />');
+                for (var i = 0; i < messages.length; i++) {
+                    outerdiv.append('<p><span class="ui-icon ui-icon-alert"></span><strong>' + messages[i].label + '</strong> ' + messages[i].message + '</p>');
+                }
+                return outerdiv;
             }
 
             /**
@@ -610,12 +640,15 @@
                         buttons: {
                             'Login': function() {
                                 submitLoginForm($(this).find("form"));
+                            },
+                            'Register': function() {
+                                displayRegisterForm();
                             }
                         }
                     });
                 } else {
                     // Reset the login button and create the dialog window again
-                    loginButton.html("Login");
+                    loginButton.find(".ui-button-text").html("Login");
                     loginForm.dialog();
                 }
             }
@@ -663,8 +696,62 @@
                     // Find the login button
                     loginButton = loginForm.parent().find("button:contains(Login)");
                 }
-                loginButton.html("Wait..");
+                loginButton.find(".ui-button-text").html("Wait..");
+                form.find('div.ui-state-error').slideUp();
+                form.find('input.ui-state-error').removeClass("ui-state-error");
                 load("/Account/Logon", form.serialize());
+            }
+
+            function displayRegisterForm() {
+                if (registerForm == null) {
+                    registerForm = $('#register-form');
+                    $(registerForm).find("form").submit(function() {
+                        submitLoginForm($(this));
+                        return false;
+                    });
+                    registerForm.show();
+                    registerForm.dialog({
+                        width: 350,
+                        modal: false,
+                        closeOnEscape: false,
+                        autoResize: true,
+                        buttons: {
+                            'Register': function() {
+                                submitRegisterForm(registerForm.find("form"));
+                            }
+                        }
+                    });
+                } else {
+                    registerForm.dialog("open");
+                }
+            }
+
+            function submitRegisterForm(form) {
+                if (registerButton == null) {
+                    // Find the login button
+                    registerButton = registerForm.parent().find("button:contains(Register)");
+                }
+                registerButton.find(".ui-button-text").html("Wait..");
+                form.find('div.ui-state-error').slideUp();
+                form.find('input.ui-state-error').removeClass("ui-state-error");
+                load("/Account/Register", form.serialize(), function(data) {
+                    registerButton.find(".ui-button-text").html("Register");
+                    if (!data.Success) {
+                        if (data.ErrorMessages != null && data.ErrorMessages.length > 0) {
+                            var messages = [];
+                            for (var i = 0; i < data.ErrorMessages.length; i++) {
+                                var error = data.ErrorMessages[i];
+                                for (var a = 0; a < error.Message.length; a++) {
+                                    registerForm.find("input[ref=" + error.Field + "]").addClass("ui-state-error");
+                                    messages.push({ label: 'Error', message: error.Message[a] });
+                                }
+                            }
+                            var errorMsg = createErrorMessage(messages).hide();
+                            registerForm.find("fieldset").prepend(errorMsg);
+                            errorMsg.slideDown();
+                        }
+                    }
+                });
             }
 
             /**
