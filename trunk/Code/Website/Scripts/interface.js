@@ -79,8 +79,10 @@
             * Called when the class initially loads
             */
             function init() {
-                removeStaticContent();
-                getLoginStatus();
+                $.localise('Scripts/i18n/Strings', { language: 'fr', callback: function() {
+                        removeStaticContent();
+                        getLoginStatus();
+                 } });
             }
 
             /**
@@ -659,6 +661,13 @@
                         return false;
                     });
                     // Create the dialog window
+                    var buttons = {};
+                    buttons[Login] = function() {
+                        submitLoginForm($(this).find("form"));
+                    };
+                    buttons[Register] = function() {
+                        displayRegisterForm();
+                    };
                     loginForm.dialog({
                         width: 350,
                         modal: true,
@@ -667,14 +676,7 @@
                         open: function() {
                             $(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
                         },
-                        buttons: {
-                            'Login': function() {
-                                submitLoginForm($(this).find("form"));
-                            },
-                            'Register': function() {
-                                displayRegisterForm();
-                            }
-                        }
+                        buttons: buttons
                     });
                 } else {
                     // Reset the login button and create the dialog window again

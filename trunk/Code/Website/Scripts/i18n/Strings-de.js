@@ -1,0 +1,14 @@
+﻿ChangeTheme='Theme ändern';
+ConfirmPassword='Confim Passwort';
+Email='E-Mail';
+Home='Nach Hause';
+Login='Login';
+ManageFavourites='Favoriten verwalten';
+MyAccount='Ihr Konto';
+Password='Kennwort';
+Register='Register';
+RememberMe='Remember Me';
+Search='Suche';
+SearchResults='Search Results';
+TrackHistory='Trackaufzeichnung';
+Username='Benutzername';

@@ -6,6 +6,8 @@
 <head runat="server">
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
     <% Html.ScriptManager().ScriptInclude("jquery", "~/Scripts/jquery-latest.min.js"); %>
+    <% Html.ScriptManager().ScriptInclude("jquery_i18n", "~/Scripts/jquery.localisation.js"); %>
+    <% Html.ScriptManager().ScriptInclude("jquery_i18n_strings", "~/Scripts/i18n/Strings.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_ui", "~/Scripts/jquery-ui-1.8.custom.min.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_ui_themeswitcher", "~/Scripts/jquery.themes.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_layout", "~/Scripts/jquery.layout.js"); %>
@@ -29,41 +31,41 @@
    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
  </div>
 
-<div id="login-form" title="Login">
+<div id="login-form" title="<%= Res.Strings.Login %>">
  <form>
    <fieldset>
     <div class="form-row">
-        <label>{username}</label>
+        <label><%= Res.Strings.Username %></label>
         <input type="text" name="username" ref="userName" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
-        <label>{password}</label>
+        <label><%= Res.Strings.Password %></label>
         <input type="password" name="password" ref="password" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
-        <input type="checkbox" value="true" name="rememberMe" ref="rememberMe" /> <label>Remember me</label>
+        <input type="checkbox" value="true" name="rememberMe" ref="rememberMe" /> <label><%= Res.Strings.RememberMe %></label>
         <input type="hidden" value="false" name="rememberMe" />
     </div>
    </fieldset>
   </form>
 </div>
-<div id="register-form" title="Register">
+<div id="register-form" title="<%= Res.Strings.Register %>">
  <form>
    <fieldset>
     <div class="form-row">
-        <label>{username}</label>
+        <label><%= Res.Strings.Username %></label>
         <input type="text" name="username" ref="userName" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
-        <label>{email}</label>
+        <label><%= Res.Strings.Email %></label>
         <input type="text" name="email" ref="email" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
-        <label>{password}</label>
+        <label><%= Res.Strings.Password %></label>
         <input type="password" name="password" ref="password" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
-        <label>{confirmpassword}</label>
+        <label><%= Res.Strings.ConfirmPassword %></label>
         <input type="password" name="confirmpassword" ref="confirmpassword" />
     </div>
    </fieldset>
@@ -85,11 +87,11 @@
   </div>
   <div id="main">
    <ul id="tabs">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#trackhistory">Track History</a></li>
-    <li><a href="#favourites">Manage Favourites</a></li>
-    <li><a href="#myaccount">My Account</a></li>
-    <li id="results-tab"><a href="#searchresults">Search Results</a></li>
+    <li><a href="#home"><%= Res.Strings.Home %></a></li>
+    <li><a href="#trackhistory"><%= Res.Strings.TrackHistory %></a></li>
+    <li><a href="#favourites"><%= Res.Strings.ManageFavourites %></a></li>
+    <li><a href="#myaccount"><%= Res.Strings.MyAccount %></a></li>
+    <li id="results-tab"><a href="#searchresults"><%= Res.Strings.SearchResults %></a></li>
    </ul>
     <div class="tabs-panel-container ui-widget-content">
      <div id="left">
