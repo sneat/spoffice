@@ -50,7 +50,7 @@
             var self = this;
 
             var checkTime = new Date().getTime();
-            if (this.lastCheck != null && (this.track != null && this.track.id == data.Tracks[0].PublicId)) {
+            if (this.lastCheck != null && (this.track != null && this.track.PublicId == data.Tracks[0].PublicId)) {
                 var timeDifference = (checkTime - this.lastCheck);
                 this.position_speed = (data.PlayerPosition - this.position) / timeDifference;
                 this.totalbyte_speed = (data.TotalBytes - this.totalbytes) / timeDifference;
@@ -85,7 +85,7 @@
             }
         },
         refreshTracks: function(data) {
-            if (this.track == null) this.track = data.Tracks[0];
+            this.track = data.Tracks[0];
             for (var i = 1; i < data.Tracks.length; i++) {
                 this.upcoming[i - 1] = data.Tracks[i];
             }
