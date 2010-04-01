@@ -76,11 +76,11 @@
    <input type="text" name="id" id="search" /> 
    <input type="submit" name="Search" value="Search" />
    </form>
-   <div id="nowplaying" class="ui-widget">
-        <div class="ui-widget-content">
+   <div id="nowplaying" class="ui-widget ui-widget-content ui-corner-top ui-corner-bottom">
+        <div class="ui-widget-content ui-corner-top ui-corner-bottom">
             <div id="current_track"></div>
+            <div id="progress"></div>
         </div>
-        <div id="progress"></div>
    </div>
   </div>
   <div id="main">
