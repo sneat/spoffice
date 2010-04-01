@@ -126,6 +126,7 @@ namespace Spoffice.Website.Models
             if (MusicBrainzId != null){
                 node.MusicBrainzId = (Guid)MusicBrainzId;
             }
+            node.State = State;
             node.PrivateId = Id;
             node.Title = Title;
             if (Album != null)

@@ -51,7 +51,13 @@ namespace Spoffice.Website.Models
 
         public List<Track> GetTracksToPlay(int maxCount, List<Guid> exclude)
         {
-            return DataContext.Context.GetTracksToPlay(maxCount, string.Join(",", exclude.Select(p => p.ToString()).ToArray())).ToList();
+            List<Track> tracks = DataContext.Context.GetTracksToPlay(maxCount, string.Join(",", exclude.Select(p => p.ToString()).ToArray())).ToList();
+            foreach (Track track in tracks)
+            {
+                track.Artist = DataContext.TrackRepository.GetTrackById(track.Id).Artist;
+                track.Album = DataContext.TrackRepository.GetTrackById(track.Id).Album;
+            }
+            return tracks;
         }
 
         public long GetTotalBytesPlayed()
@@ -92,16 +98,13 @@ namespace Spoffice.Website.Models
 
         public Track GetTrackById(Guid id)
         {
-            return (from m in DataContext.Context.Tracks
-                    where m.Id == id
-                    select m).FirstOrDefault();
+            return DataContext.Context.Tracks.Include("Artist").Include("Album").Where(m => m.Id == id).FirstOrDefault();
         }
 
         public Track GetTrackById(string id)
         {
             return GetTrackById(BaseOutput.ConvertPublicToPrivate(id));
         }
-
 
         #endregion
     }

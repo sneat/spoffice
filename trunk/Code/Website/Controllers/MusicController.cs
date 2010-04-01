@@ -45,7 +45,12 @@ namespace Spoffice.Website.Controllers
         }
         public ActionResult Current()
         {
-            return View();
+            return MultiformatView(typeof(PlayerStatusOutput), new PlayerStatusOutput
+            {
+                PlayerPosition = MusicService.CurrentTrack != null ? MusicService.CurrentTrack.Progress : 0,
+                TotalBytes = MusicService.Player.TotalBytes,
+                Tracks  = MusicService.UpcomingTracks.Select(t=> t.AsOutput()).ToList()
+            });
         }
         public ActionResult Skip(string id)
         {

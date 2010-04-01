@@ -55,12 +55,12 @@ namespace Spoffice.Website.Services.Music
         /// <summary>
         /// The MusicDownloader used to retrieve the music
         /// </summary>
-        private IMusicDownloader Downloader;
+        public IMusicDownloader Downloader;
 
         /// <summary>
         /// The music player used to play the music
         /// </summary>
-        private IMusicPlayer Player;
+        public IMusicPlayer Player;
 
         /// <summary>
         /// Track data

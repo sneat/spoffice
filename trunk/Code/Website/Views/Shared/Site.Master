@@ -11,6 +11,7 @@
     <% Html.ScriptManager().ScriptInclude("jquery_layout", "~/Scripts/jquery.layout.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_lazyloader", "~/Scripts/lazyloader.jquery.js"); %>
     <% Html.ScriptManager().ScriptInclude("interface", "~/Scripts/interface.js"); %>
+    <% Html.ScriptManager().ScriptInclude("musicinfoupdater", "~/Scripts/MusicInfoUpdater.js"); %>
     <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="../../Content/themes/jquery.themes.css" rel="stylesheet" type="text/css" />
     <link href="../../Content/themes/smoothness/jquery.ui.all.css" rel="stylesheet" type="text/css" id="themecss" />
@@ -75,6 +76,12 @@
    <input type="text" name="id" id="search" /> 
    <input type="submit" name="Search" value="Search" />
    </form>
+   <div id="nowplaying" class="ui-widget">
+        <div class="ui-widget-content">
+            <div id="current_track"></div>
+        </div>
+        <div id="progress"></div>
+   </div>
   </div>
   <div id="main">
    <ul id="tabs">

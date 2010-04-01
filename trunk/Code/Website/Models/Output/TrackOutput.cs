@@ -28,6 +28,7 @@ namespace Spoffice.Website.Models.Output
         public ArtistOutput Artist;
         public AlbumOutput Album;
         public int Length;
+        public TrackState State;
         public string FormattedLength
         {
             get

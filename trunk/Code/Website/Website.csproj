@@ -116,6 +116,7 @@
     <Compile Include="Models\Output\FavouriteOutput.cs" />
     <Compile Include="Models\Output\FavouritesListOutput.cs" />
     <Compile Include="Models\Output\LoggedInStatusOutput.cs" />
+    <Compile Include="Models\Output\PlayerStatusOutput.cs" />
     <Compile Include="Models\Output\RegisterStatusOutput.cs" />
     <Compile Include="Models\Output\StatusOutput.cs" />
     <Compile Include="Models\DataContext.cs" />

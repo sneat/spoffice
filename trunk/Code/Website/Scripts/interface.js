@@ -15,6 +15,7 @@
             albumAccordionDiv: '#albumaccordion',
             trackHistoryDiv: '#trackhistory',
             searchDiv: '#searchresults',
+            progressBar: '#progress',
 
             searchForm: '#search-form',
             switcher: '#switcher',
@@ -44,7 +45,9 @@
             mainWestSize: 326,
             mainEastSize: 300,
             mainSpacingOpen: 4,
-            mainSpacingClosed: 4
+            mainSpacingClosed: 4,
+
+            updater: null
         };
         if (settings) $.extend(config, settings);
         this.each(function() {
@@ -66,6 +69,7 @@
             var favourites = null;
             var registerForm = null;
             var registerButton = null;
+            var progressBar;
             var icons = {
                 header: "ui-icon-folder-collapsed",
                 headerSelected: "ui-icon-folder-open"
@@ -201,6 +205,7 @@
             function createLayout() {
                 $(document.body).append($(config.layoutDiv).html());
                 $('#layout').remove();
+
                 /**
                 * Create base layout consisting of a center and north pane
                 */
@@ -263,6 +268,33 @@
                 $(config.switcher).themes();
 
                 $(config.searchForm).submit(search).find('input[type=submit]').button();
+                progressBar = $(config.progressBar).progressbar({
+                    value: 0
+                });
+
+                updater = $.MusicInfoUpdater.init("/Music/Current", {
+                    onTrackChange: function() {
+                        updateNowPlaying();
+                        progressBar.progressbar("value", 0);
+                    },
+                    onStateChange: function(state) {
+                    },
+                    onReady: function() {
+                        updateNowPlaying();
+                        setInterval(function() {
+                            progressBar.progressbar("value", updater.getProgress());
+                        }, 200);
+                    },
+                    loadMethod: load
+                });
+            }
+
+            function updateNowPlaying() {
+                var td = createTrackTd(updater.track, true);
+                $('#current_track').empty();
+                $('#current_track').append(td.children());
+                //$('#current_track').html(updater.track.title);
+                //$('#current_artist').html(updater.track.artist.name);
             }
 
             /**
@@ -285,8 +317,6 @@
                             var row = $("<tr />");
                             // Create the row containing the track history data
                             var time = new Date(item.Timestamp).getTime();
-                            console.log(new Date(item.Timestamp));
-                            console.log(formatMillisecondsTimeSpan(now - time));
                             row.append(createTrackTd(item.Track));
                             row.append(createTrackLengthTd(item.Track));
                             row.append(createArtistTd(item.Track.Artist));
@@ -794,6 +824,7 @@ $(function() {
         onSelect: reloadIE
     });
     $('#switcher').themes();
-    
+
     $(document.body).spofficeInterface();
+
 });
