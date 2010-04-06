@@ -32,7 +32,7 @@ namespace Spoffice.Website.Models.Spotify
         {
             MetadataApiParser parser = new MetadataApiParser();
             XDocument data = XDocument.Load(String.Format(TRACK_SEARCH_URL, query));
-
+            
             var tracks = from item in data.Descendants(ns + "tracks").Elements(ns + "track")
                          select parser.ParseTrack(item);
             return tracks.ToList();

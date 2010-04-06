@@ -6,6 +6,7 @@ using Spoffice.Website.Models.Output;
 using System.Xml.Linq;
 using System.IO;
 using SharpSpotLib.Util;
+using System.Globalization;
 
 namespace Spoffice.Website.Models.Spotify
 {
@@ -90,6 +91,7 @@ namespace Spoffice.Website.Models.Spotify
         public TrackOutput ParseTrack(XElement track, string id)
         {
             TrackOutput output = new TrackOutput();
+       
             output.PublicId = ParseHref(track);
             if (String.IsNullOrEmpty(output.PublicId) && !String.IsNullOrEmpty(id))
             {
@@ -109,9 +111,19 @@ namespace Spoffice.Website.Models.Spotify
             if (xalbum != null)
                 output.Album = ParseAlbum(xalbum);
 
-            XElement xlength = track.Element(MusicSearch.ns + "length");
-            if (xlength != null)
-                output.Length = (int)(Convert.ToDouble(xlength.Value) * 1000);
+            try
+            {
+                XElement xlength = track.Element(MusicSearch.ns + "length");
+                if (xlength != null){
+                    string asString = xlength.Value.Trim().TrimEnd(new char[] { '0' });
+                    double asSeconds;
+                    Double.TryParse(asString, out asSeconds);
+                    output.Length = Convert.ToInt32(asSeconds);
+                }
+            }
+            catch (Exception e)
+            {
+            }
 
             return output;
 

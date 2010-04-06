@@ -61,6 +61,15 @@ namespace Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Albums.
+        /// </summary>
+        public static string Albums {
+            get {
+                return ResourceManager.GetString("Albums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Theme.
         /// </summary>
         public static string ChangeTheme {
@@ -93,6 +102,15 @@ namespace Res {
         public static string Home {
             get {
                 return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading.
+        /// </summary>
+        public static string Loading {
+            get {
+                return ResourceManager.GetString("Loading", resourceCulture);
             }
         }
         

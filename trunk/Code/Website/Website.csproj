@@ -109,6 +109,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.fr.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_GlobalResources\Strings.bg.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.bg.resx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthorizedController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -259,6 +264,11 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
       <CustomToolNamespace>Res</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_GlobalResources\Strings.bg.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.bg.designer.cs</LastGenOutput>
+      <CustomToolNamespace>Res</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Model\Account\ValidationStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

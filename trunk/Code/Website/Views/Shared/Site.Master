@@ -31,52 +31,54 @@
    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
  </div>
 
-<div id="login-form" title="<%= Res.Strings.Login %>">
+<div id="login-form" title="">
  <form>
    <fieldset>
     <div class="form-row">
-        <label><%= Res.Strings.Username %></label>
+        <label id="lblLoginUsername"></label>
         <input type="text" name="username" ref="userName" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
-        <label><%= Res.Strings.Password %></label>
+        <label id="lblLoginPassword"></label>
         <input type="password" name="password" ref="password" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
-        <input type="checkbox" value="true" name="rememberMe" ref="rememberMe" /> <label><%= Res.Strings.RememberMe %></label>
+        <input type="checkbox" value="true" name="rememberMe" ref="rememberMe" /> <label id="lblLoginRememberMe"></label>
         <input type="hidden" value="false" name="rememberMe" />
     </div>
    </fieldset>
   </form>
 </div>
-<div id="register-form" title="<%= Res.Strings.Register %>">
+<div id="register-form" title="">
  <form>
    <fieldset>
     <div class="form-row">
-        <label><%= Res.Strings.Username %></label>
+        <label id="lblRegisterUsername"></label>
         <input type="text" name="username" ref="userName" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
-        <label><%= Res.Strings.Email %></label>
+        <label id="lblRegisterEmail"></label>
         <input type="text" name="email" ref="email" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
-        <label><%= Res.Strings.Password %></label>
+        <label id="lblRegisterPassword"></label>
         <input type="password" name="password" ref="password" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
-        <label><%= Res.Strings.ConfirmPassword %></label>
+        <label id="lblRegisterConfirmPassword"></label>
         <input type="password" name="confirmpassword" ref="confirmpassword" />
     </div>
    </fieldset>
   </form>
 </div>
+
+            <span id="switch" style="position: absolute;top:0px;right:0px;z-index:10000;">SWITCH ME</span>
 <div id="layout">
   <div id="header">
    <h1><a runat="server" href="~/" title="Spoffice home"><img src="~/Content/spoffice.png" runat="server" alt="Spoffice logo" /></a></h1>
    <form id="search-form">
    <input type="text" name="id" id="search" /> 
-   <input type="submit" name="Search" value="Search" />
+   <input type="submit" name="Search" value="Search" id="btnSearch" />
    </form>
    <div id="nowplaying" class="ui-widget ui-widget-content ui-corner-top ui-corner-bottom">
         <div class="ui-widget-content ui-corner-top ui-corner-bottom">
@@ -87,10 +89,10 @@
   </div>
   <div id="main">
    <ul id="tabs">
-    <li><a href="#home"><%= Res.Strings.Home %></a></li>
-    <li><a href="#trackhistory"><%= Res.Strings.TrackHistory %></a></li>
-    <li><a href="#favourites"><%= Res.Strings.ManageFavourites %></a></li>
-    <li><a href="#myaccount"><%= Res.Strings.MyAccount %></a></li>
+    <li><a href="#home" id="home_tab"><%= Res.Strings.Home %></a></li>
+    <li><a href="#trackhistory" id="trackhistory_tab"><%= Res.Strings.TrackHistory %></a></li>
+    <li><a href="#favourites" id="favourites_tab"><%= Res.Strings.ManageFavourites %></a></li>
+    <li><a href="#myaccount" id="myaccount_tab"><%= Res.Strings.MyAccount %></a></li>
     <li id="results-tab"><a href="#searchresults"><%= Res.Strings.SearchResults %></a></li>
    </ul>
     <div class="tabs-panel-container ui-widget-content">

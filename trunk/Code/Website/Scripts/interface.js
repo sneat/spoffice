@@ -80,13 +80,16 @@
             */
             function init() {
                 load("/Home/Localization", null, function(data) {
+                    $('#switch').click(function() {
+                        loadLanguage("en");
+                    });
                     language = data.Language;
                     removeStaticContent();
                     getLoginStatus();
                 });
             }
 
-            function loadLanguage(lang, callback) {
+            function loadLanguage(lang) {
                 load("/Home/Localization/" + lang, null, function(data) {
                     language = data.Language;
                     switchLanguage();
@@ -94,7 +97,28 @@
             }
 
             function switchLanguage() {
-                console.log("switching language");
+                if (loginForm != null) {
+                    $('#lblLoginUsername').html(language.Username);
+                    $('#lblLoginPassword').html(language.Password);
+                    $('#lblLoginRememberMe').html(language.RememberMe);
+                    $('#lblLoginRememberMe').html(language.RememberMe);
+                    loginForm.dialog("option", "buttons", createLoginButtons());
+                    loginForm.dialog("option", "title", language.Login);
+                }
+                if (registerForm != null) {
+                    $('#lblRegisterUsername').html(language.Username);
+                    $('#lblRegisterPassword').html(language.Password);
+                    $('#lblRegisterEmail').html(language.Email);
+                    $('#lblRegisterConfirmPassword').html(language.ConfirmPassword);
+                    registerForm.dialog("option", "buttons", createRegisterButtons());
+                    registerForm.dialog("option", "title", language.Register);
+                }
+                $('#home_tab').html(language.Home);
+                $('#trackhistory_tab').html(language.TrackHistory);
+                $('#favourites_tab').html(language.ManageFavourites);
+                $('#myaccount_tab').html(language.MyAccount);
+                $('.lblAlbums').html(language.Albums);
+                $('#btnSearch').val(language.Search);
             }
 
             /**
@@ -156,7 +180,7 @@
                     if (!isLoginFormVisible()) {
                         displayLoginForm();
                     } else {
-                        loginButton.find(".ui-button-text").html("Login");
+                        loginButton.find(".ui-button-text").html(language.Login);
                         if (data.ErrorMessages != null && data.ErrorMessages.length > 0) {
                             var messages = [];
                             for (var i = 0; i < data.ErrorMessages.length; i++) {
@@ -193,6 +217,10 @@
             function onLogin() {
 
                 load("/Favourites/", null, function(data) {
+
+                    if (registerForm != null) {
+                        registerForm.dialog("close");
+                    }
 
                     favourites = data.Favourites;
 
@@ -349,7 +377,7 @@
             function search() {
                 var search_value = $(this).find("input[type=text]").val();
                 load("/Music/Search/" + search_value, null, function(data) {
-                    $(config.resultsTab).show().find("a").html("Search Results: " + search_value);
+                    $(config.resultsTab).show().find("a").html('<span id="lblSearchResults">' + language.SearchResults + '</span>: ' + search_value);
                     tabs.tabs("select", 4);
                     if (searchTable == null) {
                         var searchDiv = $(config.searchDiv);
@@ -580,7 +608,7 @@
                         accordionLength--;
                     }
                     // Add the new artist to display
-                    artistaccordion.append('<h3><a href="#">' + data.Name + ' Albums</a></h3><div></div>');
+                    artistaccordion.append('<h3><a href="#">' + data.Name + ' <span class="lblAlbums">' + language.Albums + '</span></a></h3><div></div>');
                     // Initialise the accordion
                     artistaccordion.accordion({
                         fillSpace: true,
@@ -629,7 +657,7 @@
                 var amount = default_amount;
                 var from = 0;
                 var gotAll = false;
-                container.html("loading..").scroll(function() {
+                container.html(language.Loading).scroll(function() {
                     if (!loadingRows && (this.scrollHeight - (container.scrollTop() + container.outerHeight()) < config.footerDistance)) {
                         from = table.find("tr").length;
                         loadingRows = true;
@@ -661,6 +689,25 @@
                 return (loginForm != null && loginForm.is(":visible"));
             }
 
+            function createLoginButtons() {
+                var buttons = {};
+                buttons[language.Login] = function() {
+                    submitLoginForm($(this).find("form"));
+                };
+                buttons[language.Register] = function() {
+                    displayRegisterForm();
+                };
+                return buttons;
+            }
+
+            function createRegisterButtons() {
+                var buttons = {};
+                buttons[language.Register] = function() {
+                    submitRegisterForm(registerForm.find("form"));
+                }
+                return buttons;
+            }
+
             /**
             * Displays the login form in a draggable dialog window
             */
@@ -668,19 +715,17 @@
                 if (loginForm == null) {
                     loginForm = $(config.loginDiv).show();
 
+                    $('#lblLoginUsername').html(language.Username);
+                    $('#lblLoginPassword').html(language.Password);
+                    $('#lblLoginRememberMe').html(language.RememberMe);
+
                     $(loginForm).find("form").submit(function() {
                         // Bind to the submit event of the form
                         submitLoginForm($(this));
                         return false;
                     });
                     // Create the dialog window
-                    var buttons = {};
-                    buttons[language.Login] = function() {
-                        submitLoginForm($(this).find("form"));
-                    };
-                    buttons[language.Register] = function() {
-                        displayRegisterForm();
-                    };
+
                     loginForm.dialog({
                         width: 350,
                         modal: true,
@@ -689,13 +734,14 @@
                         open: function() {
                             $(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
                         },
-                        buttons: buttons
+                        buttons: createLoginButtons()
                     });
                 } else {
                     // Reset the login button and create the dialog window again
-                    loginButton.find(".ui-button-text").html("Login");
-                    loginForm.dialog();
+                    loginButton.find(".ui-button-text").html(language.Login);
+                    loginForm.dialog("open");
                 }
+                loginForm.dialog("option", "title", language.Login);
             }
 
             function formatMillisecondsTimeSpan(millis) {
@@ -739,9 +785,9 @@
             function submitLoginForm(form) {
                 if (loginButton == null) {
                     // Find the login button
-                    loginButton = loginForm.parent().find("button:contains(Login)");
+                    loginButton = loginForm.parent().find("button:contains(" + language.Login + ")");
                 }
-                loginButton.find(".ui-button-text").html("Wait..");
+                loginButton.find(".ui-button-text").html(language.Wait);
                 form.find('div.ui-state-error').slideUp();
                 form.find('input.ui-state-error').removeClass("ui-state-error");
                 load("/Account/Logon", form.serialize());
@@ -750,6 +796,12 @@
             function displayRegisterForm() {
                 if (registerForm == null) {
                     registerForm = $('#register-form');
+
+                    $('#lblRegisterUsername').html(language.Username);
+                    $('#lblRegisterEmail').html(language.Email);
+                    $('#lblRegisterPassword').html(language.Password);
+                    $('#lblRegisterConfirmPassword').html(language.ConfirmPassword);
+
                     $(registerForm).find("form").submit(function() {
                         submitLoginForm($(this));
                         return false;
@@ -760,27 +812,24 @@
                         modal: false,
                         closeOnEscape: false,
                         autoResize: true,
-                        buttons: {
-                            'Register': function() {
-                                submitRegisterForm(registerForm.find("form"));
-                            }
-                        }
+                        buttons: createRegisterButtons()
                     });
                 } else {
                     registerForm.dialog("open");
                 }
+                registerForm.dialog("option", "title", language.Register);
             }
 
             function submitRegisterForm(form) {
                 if (registerButton == null) {
                     // Find the login button
-                    registerButton = registerForm.parent().find("button:contains(Register)");
+                    registerButton = registerForm.parent().find("button:contains(" + language.Register + ")");
                 }
-                registerButton.find(".ui-button-text").html("Wait..");
+                registerButton.find(".ui-button-text").html(language.Wait);
                 form.find('div.ui-state-error').slideUp();
                 form.find('input.ui-state-error').removeClass("ui-state-error");
                 load("/Account/Register", form.serialize(), function(data) {
-                    registerButton.find(".ui-button-text").html("Register");
+                    registerButton.find(".ui-button-text").html(language.Register);
                     if (!data.Success) {
                         if (data.ErrorMessages != null && data.ErrorMessages.length > 0) {
                             var messages = [];
@@ -788,7 +837,7 @@
                                 var error = data.ErrorMessages[i];
                                 for (var a = 0; a < error.Message.length; a++) {
                                     registerForm.find("input[ref=" + error.Field + "]").addClass("ui-state-error");
-                                    messages.push({ label: 'Error', message: error.Message[a] });
+                                    messages.push({ label: language.Error, message: error.Message[a] });
                                 }
                             }
                             var errorMsg = createErrorMessage(messages).hide();
