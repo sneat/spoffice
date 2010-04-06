@@ -115,10 +115,10 @@ namespace Spoffice.Website.Models.Spotify
             {
                 XElement xlength = track.Element(MusicSearch.ns + "length");
                 if (xlength != null){
-                    string asString = xlength.Value.Trim().TrimEnd(new char[] { '0' });
+                    string asString = xlength.Value;
                     double asSeconds;
-                    Double.TryParse(asString, out asSeconds);
-                    output.Length = Convert.ToInt32(asSeconds);
+                    Double.TryParse(asString, NumberStyles.Number, CultureInfo.GetCultureInfo("en-GB"), out asSeconds);
+                    output.Length = Convert.ToInt32(asSeconds) * 1000;
                 }
             }
             catch (Exception e)
