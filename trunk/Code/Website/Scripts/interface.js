@@ -82,13 +82,24 @@
                 load("/Home/Localization", null, function(data) {
                     $(data.AvailableLanguages).each(function() {
                         var l = this;
-                        $('<a href="javascript:void(0);"><img src="Content/flags/' + l + '.gif" /></a>').click(function() {
+                        $('<a href="javascript:void(0);" title="' + l + '" class="ui-state-default"><img src="Content/flags/' + l + '.gif" /></a>').click(function() {
                             loadLanguage(l);
-                            $('#languages a').toggleClass("selected", false);
-                            $(this).toggleClass("selected", true);
-                        }).each(function() {
+                            $('#languages a').toggleClass("ui-state-highlight", false);
+                            $(this).toggleClass("ui-state-highlight", true);
+                        }).hover(
+                            function() {
+                                if (l != data.CurrentCulture) {
+                                    $(this).toggleClass("ui-state-highlight", true);
+                                }
+                            },
+                            function() {
+                                if (l != data.CurrentCulture) {
+                                    $(this).toggleClass("ui-state-highlight", false);
+                                }
+                            }
+                        ).each(function() {
                             if (l == data.CurrentCulture) {
-                                $(this).toggleClass("selected", true);
+                                $(this).toggleClass("ui-state-highlight", true);
                             }
                         }).appendTo("#languages");
                     });
@@ -933,7 +944,14 @@ function reloadIE(id, display, url) {
  * When the DOM is ready, run the spofficeInterface on the document body
  */
 $(function() {
-    $('#themes').click(function() {
+    $('#themes').hover(
+            function() {
+                $('#themes_label').toggleClass("ui-state-highlight");
+            },
+            function() {
+                $('#themes_label').toggleClass("ui-state-highlight");
+            }
+        ).click(function() {
         var offset = $(this).offset();
         $('#switcher').css('left', offset.left).
             css('top', offset.top + $(this).outerHeight());

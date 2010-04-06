@@ -72,7 +72,7 @@
   </form>
 </div>
 
-<div id="languages"></div>
+<div id="languages" class="ui-widget-content"></div>
 <div id="layout">
   <div id="header">
    <h1><a runat="server" href="~/" title="Spoffice home"><img src="~/Content/spoffice.png" runat="server" alt="Spoffice logo" /></a></h1>

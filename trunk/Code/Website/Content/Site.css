@@ -34,14 +34,9 @@ h1 a img
 #languages a 
 {
 	display: block;
-	border: 3px solid #fff;
-	margin-left: 4px;
+	border-width: 3px;
 	line-height: 50%;
 	float: left;
-}
-#languages a.selected
-{
-	border: 3px solid #cc0000;
 }
 #themes
 {
