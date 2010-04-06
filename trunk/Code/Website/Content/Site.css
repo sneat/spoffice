@@ -19,43 +19,33 @@ h1 a img
 	border: 0;
 	outline: 0;
 }
-#languages 
+
+#languagelabel,
+#themelabel
 {
-	position: absolute;
-	top: 0;
-	right: 0;
-	z-index: 20000;
-	float: right;
-}
-#languages a img 
-{
-	border: 0;
-}
-#languages a 
-{
-	display: block;
-	border-width: 3px;
-	line-height: 50%;
 	float: left;
+	margin-left: 5px;
+	cursor: pointer;
 }
-#themes
+
+
+#search-form 
+{
+	float: left;
+	margin-left: 5px;
+}
+#switcher 
+{
+	display: none;
+}
+#nav-right 
 {
     position: absolute;
     top: 106px;
     right: 10px;
+    overflow: hidden;
+    zoom: 1;
     z-index: 9;
-    height: 25px;
-    margin: auto;
-    line-height: 25px; /* the same as the height */
-    text-align: center;
-}
-#switcher {
-    display: none;
-}
-#themes_label {
-    width: 28px;
-    height: 23px;
-    cursor: pointer;
 }
 form .ui-state-error 
 {
@@ -82,12 +72,6 @@ form .ui-state-error p span.ui-icon
 #progress 
 {
 	height: 6px;
-}
-#search-form 
-{
-	position: absolute;
-	top: 50%;
-	right: 10px;
 }
 #trackhistory,
 #favourites,

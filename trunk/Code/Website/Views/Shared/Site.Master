@@ -14,15 +14,29 @@
     <% Html.ScriptManager().ScriptInclude("jquery_lazyloader", "~/Scripts/lazyloader.jquery.js"); %>
     <% Html.ScriptManager().ScriptInclude("interface", "~/Scripts/interface.js"); %>
     <% Html.ScriptManager().ScriptInclude("musicinfoupdater", "~/Scripts/MusicInfoUpdater.js"); %>
+    <% Html.ScriptManager().ScriptInclude("dropdown_menu", "~/Scripts/fg.menu.js"); %>
     <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="../../Content/themes/jquery.themes.css" rel="stylesheet" type="text/css" />
     <link href="../../Content/themes/smoothness/jquery.ui.all.css" rel="stylesheet" type="text/css" id="themecss" />
+    <link href="../../Content/fg.menu.css" rel="stylesheet" type="text/css" id="menucss" />
 </head>
 <body class="ui-widget-shadow">
-
-   <div id="themes" class="ui-widget">
-    <div id="themes_label" title="Change theme" class="ui-widget-header ui-state-default"><img src="~/Content/themes/img/themeroller.png" runat="server" alt="Change theme" /></div>
-    <div id="switcher"></div>
+  <div id="nav-right" class="ui-widget">
+   <div id="languagelabel"><a tabindex="0" href="#languages" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="languages-button"><span class="ui-icon ui-icon-triangle-1-s"></span>Languages</a>
+   </div>
+   <div id="themelabel" title="Change theme" class="ui-widget-header ui-state-default"><img src="~/Content/themes/img/themeroller.png" runat="server" alt="Change theme" /></div>
+   <form id="search-form">
+    <input type="text" name="id" id="search" /> 
+    <input type="submit" name="Search" value="Search" id="btnSearch" />
+   </form>
+  </div>
+ <div id="languages" class="hidden">
+    <ul>
+	    <li><a href="#">Apples</a></li>
+	    <li><a href="#">Oranges</a></li>
+	    <li><a href="#">Bananas</a></li>
+	    <li><a href="#">Cheetos</a></li>
+    </ul>
    </div>
  <script type="text/javascript">
      document.write('<div id="loading"></div>');
@@ -72,14 +86,10 @@
   </form>
 </div>
 
-<div id="languages" class="ui-widget-content"></div>
 <div id="layout">
   <div id="header">
    <h1><a runat="server" href="~/" title="Spoffice home"><img src="~/Content/spoffice.png" runat="server" alt="Spoffice logo" /></a></h1>
-   <form id="search-form">
-   <input type="text" name="id" id="search" /> 
-   <input type="submit" name="Search" value="Search" id="btnSearch" />
-   </form>
+ 
    <div id="nowplaying" class="ui-widget ui-widget-content ui-corner-top ui-corner-bottom">
         <div class="ui-widget-content ui-corner-top ui-corner-bottom">
             <div id="current_track"></div>

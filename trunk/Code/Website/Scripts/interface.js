@@ -80,7 +80,12 @@
              */
             function init() {
                 load("/Home/Localization", null, function(data) {
-                    $(data.AvailableLanguages).each(function() {
+                    $('#languages-button').menu({
+                        content: $('#languages-button').next().html(), // grab content from this page
+                        showSpeed: 400
+                    });
+
+                    /*$(data.AvailableLanguages).each(function() {
                         var l = this;
                         $('<a href="javascript:void(0);" title="' + l + '" class="ui-state-default"><img src="Content/flags/' + l + '.gif" /></a>').click(function() {
                             loadLanguage(l);
@@ -102,7 +107,7 @@
                                 $(this).toggleClass("ui-state-highlight", true);
                             }
                         }).appendTo("#languages");
-                    });
+                    });*/
                     language = data.Language; // Sets the language
                     removeStaticContent();
                     getLoginStatus();
