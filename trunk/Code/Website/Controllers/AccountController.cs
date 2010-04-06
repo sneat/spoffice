@@ -164,7 +164,7 @@ namespace Spoffice.Website.Controllers
         {
             if (filterContext.HttpContext.User.Identity is WindowsIdentity)
             {
-                throw new InvalidOperationException("Windows authentication is not supported.");
+                throw new InvalidOperationException(Res.Strings.WindowsAuthNotSupported);
             }
         }
 

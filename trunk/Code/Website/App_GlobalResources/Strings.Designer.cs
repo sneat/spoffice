@@ -70,6 +70,15 @@ namespace Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The current password is incorrect or the new password is invalid..
+        /// </summary>
+        public static string ChangePasswordFailed {
+            get {
+                return ResourceManager.GetString("ChangePasswordFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Theme.
         /// </summary>
         public static string ChangeTheme {
@@ -106,7 +115,7 @@ namespace Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loading.
+        ///   Looks up a localized string similar to Loading....
         /// </summary>
         public static string Loading {
             get {
@@ -210,6 +219,24 @@ namespace Res {
         public static string Wait {
             get {
                 return ResourceManager.GetString("Wait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome to Spoffice!.
+        /// </summary>
+        public static string Welcome {
+            get {
+                return ResourceManager.GetString("Welcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows authentication is not supported..
+        /// </summary>
+        public static string WindowsAuthNotSupported {
+            get {
+                return ResourceManager.GetString("WindowsAuthNotSupported", resourceCulture);
             }
         }
     }

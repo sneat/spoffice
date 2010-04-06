@@ -22,7 +22,6 @@ namespace Spoffice.Website.Controllers
 
         public ActionResult Index()
         {
-            ViewData["Message"] = "Welcome to Cooltunes!";
             return View();
         }
         public ActionResult Localization(string id)

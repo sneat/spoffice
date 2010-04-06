@@ -93,7 +93,7 @@
     <li><a href="#trackhistory" id="trackhistory_tab"><%= Res.Strings.TrackHistory %></a></li>
     <li><a href="#favourites" id="favourites_tab"><%= Res.Strings.ManageFavourites %></a></li>
     <li><a href="#myaccount" id="myaccount_tab"><%= Res.Strings.MyAccount %></a></li>
-    <li id="results-tab"><a href="#searchresults"><%= Res.Strings.SearchResults %></a></li>
+    <li><a href="#searchresults" id="results-tab"><%= Res.Strings.SearchResults %></a></li>
    </ul>
     <div class="tabs-panel-container ui-widget-content">
      <div id="left">
@@ -103,11 +103,11 @@
       <div id="albumaccordion"></div>
      </div>
      <div id="middle">
-      <div id="searchresults"></div>
-      <div id="home"></div>
+      <div id="home"><%= Res.Strings.Welcome %></div>
       <div id="trackhistory"></div>
       <div id="myaccount"></div>
       <div id="favourites"></div>
+      <div id="searchresults"></div>
      </div>
     </div>
    </div>

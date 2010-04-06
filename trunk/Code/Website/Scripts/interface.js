@@ -1,8 +1,8 @@
 (function($) {
     /**
-    * spofficeInterface plugin
-    * @param {Object} [settings] The config settings
-    */
+     * spofficeInterface plugin
+     * @param {Object} [settings] The config settings
+     */
     $.fn.spofficeInterface = function(settings) {
         var config = {
             favouritesDiv: '#favourites',
@@ -76,8 +76,8 @@
             };
 
             /**
-            * Called when the class initially loads
-            */
+             * Called when the class initially loads
+             */
             function init() {
                 load("/Home/Localization", null, function(data) {
                     $(data.AvailableLanguages).each(function() {
@@ -92,19 +92,25 @@
                             }
                         }).appendTo("#languages");
                     });
-                    language = data.Language;
+                    language = data.Language; // Sets the language
                     removeStaticContent();
                     getLoginStatus();
                 });
             }
-
+            
+            /**
+             * Handles switching languages
+             */
             function loadLanguage(lang) {
                 load("/Home/Localization/" + lang, null, function(data) {
                     language = data.Language;
                     switchLanguage();
                 });
             }
-
+            
+            /**
+             * Changes all of the visible text to the current language
+             */
             function switchLanguage() {
                 if (loginForm != null) {
                     $('#lblLoginUsername').html(language.Username);
@@ -131,19 +137,19 @@
             }
 
             /**
-            * Requests the current user Login Status
-            */
+             * Requests the current user Login Status
+             */
             function getLoginStatus() {
                 load("/Account/Logon");
             }
 
             /**
-            * Requests the specified data from the URL
-            * @param {String} url
-            * @param {String|Object} [data] Data to be sent to the server
-            * @param {Function} [callback] Function to call on success
-            * @see <a href="http://api.jquery.com/jQuery.ajax/">jQuery AJAX Documentation</a>
-            */
+             * Requests the specified data from the URL
+             * @param {String} url
+             * @param {String|Object} [data] Data to be sent to the server
+             * @param {Function} [callback] Function to call on success
+             * @see <a href="http://api.jquery.com/jQuery.ajax/">jQuery AJAX Documentation</a>
+             */
             function load(url, data, callback) {
                 $.ajaxSetup({ async: true, callback: null, timeout: 20000 });
                 $.ajax({
@@ -165,19 +171,19 @@
             }
 
             /**
-            * Checks whether the user is logged in
-            * @param {Object} data The user object
-            * @returns {Boolean} Whether user is logged in
-            */
+             * Checks whether the user is logged in
+             * @param {Object} data The user object
+             * @returns {Boolean} Whether user is logged in
+             */
             function isLoginData(data) {
                 return (data.LoggedIn != null);
             }
 
             /**
-            * Deals with the response of {@link isLoginData}
-            * Runs either {@link displayLoginForm} or {@link onLogin}
-            * @param {Object} data The user object
-            */
+             * Deals with the response of {@link isLoginData}
+             * Runs either {@link displayLoginForm} or {@link onLogin}
+             * @param {Object} data The user object
+             */
             function dealWithLoginData(data) {
                 var loadingdiv = $(config.loadingDiv);
                 if (loadingdiv.is(":visible")) {
@@ -208,21 +214,22 @@
             }
 
             /**
-            * Creates an error message. This does not append to the HTML
-            * @param {String} label The label for the message
-            * @param {String} The text for the message
-            */
+             * Creates an error message. This does not append to the HTML
+             * @param {String} label The label for the message
+             * @param {String} The text for the message
+             */
             function createErrorMessage(messages) {
                 var outerdiv = $('<div class="ui-state-error ui-corner-all" />');
                 for (var i = 0; i < messages.length; i++) {
-                    outerdiv.append('<p><span class="ui-icon ui-icon-alert"></span><strong>' + messages[i].label + '</strong> ' + messages[i].message + '</p>');
+                    var label = (messages[i].label) ? '<strong>' + messages[i].label + '</strong> ' : '';
+                    outerdiv.append('<p><span class="ui-icon ui-icon-alert"></span>' + label + messages[i].message + '</p>');
                 }
                 return outerdiv;
             }
 
             /**
-            * Closes the login form and runs {@link createLayout}
-            */
+             * Closes the login form and runs {@link createLayout}
+             */
             function onLogin() {
 
                 load("/Favourites/", null, function(data) {
@@ -243,24 +250,24 @@
             }
 
             /**
-            * Resizes the layout if the layout has tabs
-            */
+             * Resizes the layout if the layout has tabs
+             */
             function resizeTabLayout() {
                 if (!tabs) return;
                 layout.resizeAll();
             }
 
             /**
-            * Creates the interface layout
-            * @see <a href="http://layout.jquery-dev.net/">jQuery Layout</a>
-            */
+             * Creates the interface layout
+             * @see <a href="http://layout.jquery-dev.net/">jQuery Layout</a>
+             */
             function createLayout() {
                 $(document.body).append($(config.layoutDiv).html());
                 $('#layout').remove();
 
                 /**
-                * Create base layout consisting of a center and north pane
-                */
+                 * Create base layout consisting of a center and north pane
+                 */
                 layout = $('body').layout({
                     center__paneSelector: config.baseCenterPaneSelector,
                     north__paneSelector: config.baseNorthPaneSelector,
@@ -269,8 +276,8 @@
                     north__slidable: config.baseNorthSlidable
                 });
                 /**
-                * Create the tab interface and configure the events that each tag represents
-                */
+                 * Create the tab interface and configure the events that each tag represents
+                 */
                 tabs = $(config.baseCenterPaneSelector).tabs({
                     show: function(event, ui) {
                         resizeTabLayout();
@@ -286,8 +293,8 @@
                 });
                 $(config.resultsDiv).hide();
                 /**
-                * Add the tab interface to the center pane of the base layout
-                */
+                 * Add the tab interface to the center pane of the base layout
+                 */
                 $(config.baseCenterPaneSelector).layout({
                     center__paneSelector: config.tabsCenterPaneSelector,
                     north__paneSelector: config.tabsNorthPaneSelector,
@@ -295,9 +302,9 @@
                     north__slidable: config.tabsNorthSlidable
                 });
                 /**
-                * Set up the central tab panel
-                * Configure east and west panels to use accordion
-                */
+                 * Set up the central tab panel
+                 * Configure east and west panels to use accordion
+                 */
                 centrallayout = $(config.tabsCenterPaneSelector).layout({
                     center__paneSelector: config.mainCenterPaneSelector,
                     east__paneSelector: config.mainEastPaneSelector,
@@ -317,19 +324,25 @@
                 centrallayout.hide(config.artistLocation);
                 centrallayout.hide(config.albumLocation);
 
+                /**
+                 * Initialise the themes switcher
+                 */
                 $(config.switcher).themes();
 
-                $(config.searchForm).submit(search).find('input[type=submit]').button();
                 progressBar = $(config.progressBar).progressbar({
                     value: 0
                 });
-
+                
+                /**
+                 * Initialise the now playing update
+                 */
                 updater = $.MusicInfoUpdater.init("/Music/Current", {
                     onTrackChange: function() {
                         updateNowPlaying();
                         progressBar.progressbar("value", 0);
                     },
                     onStateChange: function(state) {
+                        // What? Do something?
                     },
                     onReady: function() {
                         updateNowPlaying();
@@ -339,10 +352,17 @@
                     },
                     loadMethod: load
                 });
-
+                
+                /**
+                 * Set up the search box to call 'search' on submit, give it a pretty UI button and set it's language
+                 */
+                $(config.searchForm).submit(search).find('input[type=submit]').button();
                 $('#btnSearch').val(language.Search);
             }
 
+            /**
+             * Update the now playing box
+             */
             function updateNowPlaying() {
                 var td = createTrackTd(updater.track, true);
                 $('#current_track').empty();
@@ -352,12 +372,12 @@
             }
 
             /**
-            * Called when TrackHistory tab is clicked
-            * Gets the track history in blocks from the database. If the user scrolls to near the bottom of the page,
-            * the next block of track histories is requested and appended to the table.
-            * TODO Ensure that requests stop once we have the entire track history list
-            * @see addTrackHistoryRows
-            */
+             * Called when TrackHistory tab is clicked
+             * Gets the track history in blocks from the database. If the user scrolls to near the bottom of the page,
+             * the next block of track histories is requested and appended to the table.
+             * TODO Ensure that requests stop once we have the entire track history list
+             * @see addTrackHistoryRows
+             */
             function load__TrackHistory() {
                 if (trackHistoryTable == null) {
                     var trackHistoryDiv = $(config.trackHistoryDiv);
@@ -383,8 +403,8 @@
             }
 
             /**
-            * Search for a track and list the results
-            */
+             * Search for a track and list the results
+             */
             function search() {
                 var search_value = $(this).find("input[type=text]").val();
                 load("/Music/Search/" + search_value, null, function(data) {
@@ -410,9 +430,9 @@
             }
 
             /**
-            * Check to see if a track id is in the favourites already
-            * @param (string) the ID of the track
-            */
+             * Check to see if a track id is in the favourites already
+             * @param (string) the ID of the track
+             */
             function isInFavourites(trackid) {
                 if (favourites != null) {
                     for (var i = 0; i < favourites.length; i++) {
@@ -425,20 +445,20 @@
             }
 
             /**
-            * Creates the table cells showing the Track information
-            * Includes a link to Add/Remove the track from Favourites
-            * @param {Object} track The Track object
-            * @param {Boolean} showartist Whether to show the name of the Artist
-            * @see addTrackHistoryRows
-            * @see displayAlbum
-            */
+             * Creates the table cells showing the Track information
+             * Includes a link to Add/Remove the track from Favourites
+             * @param {Object} track The Track object
+             * @param {Boolean} showartist Whether to show the name of the Artist
+             * @see addTrackHistoryRows
+             * @see displayAlbum
+             */
             function createTrackTd(track, showartist) {
                 var link = $('<a href="javascript:void(0);" class="track" />');
                 var td = $('<td />').append(link);
                 /**
-                * Checks whether the Track ID is in the favourites array
-                * @see dealWithLoginData
-                */
+                 * Checks whether the Track ID is in the favourites array
+                 * @see dealWithLoginData
+                 */
                 if (isInFavourites(track.PublicId) > -1) {
                     link.html('<span class="ui-icon-circle-minus ui-icon"></span>');
                 } else {
@@ -490,26 +510,26 @@
             }
 
             /**
-            * Creates the table cell containing the Track Length information
-            * @param {Object} track The Track object
-            */
+             * Creates the table cell containing the Track Length information
+             * @param {Object} track The Track object
+             */
             function createTrackLengthTd(track) {
                 var link = $('<span class="track-length"><span class="ui-icon-clock ui-icon"></span>' + track.FormattedLength + '</span>');
                 return $("<td />").append(link);
             }
 
             /**
-            * Creates the table cell containing the Album information
-            * @param {Object} album The Album object
-            */
+             * Creates the table cell containing the Album information
+             * @param {Object} album The Album object
+             */
             function createAlbumTd(album) {
                 return $("<td />").append(createAlbumLink(album));
             }
 
             /**
-            * Creates the table cell containing the Album link
-            * @param {Object} album The Album object
-            */
+             * Creates the table cell containing the Album link
+             * @param {Object} album The Album object
+             */
             function createAlbumLink(album) {
                 return $('<a href="javascript:void(0);"><span class="ui-icon-newwin ui-icon"></span><span class="album-title">' + album.Name + '</span></a>').click(function() {
                     displayAlbum(album.PublicId);
@@ -524,17 +544,17 @@
             }
 
             /**
-            * Creates the table cell containing the Artist information
-            * @param {Object} artist The Artist object
-            */
+             * Creates the table cell containing the Artist information
+             * @param {Object} artist The Artist object
+             */
             function createArtistTd(artist) {
                 return $("<td />").append(createArtistLink(artist));
             }
 
             /**
-            * Creates the table cell containing the Artist link
-            * @param {Object} artist The Artist object
-            */
+             * Creates the table cell containing the Artist link
+             * @param {Object} artist The Artist object
+             */
             function createArtistLink(artist) {
                 return $('<a href="javascript:void(0);"><span class="ui-icon-newwin ui-icon"></span><span class="artist-title">' + artist.Name + '</span></a>').click(function() {
                     displayArtist(artist.PublicId);
@@ -549,10 +569,10 @@
             }
 
             /**
-            * Display Album details in the album panel using jQuery UI Accordion
-            * @param {String} id The Album Guid
-            * @see <a href="http://docs.jquery.com/UI/Accordion">jQuery UI Accordion</a>
-            */
+             * Display Album details in the album panel using jQuery UI Accordion
+             * @param {String} id The Album Guid
+             * @see <a href="http://docs.jquery.com/UI/Accordion">jQuery UI Accordion</a>
+             */
             function displayAlbum(id) {
                 centrallayout.open(config.albumLocation);
                 load("/Music/Album/" + id, null, function(data) {
@@ -581,9 +601,9 @@
                     var trackCount = data.Tracks.length;
                     for (i = 0; i < trackCount; i++) {
                         /**
-                        * Show each track from the album, include the Artist name if it varies from the Album artist
-                        * (eg. a compilation album)
-                        */
+                         * Show each track from the album, include the Artist name if it varies from the Album artist
+                         * (eg. a compilation album)
+                         */
                         var row = $('<tr />');
                         row.append(createTrackTd(data.Tracks[i], data.Tracks[i].Artist.Name != data.Artist.Name));
                         table.append(row);
@@ -597,11 +617,11 @@
             }
 
             /**
-            * Display Artist details in the artist panel using jQuery UI Accordion
-            * @param {String} id The Artist Guid
-            * @see <a href="http://docs.jquery.com/UI/Accordion">jQuery UI Accordion</a>
-            * TODO Add album cover thumbnail
-            */
+             * Display Artist details in the artist panel using jQuery UI Accordion
+             * @param {String} id The Artist Guid
+             * @see <a href="http://docs.jquery.com/UI/Accordion">jQuery UI Accordion</a>
+             * TODO Add album cover thumbnail
+             */
             function displayArtist(id) {
                 centrallayout.open(config.artistLocation);
                 load("/Music/Artist/" + id, null, function(data) {
@@ -639,12 +659,9 @@
             }
 
             /**
-            * Called when Favourites tab is clicked
-            * Gets the track favourites in blocks from the database. If the user scrolls to near the bottom of the
-            * page, the next block of track favourites is requested and appended to the table.
-            * TODO Ensure that requests stop once we have the entire track favourites list
-            * @see addTrackHistoryRows
-            */
+             * Called when Favourites tab is clicked
+             * @see addTrackHistoryRows
+             */
             function load__Favourites() {
                 if (favouritesTable == null) {
                     var favouritesDiv = $(config.favouritesDiv);
@@ -662,25 +679,33 @@
                 }
             }
 
+            /**
+             * Sets up a table as a scrolling version of pagination
+             * Used to load a chunk of data to fill the screen. Loads the next chunk when the screen is scrolled to the bottom
+             */
             function setupElementAsScrolling(url, container, table, rowheight, arrayName, callback) {
                 var loadingRows = true;
                 var default_amount = Math.ceil((container.outerHeight() / rowheight) * 1.2);
                 var amount = default_amount;
                 var from = 0;
                 var gotAll = false;
-                container.html(language.Loading).scroll(function() {
+                container.html('<p>' + language.Loading + '</p>').scroll(function() {
+                    // Called when the screen is scrolled
                     if (!loadingRows && (this.scrollHeight - (container.scrollTop() + container.outerHeight()) < config.footerDistance)) {
+                        table.append('<tr id="__row_load"><td colspan="4">' + language.Loading + '</td></tr>'); // Add a loading message
                         from = table.find("tr").length;
                         loadingRows = true;
                         load(url + "?from=" + from + "&amount=" + amount, null, function(data) {
                             if (data[arrayName].length < amount) {
                                 gotAll = true;
                             }
+                            $('#__row_load').remove();
                             loadingRows = false;
                             callback(data);
                         });
                     }
                 }).each(function() {
+                    // Called on the initial load
                     load(url + "?from=" + from + "&amount=" + amount, null, function(data) {
                         container.empty();
                         if (data[arrayName].length < amount) {
@@ -692,14 +717,16 @@
                 });
             }
 
-
             /**
-            * @returns {Boolean} Whether the login form exists and is visible
-            */
+             * @returns {Boolean} Whether the login form exists and is visible
+             */
             function isLoginFormVisible() {
                 return (loginForm != null && loginForm.is(":visible"));
             }
 
+            /**
+             * @returns {Boolean} The buttons with the appropriate language labels
+             */
             function createLoginButtons() {
                 var buttons = {};
                 buttons[language.Login] = function() {
@@ -711,6 +738,9 @@
                 return buttons;
             }
 
+            /**
+             * @returns {Boolean} The buttons with the appropriate language labels
+             */
             function createRegisterButtons() {
                 var buttons = {};
                 buttons[language.Register] = function() {
@@ -720,8 +750,8 @@
             }
 
             /**
-            * Displays the login form in a draggable dialog window
-            */
+             * Displays the login form in a draggable dialog window
+             */
             function displayLoginForm() {
                 if (loginForm == null) {
                     loginForm = $(config.loginDiv).show();
@@ -755,6 +785,10 @@
                 loginForm.dialog("option", "title", language.Login);
             }
 
+            /**
+             * @returns {String} The formatted timespan
+             * TODO Add localisation
+             */
             function formatMillisecondsTimeSpan(millis) {
                 var s = function(n) { return n == 1 ? '' : 's' };
                 var seconds = millis / 1000;
@@ -790,9 +824,9 @@
             }
 
             /**
-            * Handles the submitting of the login form
-            * @param {Object} form The login form data
-            */
+             * Handles the submitting of the login form
+             * @param {Object} form The login form data
+             */
             function submitLoginForm(form) {
                 if (loginButton == null) {
                     // Find the login button
@@ -804,7 +838,13 @@
                 load("/Account/Logon", form.serialize());
             }
 
+            /**
+             * Displays the register form
+             */
             function displayRegisterForm() {
+                if (loginForm != null) {
+                    loginForm.dialog("close");
+                }
                 if (registerForm == null) {
                     registerForm = $('#register-form');
 
@@ -823,6 +863,9 @@
                         modal: false,
                         closeOnEscape: false,
                         autoResize: true,
+                        open: function() {
+                            $(this).parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
+                        },
                         buttons: createRegisterButtons()
                     });
                 } else {
@@ -831,6 +874,9 @@
                 registerForm.dialog("option", "title", language.Register);
             }
 
+            /**
+             * Called when the registration form is submitted
+             */
             function submitRegisterForm(form) {
                 if (registerButton == null) {
                     // Find the login button
@@ -860,8 +906,8 @@
             }
 
             /**
-            * Removes the static content container
-            */
+             * Removes the static content container
+             */
             function removeStaticContent() {
                 $(config.staticDiv).remove();
             }

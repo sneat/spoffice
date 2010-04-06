@@ -102,6 +102,10 @@ form .ui-state-error p span.ui-icon
 	height: 100%;
 	padding: 0;
 }
+#trackhistory p 
+{
+    padding-left: 1.4em;
+}
 #layout 
 {
     display: none;
