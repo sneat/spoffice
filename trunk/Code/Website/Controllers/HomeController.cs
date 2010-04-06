@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using Spoffice.Website.Models;
 using SharpSpotLib.Media;
 using Spoffice.Website.Helpers;
+using Spoffice.Website.Models.Output;
+using System.Globalization;
 
 namespace Spoffice.Website.Controllers
 {
@@ -23,10 +25,9 @@ namespace Spoffice.Website.Controllers
             ViewData["Message"] = "Welcome to Cooltunes!";
             return View();
         }
-        public ActionResult Localization()
+        public ActionResult Localization(string id)
         {
-            System.Resources.ResourceReader reader = new System.Resources.ResourceReader(Server.MapPath("~/Resources/Views/Account/AccountStrings.resx"));
-            return MultiformatView(typeof(System.Resources.ResourceReader), reader);
+            return MultiformatView(typeof(LanguageOutput), new LanguageOutput(id));
         }
 
         public ActionResult About()

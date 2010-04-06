@@ -40,11 +40,14 @@
 
             this.load();
 
+
             return this;
         },
         load: function() {
             var self = this;
-            this.loadMethod(this.url, null, function(data) { self._parseJson(data); });
+            this.loadMethod(this.url, null, function(data) {
+                self._parseJson(data);
+            });
         },
         _parseJson: function(data) {
             var self = this;

@@ -45,9 +45,7 @@
             mainWestSize: 326,
             mainEastSize: 300,
             mainSpacingOpen: 4,
-            mainSpacingClosed: 4,
-
-            updater: null
+            mainSpacingClosed: 4
         };
         if (settings) $.extend(config, settings);
         this.each(function() {
@@ -70,6 +68,8 @@
             var registerForm = null;
             var registerButton = null;
             var progressBar;
+            var updater;
+            var language;
             var icons = {
                 header: "ui-icon-folder-collapsed",
                 headerSelected: "ui-icon-folder-open"
@@ -79,10 +79,22 @@
             * Called when the class initially loads
             */
             function init() {
-                $.localise('Scripts/i18n/Strings', { language: 'fr', callback: function() {
-                        removeStaticContent();
-                        getLoginStatus();
-                 } });
+                load("/Home/Localization", null, function(data) {
+                    language = data.Language;
+                    removeStaticContent();
+                    getLoginStatus();
+                });
+            }
+
+            function loadLanguage(lang, callback) {
+                load("/Home/Localization/" + lang, null, function(data) {
+                    language = data.Language;
+                    switchLanguage();
+                });
+            }
+
+            function switchLanguage() {
+                console.log("switching language");
             }
 
             /**
@@ -100,6 +112,7 @@
             * @see <a href="http://api.jquery.com/jQuery.ajax/">jQuery AJAX Documentation</a>
             */
             function load(url, data, callback) {
+                $.ajaxSetup({ async: true, callback: null, timeout: 20000 });
                 $.ajax({
                     url: url,
                     type: data != null ? "POST" : "GET",
@@ -662,10 +675,10 @@
                     });
                     // Create the dialog window
                     var buttons = {};
-                    buttons[Login] = function() {
+                    buttons[language.Login] = function() {
                         submitLoginForm($(this).find("form"));
                     };
-                    buttons[Register] = function() {
+                    buttons[language.Register] = function() {
                         displayRegisterForm();
                     };
                     loginForm.dialog({
