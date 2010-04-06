@@ -80,7 +80,7 @@ namespace Spoffice.Website.Models
         {
             if (Player != null)
             {
-                //Player.Stop();
+                Player.Stop();
             }
         }
 

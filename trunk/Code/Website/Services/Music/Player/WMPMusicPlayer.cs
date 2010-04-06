@@ -13,6 +13,7 @@ namespace Spoffice.Website.Services.Music.Player
         public long TotalBytes { get; set; }
         private WindowsMediaPlayer engine;
         private Track _Track;
+        private bool isPlaying = false;
         public WMPMusicPlayer(long bytesPlayed)
         {
             TotalBytes = bytesPlayed;
@@ -47,9 +48,9 @@ namespace Spoffice.Website.Services.Music.Player
             engine.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(Player_PlayStateChange);
             engine.MediaError += new WMPLib._WMPOCXEvents_MediaErrorEventHandler(Player_MediaError);
             engine.controls.play();
-
+            isPlaying = true;
             long startTotalBytes = TotalBytes;
-            while (engine.controls.currentPosition == 0 || engine.controls.currentPosition < engine.currentMedia.duration)
+            while (engine.playState != WMPPlayState.wmppsStopped)
             {
                 track.Progress = (int)engine.controls.currentPosition * 1000; // currentPosition is in seconds, we want ms.
                 if (track.Length == 0 && engine.currentMedia.duration > 0)
@@ -77,5 +78,12 @@ namespace Spoffice.Website.Services.Music.Player
             // Do something to track that there was an error and remove the song from being played again in future
             _Track.OnPlayed();
         }
+
+
+        public void Stop()
+        {
+            engine.controls.stop();
+        }
+
     }
 }

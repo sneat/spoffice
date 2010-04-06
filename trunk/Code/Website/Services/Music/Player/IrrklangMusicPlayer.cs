@@ -29,6 +29,11 @@ namespace Spoffice.Website.Services.Music.Player
             thread.Start(track);
         }
 
+        public void Stop()
+        {
+            engine.StopAllSounds();
+        }
+
         #endregion
 
         public void DoPlay(object t)

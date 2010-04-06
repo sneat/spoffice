@@ -10,5 +10,6 @@ namespace Spoffice.Website.Services.Music.Player
     {
         long TotalBytes { get; set; }
         void PlayTrack(Track track);
+        void Stop();
     }
 }

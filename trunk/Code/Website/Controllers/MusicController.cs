@@ -52,9 +52,9 @@ namespace Spoffice.Website.Controllers
                 Tracks  = MusicService.UpcomingTracks.Select(t=> t.AsOutput()).ToList()
             });
         }
-        public ActionResult Skip(string id)
+        public ActionResult Skip()
         {
-            //Spoffice.Website.Helpers.SpotifyConnector.Current.Skip();
+            MusicService.CurrentTrack.Stop();
             return null;
         }
 
