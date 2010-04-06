@@ -5,6 +5,7 @@ using System.Web;
 using Spoffice.Website.Services.Music.Downloader;
 using Spoffice.Website.Services.Music.Player;
 using Spoffice.Website.Models;
+using System.Web.Security;
 
 namespace Spoffice.Website.Services.Music
 {
@@ -25,6 +26,13 @@ namespace Spoffice.Website.Services.Music
             get
             {
                 return Votes.Count;
+            }
+        }
+        public int RequiredVotes
+        {
+            get
+            {
+                return (int)Math.Ceiling(((double)Membership.GetNumberOfUsersOnline() / 2));
             }
         }
         #endregion
@@ -150,11 +158,16 @@ namespace Spoffice.Website.Services.Music
         }
 
         #region voting
+
         public bool AddVote(Guid userId)
         {
             if (!Votes.Contains(userId))
             {
                 Votes.Add(userId);
+                if (VoteCount >= VoteCount)
+                {
+                    CurrentTrack.Stop();
+                }
                 return true;
             }
             return false;

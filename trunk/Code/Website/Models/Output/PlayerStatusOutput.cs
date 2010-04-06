@@ -17,6 +17,16 @@ namespace Spoffice.Website.Models.Output
             get;
             set;
         }
+        public int NumberOfVotesRequired
+        {
+            get;
+            set;
+        }
+        public int NumberOfVotes
+        {
+            get;
+            set;
+        }
         public List<TrackOutput> Tracks
         {
             get;

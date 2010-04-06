@@ -49,7 +49,9 @@ namespace Spoffice.Website.Controllers
             {
                 PlayerPosition = MusicService.CurrentTrack != null ? MusicService.CurrentTrack.Progress : 0,
                 TotalBytes = MusicService.Player.TotalBytes,
-                Tracks  = MusicService.UpcomingTracks.Select(t=> t.AsOutput()).ToList()
+                Tracks  = MusicService.UpcomingTracks.Select(t=> t.AsOutput()).ToList(),
+                NumberOfVotes = MusicService.VoteCount,
+                NumberOfVotesRequired = MusicService.RequiredVotes
             });
         }
         public ActionResult Skip()
@@ -85,10 +87,7 @@ namespace Spoffice.Website.Controllers
         public ActionResult Vote(string id, string value)
         {
             StatusOutput result = null;
-            User user = (from m in DataContext.Context.Users
-                         where m.UserId == UserGuid
-                         select m).FirstOrDefault();
-
+            
             switch (value)
             {
                 case "for":
@@ -96,6 +95,10 @@ namespace Spoffice.Website.Controllers
                     break;
                 case "against":
                     result = DataContext.RatingRepository.VoteAgainstTrack(id, UserGuid);
+                    if (MusicService.CurrentTrack != null && MusicService.CurrentTrack.Id == BaseOutput.ConvertPublicToPrivate(id))
+                    {
+                        MusicService.AddVote(UserGuid);
+                    }
                     break;
             }
 
