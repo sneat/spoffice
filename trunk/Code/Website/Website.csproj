@@ -216,6 +216,7 @@
     <Compile Include="Services\Music\MusicService.cs" />
     <Compile Include="Services\Music\Player\IMusicPlayer.cs" />
     <Compile Include="Services\Music\Player\IrrklangMusicPlayer.cs" />
+    <Compile Include="Services\Music\Player\WMPMusicPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\CoolTunes.js" />
@@ -924,6 +925,16 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Spoffice.Designer.cs</LastGenOutput>
     </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

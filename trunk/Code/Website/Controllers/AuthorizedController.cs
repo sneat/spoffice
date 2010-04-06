@@ -42,8 +42,28 @@ namespace Spoffice.Website.Controllers
                     {
                         Downloader = new SpotifyDownloader(spotifyUsername, spotifyPassword);
                     }
-                    IrrklangMusicPlayer player = new IrrklangMusicPlayer(DataContext.TrackRepository.GetTotalBytesPlayed());
-                    MusicService = new MusicService(Downloader, player);
+                    string mediaPlayer = ConfigurationSettings.AppSettings["Media.Player"];
+                    if (!String.IsNullOrEmpty(mediaPlayer))
+                    {
+                        IMusicPlayer player;
+                        if (mediaPlayer == "Irrklang")
+                        {
+                            player = new IrrklangMusicPlayer(DataContext.TrackRepository.GetTotalBytesPlayed());
+                        }
+                        else if (mediaPlayer == "WMP")
+                        {
+                            player = new WMPMusicPlayer(DataContext.TrackRepository.GetTotalBytesPlayed());
+                        }
+                        else
+                        {
+                            throw new Exception("Media player specified in app settings is not a valid option.");
+                        }
+                        MusicService = new MusicService(Downloader, player);
+                    }
+                    else
+                    {
+                        throw new Exception("No media player specified in app settings!");
+                    }
                 }
                 else
                 {

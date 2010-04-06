@@ -22,8 +22,15 @@
     </sectionGroup>
   </configSections>
   <appSettings>
-    <add key="Spotify.Username" value="Mikeemoo" />
-    <add key="Spotify.Password" value="aaaabbbbcccc" />
+    <!-- Your Spotify username -->
+    <add key="Spotify.Username" value="username" />
+    <!-- Your Spotify password -->
+    <add key="Spotify.Password" value="password" />
+    <!-- 
+    Select the player you wish to use. Valid options are "Irrklang" and "WMP".
+    If using WMP you need to make sure you can play OGG files. See http://www.vorbis.com/setup_windows/ for codecs (DirectShow Filters link).
+    -->
+    <add key="Media.Player" value="Irrklang" />
   </appSettings>
   <connectionStrings>
     <add name="ApplicationServices" connectionString="Data Source=192.168.100.123;Initial Catalog=cooltunes;Persist Security Info=True;User ID=cooltunes;Password=RetR7T6e" providerName="System.Data.SqlClient" />
