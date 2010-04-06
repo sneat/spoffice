@@ -165,4 +165,7 @@
   <data name="Username" xml:space="preserve">
     <value>!Username!</value>
   </data>
+  <data name="Wait" xml:space="preserve">
+    <value>!Wait...!</value>
+  </data>
 </root>

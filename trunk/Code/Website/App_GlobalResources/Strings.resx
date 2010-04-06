@@ -181,4 +181,8 @@
     <value>Username</value>
     <comment>Displayed on the login and register forms</comment>
   </data>
+  <data name="Wait" xml:space="preserve">
+    <value>Wait...</value>
+    <comment>Wait (displayed on login buttons)</comment>
+  </data>
 </root>

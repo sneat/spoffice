@@ -6,6 +6,8 @@ using System.Resources;
 using System.Collections;
 using System.Globalization;
 using System.Reflection;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Spoffice.Website.Models.Output
 {
@@ -27,14 +29,37 @@ namespace Spoffice.Website.Models.Output
             }
 
             ResourceManager manager = new ResourceManager("Spoffice.Website.App_GlobalResources.Strings", Assembly.GetExecutingAssembly());
+            
             ResourceSet resources = manager.GetResourceSet(culture, true, true);
-
+            
             IDictionaryEnumerator enumerator = resources.GetEnumerator();
 
             while (enumerator.MoveNext())
             {
                 Language.Add((string)enumerator.Key, (string)enumerator.Value);
             }
+
+            AvailableLanguages = new List<string>();
+            string[] list = Directory.GetFiles(HttpContext.Current.Server.MapPath("App_GocalResources"));
+            foreach (string str in list)
+            {
+                Regex regex = new Regex("[a-zA-Z-]*.resx");
+                string language = regex.Match(str).ToString().Replace(".resx", String.Empty);
+
+                if (language == "aspx")
+                {
+                    language = CultureInfo.CurrentCulture.NativeName;
+                }
+                else
+                {
+                    language = CultureInfo.GetCultureInfo(language).NativeName;
+                }
+            }
+        }
+        public List<string> AvailableLanguages
+        {
+            get;
+            set;
         }
         public Dictionary<string, string> Language
         {

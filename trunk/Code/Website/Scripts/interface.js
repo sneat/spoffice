@@ -330,6 +330,8 @@
                     },
                     loadMethod: load
                 });
+
+                $('#btnSearch').val(language.Search);
             }
 
             function updateNowPlaying() {
