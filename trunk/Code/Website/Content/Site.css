@@ -19,6 +19,30 @@ h1 a img
 	border: 0;
 	outline: 0;
 }
+#languages 
+{
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 20000;
+	float: right;
+}
+#languages a img 
+{
+	border: 0;
+}
+#languages a 
+{
+	display: block;
+	border: 3px solid #fff;
+	margin-left: 4px;
+	line-height: 50%;
+	float: left;
+}
+#languages a.selected
+{
+	border: 3px solid #cc0000;
+}
 #themes
 {
     position: absolute;

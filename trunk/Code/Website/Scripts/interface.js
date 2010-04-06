@@ -80,8 +80,17 @@
             */
             function init() {
                 load("/Home/Localization", null, function(data) {
-                    $('#switch').click(function() {
-                        loadLanguage("en");
+                    $(data.AvailableLanguages).each(function() {
+                        var l = this;
+                        $('<a href="javascript:void(0);"><img src="Content/flags/' + l + '.gif" /></a>').click(function() {
+                            loadLanguage(l);
+                            $('#languages a').toggleClass("selected", false);
+                            $(this).toggleClass("selected", true);
+                        }).each(function() {
+                            if (l == data.CurrentCulture) {
+                                $(this).toggleClass("selected", true);
+                            }
+                        }).appendTo("#languages");
                     });
                     language = data.Language;
                     removeStaticContent();

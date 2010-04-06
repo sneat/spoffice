@@ -32,6 +32,7 @@ namespace Spoffice.Website.Models
                     DataContext.RatingRepository.DeleteRatingsForTrack(track);
 
                     DataContext.Context.DeleteObject(favourite);
+                    DataContext.Context.SaveChanges();
                 }
                 catch (Exception e) { 
                 

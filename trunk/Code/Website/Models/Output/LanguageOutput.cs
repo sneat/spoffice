@@ -40,21 +40,27 @@ namespace Spoffice.Website.Models.Output
             }
 
             AvailableLanguages = new List<string>();
-            string[] list = Directory.GetFiles(HttpContext.Current.Server.MapPath("App_GocalResources"));
+            string[] list = Directory.GetFiles(HttpContext.Current.Server.MapPath("~/App_GlobalResources"));
             foreach (string str in list)
             {
                 Regex regex = new Regex("[a-zA-Z-]*.resx");
-                string language = regex.Match(str).ToString().Replace(".resx", String.Empty);
-
-                if (language == "aspx")
+                if (regex.IsMatch(str))
                 {
-                    language = CultureInfo.CurrentCulture.NativeName;
-                }
-                else
-                {
-                    language = CultureInfo.GetCultureInfo(language).NativeName;
+                    string language = regex.Match(str).ToString().Replace(".resx", String.Empty);
+                    if (language == "Strings")
+                    {
+                        language = "en-GB";
+                    }
+                    AvailableLanguages.Add(CultureInfo.GetCultureInfo(language).TwoLetterISOLanguageName);
                 }
             }
+            CurrentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+        }
+        public string CurrentCulture
+        {
+            get;
+            set;
         }
         public List<string> AvailableLanguages
         {
