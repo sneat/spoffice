@@ -8,7 +8,6 @@ namespace Spoffice.Website.Services.Music
 {
     public interface ICoverGrabber
     {
-        string GetCoverPath(TrackOutput track);
         string GetCoverPath(AlbumOutput album);
     }
 }

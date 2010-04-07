@@ -17,19 +17,6 @@ namespace Spoffice.Website.Services.Music
             this.grabbers = grabbers;
         }
 
-        public string GetCoverPath(TrackOutput track)
-        {
-            foreach (ICoverGrabber grabber in grabbers)
-            {
-                string cover = grabber.GetCoverPath(track);
-                if (!String.IsNullOrEmpty(cover))
-                {
-                    return cover;
-                }
-            }
-            throw new Exception("Cover not found. Consider adding a cover grabber that will always return a default image");
-        }
-
         public string GetCoverPath(AlbumOutput album)
         {
             foreach (ICoverGrabber grabber in grabbers)
@@ -40,7 +27,7 @@ namespace Spoffice.Website.Services.Music
                     return cover;
                 }
             }
-            throw new Exception("Cover not found. Consider adding a cover grabber that will always return a default image");
+            return "/Content/blank_album.png";
         }
 
         #endregion

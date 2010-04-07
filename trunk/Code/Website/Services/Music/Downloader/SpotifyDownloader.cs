@@ -108,11 +108,6 @@ namespace Spoffice.Website.Services.Music.Downloader
 
         #region ICoverGrabber Members
 
-        public string GetCoverPath(TrackOutput track)
-        {
-            return GetCoverPath(track.Album);
-        }
-
         public string GetCoverPath(AlbumOutput album)
         {
             if (File.Exists(album.AlbumartCachePath))

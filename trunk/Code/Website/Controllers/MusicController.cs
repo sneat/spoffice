@@ -75,10 +75,6 @@ namespace Spoffice.Website.Controllers
         {
             return MultiformatView(typeof(AlbumOutput), MetadataApiParser.GetAlbumById(id));
         }
-        public RedirectResult TrackImage(string id)
-        {
-            return Redirect(covergrabber.GetCoverPath(new TrackOutput { PublicId = id }));
-        }
         public RedirectResult AlbumImage(string id)
         {
             return Redirect(covergrabber.GetCoverPath(new AlbumOutput { PublicId = id }));
