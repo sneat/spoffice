@@ -27,7 +27,7 @@ namespace Spoffice.Website.Services.Music
                     return cover;
                 }
             }
-            return "/Content/blank_album.png";
+            return "~/Content/blank_album.png";
         }
 
         #endregion
