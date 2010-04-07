@@ -632,6 +632,7 @@
             */
             function createTrackTd(track, showartist) {
                 var link = $('<a href="javascript:void(0);" class="track" />');
+
                 var td = $('<td />').append(link);
                 /**
                 * Checks whether the Track ID is in the favourites array
@@ -650,33 +651,39 @@
                             .appendTo(td);
                     }
                 }
+                if (track.Album != null && !track.Album.IsAvailable) {
+                    link.addClass("ui-state-disabled");
+                }
                 // Configure click and hover events
-                link.attr("trackid", track.PublicId).click(function() {
-                    var id = $(this).attr("trackid");
-                    var index = isInFavourites(id)
-                    if (index > -1) {
-                        // Track is already a Favourite, therefore we want to remove it
-                        load("/Favourites/Remove/" + id, null, function(data) {
-                            if (data.StatusCode == "OK") {
-                                favourites.splice(index, 1);
-                                if (favouritesTable != null) {
-                                    favouritesTable.find("a[trackid=" + id + "]").parents("tr").fadeOut("slow", function() { $(this).remove(); }); ;
-                                }
-                                $(document.body).find("a[trackid=" + id + "]").find(".ui-icon")
+                link.attr("trackid", track.PublicId);
+
+                if (track.Album == null || track.Album.IsAvailable) {
+                    link.click(function() {
+                        var id = $(this).attr("trackid");
+                        var index = isInFavourites(id)
+                        if (index > -1) {
+                            // Track is already a Favourite, therefore we want to remove it
+                            load("/Favourites/Remove/" + id, null, function(data) {
+                                if (data.StatusCode == "OK") {
+                                    favourites.splice(index, 1);
+                                    if (favouritesTable != null) {
+                                        favouritesTable.find("a[trackid=" + id + "]").parents("tr").fadeOut("slow", function() { $(this).remove(); }); ;
+                                    }
+                                    $(document.body).find("a[trackid=" + id + "]").find(".ui-icon")
                                     .removeClass("ui-icon-circle-minus").addClass("ui-icon-circle-plus");
-                            }
-                        });
-                    } else {
-                        // Track is not already a Favourite, therefore we want to add it
-                        load("/Favourites/Add/" + id, null, function(data) {
-                            if (data.StatusCode == "OK") {
-                                favourites.push(data.Favourite);
-                                $(document.body).find("a[trackid=" + id + "]").find(".ui-icon")
+                                }
+                            });
+                        } else {
+                            // Track is not already a Favourite, therefore we want to add it
+                            load("/Favourites/Add/" + id, null, function(data) {
+                                if (data.StatusCode == "OK") {
+                                    favourites.push(data.Favourite);
+                                    $(document.body).find("a[trackid=" + id + "]").find(".ui-icon")
                                     .removeClass("ui-icon-circle-plus").addClass("ui-icon-circle-minus");
-                            }
-                        });
-                    }
-                }).hover(
+                                }
+                            });
+                        }
+                    }).hover(
 					function() {
 					    $(this).toggleClass("ui-state-highlight", true);
 					},
@@ -684,6 +691,7 @@
 					    $(this).toggleClass("ui-state-highlight", false);
 					}
 				);
+                }
                 return td;
             }
 
@@ -709,17 +717,24 @@
             * @param {Object} album The Album object
             */
             function createAlbumLink(album) {
-                return $('<a href="javascript:void(0);"><span class="ui-icon-newwin ui-icon"></span><span class="album-title">' + album.Name + '</span></a>').click(function() {
-                    displayAlbum(album.PublicId);
-                }).hover(
-					function() {
-					    $(this).toggleClass("ui-state-highlight", true);
-					},
-					function() {
-					    $(this).toggleClass("ui-state-highlight", false);
-					}
-				);
+                var link = $('<a href="javascript:void(0);"><span class="ui-icon-newwin ui-icon"></span><span class="album-title">' + album.Name + '</span></a>');
+                if (album.IsAvailable) {
+                    link.click(function() {
+                        displayAlbum(album.PublicId);
+                    }).hover(
+					    function() {
+					        $(this).toggleClass("ui-state-highlight", true);
+					    },
+					    function() {
+					        $(this).toggleClass("ui-state-highlight", false);
+					    }
+				    );
+                } else {
+                    link.addClass("ui-state-disabled")
+                }
+                return link;
             }
+
 
             /**
             * Creates the table cell containing the Artist information
