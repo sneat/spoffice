@@ -190,7 +190,7 @@
     <comment>Message returned from a failed vote against a track due to the track already being voted against</comment>
   </data>
   <data name="RatingsSuccessVoteAgainst" xml:space="preserve">
-    <value>You've successfully votes against this track!</value>
+    <value>You've successfully voted against this track!</value>
     <comment>Message returned from a successful vote against a track</comment>
   </data>
   <data name="RatingsUnknownTracKVoteAgainst" xml:space="preserve">

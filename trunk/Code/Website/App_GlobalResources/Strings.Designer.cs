@@ -223,7 +223,7 @@ namespace Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;ve successfully votes against this track!.
+        ///   Looks up a localized string similar to You&apos;ve successfully voted against this track!.
         /// </summary>
         public static string RatingsSuccessVoteAgainst {
             get {
