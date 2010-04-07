@@ -953,7 +953,7 @@ SELECT TOP (@amount) * FROM (
 		ON fav.Track_Id = t.Id
 	WHERE (
 			(trkhis.Datetime < DATEADD(hour, (
-						SELECT  0 - SUM(trk2.Length) / 1000 / 60 / 60 / 2 AS TotalLength
+						SELECT  0 - SUM(Length) / 1000 / 60 / 60 / 1.5 AS TotalLength
 						FROM   Tracks AS trk2
 					), SYSDATETIMEOFFSET()))
 	OR
