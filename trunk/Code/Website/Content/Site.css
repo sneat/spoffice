@@ -61,16 +61,27 @@ a#themelabel span
 	display: block;
 	padding: 5px;
 	margin-top: 1px;
-	padding-left: 26px !important;
+	padding-left: 30px !important;
 	position: relative !important;
 	text-decoration: none;
 	min-width: 200px;
 	width: auto;
+	height: 20px;
+	line-height: 18px;
 	white-space: nowrap;
 	
 }
-#available-languages a img,
-#available-themes a img 
+#available-themes a span.theme_preview 
+{
+    background: transparent url(themes/img/themes.gif) no-repeat 0px 0px;
+    width: 23px;
+    height: 20px;
+    display: inline-block;
+	position: absolute;
+	top: 5px;
+	left: 4px;
+}
+#available-languages a img
 {
 	position: absolute;
 	top: 5px;

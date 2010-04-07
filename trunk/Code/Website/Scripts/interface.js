@@ -159,8 +159,10 @@
                 load("/Home/Localization", null, function(data) {
 
                     $.each(themes, function(key, val) {
-                        $('<li role="menuitem"><a href="javascript:void(0);" class="ui-state-default ui-corner-all" tabindex="-1" id="theme_' + key + '">' + val.display + '</a></li>').
-                        click(function() {
+                        $('<li role="menuitem"><a href="javascript:void(0);" class="ui-state-default ui-corner-all" tabindex="-1" id="theme_' + key + '" >' +
+                            '<span class="theme_preview" title="' + val.display + '" style="background-position: -' + (val.icon * 23) + 'px 0px;"></span>' + val.display + '</a></li>').
+                        click(function(e) {
+                            e.preventDefault();
                             switchTheme(key, val);
                         }).mouseenter(function() {
                             $(this).toggleClass("hover", true).find("a").toggleClass("ui-state-hover", true);
@@ -172,7 +174,8 @@
                     language = data.Language; // Sets the language
                     $.each(data.AvailableLanguages, function(key, val) {
                         $('<li role="menuitem"><a href="javascript:void(0);" class="ui-state-default ui-corner-all" tabindex="-1" id="language_' + key + '"><img src="/Content/flags/' + key + '.gif" />' + val + '</a></li>').
-                        click(function() {
+                        click(function(e) {
+                            e.preventDefault();
                             loadLanguage(key);
                         }).mouseenter(function() {
                             $(this).toggleClass("hover", true).find("a").toggleClass("ui-state-hover", true);
