@@ -137,6 +137,30 @@
     <value>Email</value>
     <comment>Displayed on the register form</comment>
   </data>
+  <data name="FavouritesFailedAdd" xml:space="preserve">
+    <value>An error occurred saving the track.</value>
+    <comment>Message returned from a failed add to favourites due to an unknown reason</comment>
+  </data>
+  <data name="FavouritesFailedNothingAdd" xml:space="preserve">
+    <value>Failed to add this track to your favourites. It's already a favourite of yours!</value>
+    <comment>Message returned from a failed add to favourites due to the track already being a favourite</comment>
+  </data>
+  <data name="FavouritesFailedRemove" xml:space="preserve">
+    <value>An error occurred when trying to remove the track.</value>
+    <comment>Message returned from a failed remove from favourites due to an unknown reason</comment>
+  </data>
+  <data name="FavouritesFailedRemoveNotFound" xml:space="preserve">
+    <value>Couldn't find the requested Favourite.</value>
+    <comment>Message returned from a failed remove from favourites due to the track not being found</comment>
+  </data>
+  <data name="FavouritesSuccessAdd" xml:space="preserve">
+    <value>You've successfully added this track to your favourites!</value>
+    <comment>Message returned from a successful add to favourites</comment>
+  </data>
+  <data name="FavouritesSuccessRemove" xml:space="preserve">
+    <value>Your've successfully removed this track from your favourites!</value>
+    <comment>Message returned from a successful remove from favourites</comment>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
     <comment>Displayed on the Home tab</comment>
@@ -160,6 +184,18 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
     <comment>Displayed on the login and register forms</comment>
+  </data>
+  <data name="RatingsFailedVoteAgainst" xml:space="preserve">
+    <value>You've already voted against this track!</value>
+    <comment>Message returned from a failed vote against a track due to the track already being voted against</comment>
+  </data>
+  <data name="RatingsSuccessVoteAgainst" xml:space="preserve">
+    <value>You've successfully votes against this track!</value>
+    <comment>Message returned from a successful vote against a track</comment>
+  </data>
+  <data name="RatingsUnknownTracKVoteAgainst" xml:space="preserve">
+    <value>Failed to vote against this track. Track unknown.</value>
+    <comment>Message returned from a failed vote against a track due to the track not being known</comment>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>

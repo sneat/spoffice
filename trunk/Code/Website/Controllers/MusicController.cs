@@ -97,6 +97,7 @@ namespace Spoffice.Website.Controllers
                     result = DataContext.RatingRepository.VoteAgainstTrack(id, UserGuid);
                     if (MusicService.CurrentTrack != null && MusicService.CurrentTrack.Id == BaseOutput.ConvertPublicToPrivate(id))
                     {
+                        // Add a vote to skip
                         MusicService.AddVote(UserGuid);
                     }
                     break;

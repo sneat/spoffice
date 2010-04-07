@@ -106,6 +106,60 @@ namespace Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred saving the track..
+        /// </summary>
+        public static string FavouritesFailedAdd {
+            get {
+                return ResourceManager.GetString("FavouritesFailedAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to add this track to your favourites. It&apos;s already a favourite of yours!.
+        /// </summary>
+        public static string FavouritesFailedNothingAdd {
+            get {
+                return ResourceManager.GetString("FavouritesFailedNothingAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when trying to remove the track..
+        /// </summary>
+        public static string FavouritesFailedRemove {
+            get {
+                return ResourceManager.GetString("FavouritesFailedRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t find the requested Favourite..
+        /// </summary>
+        public static string FavouritesFailedRemoveNotFound {
+            get {
+                return ResourceManager.GetString("FavouritesFailedRemoveNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ve successfully added this track to your favourites!.
+        /// </summary>
+        public static string FavouritesSuccessAdd {
+            get {
+                return ResourceManager.GetString("FavouritesSuccessAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your&apos;ve successfully removed this track from your favourites!.
+        /// </summary>
+        public static string FavouritesSuccessRemove {
+            get {
+                return ResourceManager.GetString("FavouritesSuccessRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Home {
@@ -156,6 +210,33 @@ namespace Res {
         public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ve already voted against this track!.
+        /// </summary>
+        public static string RatingsFailedVoteAgainst {
+            get {
+                return ResourceManager.GetString("RatingsFailedVoteAgainst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ve successfully votes against this track!.
+        /// </summary>
+        public static string RatingsSuccessVoteAgainst {
+            get {
+                return ResourceManager.GetString("RatingsSuccessVoteAgainst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to vote against this track. Track unknown..
+        /// </summary>
+        public static string RatingsUnknownTracKVoteAgainst {
+            get {
+                return ResourceManager.GetString("RatingsUnknownTracKVoteAgainst", resourceCulture);
             }
         }
         

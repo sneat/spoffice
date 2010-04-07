@@ -6,8 +6,6 @@
 <head runat="server">
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
     <% Html.ScriptManager().ScriptInclude("jquery", "~/Scripts/jquery-latest.min.js"); %>
-    <% Html.ScriptManager().ScriptInclude("jquery_i18n", "~/Scripts/jquery.localisation.js"); %>
-    <% Html.ScriptManager().ScriptInclude("jquery_i18n_strings", "~/Scripts/i18n/Strings.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_ui", "~/Scripts/jquery-ui-1.8.custom.min.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_ui_themeswitcher", "~/Scripts/jquery.themes.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_layout", "~/Scripts/jquery.layout.js"); %>
@@ -112,9 +110,9 @@
       <div id="albumaccordion"></div>
      </div>
      <div id="middle">
-      <div id="home"><%= Res.Strings.Welcome %></div>
+      <div id="home"><asp:ContentPlaceHolder ID="homeTab" runat="server" /></div>
       <div id="trackhistory"></div>
-      <div id="myaccount"></div>
+      <div id="myaccount"><asp:ContentPlaceHolder ID="myAccount" runat="server" /></div>
       <div id="favourites"></div>
       <div id="searchresults"></div>
      </div>

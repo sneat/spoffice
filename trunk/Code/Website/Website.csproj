@@ -1171,11 +1171,9 @@
     <Content Include="Scripts\jquery.layout.js" />
     <Content Include="Scripts\jquery.layout.min.js" />
     <Content Include="Scripts\jquery.tablednd.js" />
-    <Content Include="Scripts\jquery.themeswitcher.js" />
     <Content Include="Scripts\jquery.ui.all.js" />
     <Content Include="Scripts\lazyloader.jquery.js" />
     <Content Include="Scripts\MusicInfoUpdater.js" />
-    <Content Include="Views\Shared\Welcome.ascx" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Models\Spoffice.edmx">
@@ -1199,7 +1197,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Resources\Views\Favourites\" />
-    <Folder Include="Scripts\i18n\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\Favourites\" />
     <Folder Include="Views\Music\" />

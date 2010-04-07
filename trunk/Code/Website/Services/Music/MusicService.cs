@@ -164,7 +164,7 @@ namespace Spoffice.Website.Services.Music
             if (!Votes.Contains(userId))
             {
                 Votes.Add(userId);
-                if (VoteCount >= VoteCount)
+                if (VoteCount >= RequiredVotes)
                 {
                     CurrentTrack.Stop();
                 }

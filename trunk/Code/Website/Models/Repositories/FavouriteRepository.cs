@@ -118,7 +118,6 @@ namespace Spoffice.Website.Models
                 DataContext.Context.AddToFavourites(favourite);
                 dbChanged = true;
             }
-            DataContext.RatingRepository.VoteForTrack(trackNode.PublicId, user.UserId);
             if (dbChanged)
             {
                 try
@@ -127,7 +126,8 @@ namespace Spoffice.Website.Models
                     result = new StatusOutput
                     {
                         StatusCode = "OK",
-                        Favourite = favourite.AsOutput()
+                        Favourite = favourite.AsOutput(),
+                        Message = Res.Strings.FavouritesSuccessAdd
                     };
                 }
                 catch
@@ -135,7 +135,7 @@ namespace Spoffice.Website.Models
                     result = new StatusOutput
                     {
                         StatusCode = "Error",
-                        Message = ViewRes.FavouritesStrings.ErrorSaving
+                        Message = Res.Strings.FavouritesFailedAdd
                     };
                 }
             }
@@ -144,7 +144,7 @@ namespace Spoffice.Website.Models
                 result = new StatusOutput
                 {
                     StatusCode = "Error",
-                    Message = ViewRes.FavouritesStrings.NothingToAdd
+                    Message = Res.Strings.FavouritesFailedNothingAdd
                 };
             }
             return result;
@@ -166,18 +166,14 @@ namespace Spoffice.Website.Models
             {
                 try
                 {
-                    Rating rating = DataContext.RatingRepository.GetTrackRatingForUser(new Track{ Id = privateId}, user);
-                    if (rating != null)
-                    {
-                        DataContext.Context.DeleteObject(rating);
-                    }
                     DataContext.Context.DeleteObject(favourite);
 
                     DataContext.Context.SaveChanges();
 
                     result = new StatusOutput
                     {
-                        StatusCode = "OK"
+                        StatusCode = "OK",
+                        Message = Res.Strings.FavouritesSuccessRemove
                     };
                 }
                 catch
@@ -185,7 +181,7 @@ namespace Spoffice.Website.Models
                     result = new StatusOutput
                     {
                         StatusCode = "Error",
-                        Message = ViewRes.FavouritesStrings.ErrorRemoving
+                        Message = Res.Strings.FavouritesFailedRemove
                     };
                 }
             }
@@ -194,7 +190,7 @@ namespace Spoffice.Website.Models
                 result = new StatusOutput
                 {
                     StatusCode = "Error",
-                    Message = ViewRes.FavouritesStrings.FavouriteNotFound
+                    Message = Res.Strings.FavouritesFailedRemoveNotFound
                 };
             }
 

@@ -534,6 +534,14 @@
                 var td = createTrackTd(updater.track, true);
                 $('#current_track').empty();
                 $('#current_track').append(td.children());
+                $('#voteFor, #voteAgainst').unbind().click(function(e) {
+                    e.preventDefault();
+                    console.log(updater.track.PublicId);
+                    console.log($(this).attr('rel'));
+                    load($(this).attr('href'), { id: updater.track.PublicId, value: $(this).attr('rel') }, function(data) {
+                        console.log(data);
+                    });
+                });
                 //$('#current_track').html(updater.track.title);
                 //$('#current_artist').html(updater.track.artist.name);
             }
