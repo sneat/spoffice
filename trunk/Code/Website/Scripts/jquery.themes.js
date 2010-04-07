@@ -36,80 +36,7 @@
             showPreview: true,  // True to display a popup preview, false to not show it
             compact: true  // True if a compact presentation should be used, false for full
         };
-        this._themes = {  // The definitions of the available themes
-            'blacktie': { display: 'Black Tie', icon: 0, preview: 0,
-                url: 'black-tie/ui.all.css'
-            },
-            'blitzer': { display: 'Blitzer', icon: 1, preview: 1,
-                url: 'blitzer/ui.all.css'
-            },
-            'cupertino': { display: 'Cupertino', icon: 2, preview: 2,
-                url: 'cupertino/ui.all.css'
-            },
-            'darkhive': { display: 'Dark Hive', icon: 17, preview: 17,
-                url: 'dark-hive/ui.all.css'
-            },
-            'dotluv': { display: 'Dot Luv', icon: 3, preview: 3,
-                url: 'dot-luv/ui.all.css'
-            },
-            'eggplant': { display: 'Eggplant', icon: 18, preview: 18,
-                url: 'eggplant/ui.all.css'
-            },
-            'excitebike': { display: 'Excite Bike', icon: 4, preview: 4,
-                url: 'excite-bike/ui.all.css'
-            },
-            'flick': { display: 'Flick', icon: 19, preview: 19,
-                url: 'flick/ui.all.css'
-            },
-            'hotsneaks': { display: 'Hot Sneaks', icon: 5, preview: 5,
-                url: 'hot-sneaks/ui.all.css'
-            },
-            'humanity': { display: 'Humanity', icon: 6, preview: 6,
-                url: 'humanity/ui.all.css'
-            },
-            'lefrog': { display: 'Le Frog', icon: 20, preview: 20,
-                url: 'le-frog/ui.all.css'
-            },
-            'mintchoc': { display: 'Mint Choc', icon: 7, preview: 7,
-                url: 'mint-choc/ui.all.css'
-            },
-            'overcast': { display: 'Overcast', icon: 21, preview: 21,
-                url: 'overcast/ui.all.css'
-            },
-            'peppergrinder': { display: 'Pepper Grinder', icon: 22, preview: 22,
-                url: 'pepper-grinder/ui.all.css'
-            },
-            'redmond': { display: 'Redmond', icon: 8, preview: 8,
-                url: 'redmond/ui.all.css'
-            },
-            'smoothness': { display: 'Smoothness', icon: 9, preview: 9,
-                url: 'smoothness/ui.all.css'
-            },
-            'southstreet': { display: 'South Street', icon: 10, preview: 10,
-                url: 'south-street/ui.all.css'
-            },
-            'start': { display: 'Start', icon: 11, preview: 11,
-                url: 'start/ui.all.css'
-            },
-            'sunny': { display: 'Sunny', icon: 23, preview: 23,
-                url: 'sunny/ui.all.css'
-            },
-            'swankypurse': { display: 'Swanky Purse', icon: 12, preview: 12,
-                url: 'swanky-purse/ui.all.css'
-            },
-            'trontastic': { display: 'Trontastic', icon: 13, preview: 13,
-                url: 'trontastic/ui.all.css'
-            },
-            'uidarkness': { display: 'UI Darkess', icon: 14, preview: 14,
-                url: 'ui-darkness/ui.all.css'
-            },
-            'uilightness': { display: 'UI Lightness', icon: 15, preview: 15,
-                url: 'ui-lightness/ui.all.css'
-            },
-            'vader': { display: 'Vader', icon: 16, preview: 16,
-                url: 'vader/ui.all.css'
-            }
-        };
+        
     }
 
     $.extend(Themes.prototype, {
@@ -211,7 +138,7 @@
                 return value.replace(/'/, '\\\'');
             };
             var previewId = 'th' + ++this._uuid;
-            var html = '<ul class="themes_list ui-widget-header' + (settings.compact ? ' themes_compact' : '') + '">';
+            var html = '<ul class="themes_list ui-widget-header">';
             var allThemes = this._themes;
             $.each(themes, function(index, id) {
                 var theme = allThemes[id];

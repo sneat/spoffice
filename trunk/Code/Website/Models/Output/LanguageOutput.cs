@@ -25,7 +25,9 @@ namespace Spoffice.Website.Models.Output
             }
             else
             {
-                culture = new CultureInfo(lang);
+                culture = CultureInfo.CreateSpecificCulture(lang);
+                System.Threading.Thread.CurrentThread.CurrentCulture = culture;
+                System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
             }
 
             ResourceManager manager = new ResourceManager("Spoffice.Website.App_GlobalResources.Strings", Assembly.GetExecutingAssembly());
@@ -39,7 +41,7 @@ namespace Spoffice.Website.Models.Output
                 Language.Add((string)enumerator.Key, (string)enumerator.Value);
             }
 
-            AvailableLanguages = new List<string>();
+            AvailableLanguages = new Dictionary<string, string>();
             string[] list = Directory.GetFiles(HttpContext.Current.Server.MapPath("~/App_GlobalResources"));
             foreach (string str in list)
             {
@@ -51,18 +53,18 @@ namespace Spoffice.Website.Models.Output
                     {
                         language = "en-GB";
                     }
-                    AvailableLanguages.Add(CultureInfo.GetCultureInfo(language).TwoLetterISOLanguageName);
+                    CultureInfo info = CultureInfo.GetCultureInfo(language);
+                    AvailableLanguages.Add(info.TwoLetterISOLanguageName, info.DisplayName);
                 }
             }
             CurrentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-
         }
         public string CurrentCulture
         {
             get;
             set;
         }
-        public List<string> AvailableLanguages
+        public Dictionary<string, string> AvailableLanguages
         {
             get;
             set;

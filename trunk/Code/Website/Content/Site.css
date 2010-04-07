@@ -20,15 +20,63 @@ h1 a img
 	outline: 0;
 }
 
-#languagelabel,
-#themelabel
+a#languagelabel,
+a#themelabel
 {
 	float: left;
-	margin-left: 5px;
 	cursor: pointer;
+	margin: 0;
+	padding: 5px 10px 6px 20px;
+	position: relative;
+	text-align: center;
+	text-decoration: none !important;
+	margin-right: 10px;
 }
-
-
+a#languagelabel span,
+a#themelabel span 
+{
+	top: 4px;
+}
+#available-languages,
+#available-themes 
+{
+	display: none;
+	overflow: auto;
+	overflow-x: hidden;
+	max-height: 300px;
+}
+#available-languages ul,
+#available-languages ul li,
+#available-themes ul,
+#available-themes ul li
+{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	width: auto;
+}
+#available-languages a,
+#available-themes a 
+{
+	display: block;
+	padding: 5px;
+	margin-top: 1px;
+	padding-left: 26px !important;
+	position: relative !important;
+	text-decoration: none;
+	min-width: 200px;
+	width: auto;
+	white-space: nowrap;
+	
+}
+#available-languages a img,
+#available-themes a img 
+{
+	position: absolute;
+	top: 5px;
+	left: 4px;
+	border: 0;
+}
 #search-form 
 {
 	float: left;
