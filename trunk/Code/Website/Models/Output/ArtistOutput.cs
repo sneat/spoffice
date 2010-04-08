@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using SharpSpotLib.Media;
 using SharpSpotLib.Util;
 using System.Xml.Serialization;
-using Spoffice.Website.Models.Spotify;
 namespace Spoffice.Website.Models.Output
 {
     [XmlRoot("Artist")]

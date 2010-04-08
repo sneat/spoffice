@@ -12,6 +12,7 @@ using Spoffice.Website.Services.Music;
 using Spoffice.Website.Services.Music.Downloader;
 using Spoffice.Website.Services.Music.Player;
 using System.Configuration;
+using Spoffice.Website.Services.Music.Browser;
 
 namespace Spoffice.Website.Controllers
 {
@@ -30,8 +31,13 @@ namespace Spoffice.Website.Controllers
         }
         public static MusicService MusicService;
         public static SpotifyDownloader Downloader;
+        public static IMusicBrowser Browser;
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            if (Browser == null)
+            {
+                Browser = new SpotifyBrowser();
+            }
             if (MusicService == null)
             {
                 string spotifyUsername = ConfigurationSettings.AppSettings["Spotify.Username"];

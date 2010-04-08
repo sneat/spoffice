@@ -539,9 +539,9 @@
                 $('#current_track').append(td.children());
                 $('#voteFor, #voteAgainst').unbind().click(function(e) {
                     e.preventDefault();
-                    console.log(updater.track.PublicId);
+                    console.log(updater.track.Id);
                     console.log($(this).attr('rel'));
-                    load($(this).attr('href'), { id: updater.track.PublicId, value: $(this).attr('rel') }, function(data) {
+                    load($(this).attr('href'), { id: updater.track.Id, value: $(this).attr('rel') }, function(data) {
                         console.log(data);
                     });
                 });
@@ -614,7 +614,7 @@
             function isInFavourites(trackid) {
                 if (favourites != null) {
                     for (var i = 0; i < favourites.length; i++) {
-                        if (favourites[i].Track.PublicId == trackid) {
+                        if (favourites[i].Track.Id == trackid) {
                             return i;
                         }
                     }
@@ -638,7 +638,7 @@
                 * Checks whether the Track ID is in the favourites array
                 * @see dealWithLoginData
                 */
-                if (isInFavourites(track.PublicId) > -1) {
+                if (isInFavourites(track.Id) > -1) {
                     link.html('<span class="ui-icon-circle-minus ui-icon"></span>');
                 } else {
                     link.html('<span class="ui-icon-circle-plus ui-icon"></span>');
@@ -655,7 +655,7 @@
                     link.addClass("ui-state-disabled");
                 }
                 // Configure click and hover events
-                link.attr("trackid", track.PublicId);
+                link.attr("trackid", track.Id);
 
                 if (track.Album == null || track.Album.IsAvailable) {
                     link.click(function() {
@@ -720,7 +720,7 @@
                 var link = $('<a href="javascript:void(0);"><span class="ui-icon-newwin ui-icon"></span><span class="album-title">' + album.Name + '</span></a>');
                 if (album.IsAvailable) {
                     link.click(function() {
-                        displayAlbum(album.PublicId);
+                        displayAlbum(album.Id);
                     }).hover(
 					    function() {
 					        $(this).toggleClass("ui-state-highlight", true);
@@ -750,7 +750,7 @@
             */
             function createArtistLink(artist) {
                 return $('<a href="javascript:void(0);"><span class="ui-icon-newwin ui-icon"></span><span class="artist-title">' + artist.Name + '</span></a>').click(function() {
-                    displayArtist(artist.PublicId);
+                    displayArtist(artist.Id);
                 }).hover(
 					function() {
 					    $(this).toggleClass("ui-state-highlight", true);

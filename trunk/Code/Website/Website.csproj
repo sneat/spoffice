@@ -161,8 +161,6 @@
     <Compile Include="Models\Output\AlbumOutput.cs" />
     <Compile Include="Models\Output\ArtistOutput.cs" />
     <Compile Include="Models\Output\BaseOutput.cs" />
-    <Compile Include="Models\Spotify\MetadataApiParser.cs" />
-    <Compile Include="Models\Spotify\MusicSearch.cs" />
     <Compile Include="Models\Output\TrackOutput.cs" />
     <Compile Include="Models\Track.cs" />
     <Compile Include="Models\Repositories\TrackRepository.cs" />
@@ -213,11 +211,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SiteStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\Music\CoverGrabber.cs" />
-    <Compile Include="Services\Music\ICoverGrabber.cs" />
+    <Compile Include="Services\Music\Browser\IMusicBrowser.cs" />
+    <Compile Include="Services\Music\Browser\SpotifyBrowser.cs" />
+    <Compile Include="Services\Music\CoverGrabber\CoverGrabber.cs" />
+    <Compile Include="Services\Music\CoverGrabber\ICoverGrabber.cs" />
     <Compile Include="Services\Music\Downloader\IMusicDownloader.cs" />
     <Compile Include="Services\Music\Downloader\SpotifyDownloader.cs" />
-    <Compile Include="Services\Music\LastFMCoverGrabber.cs" />
+    <Compile Include="Services\Music\CoverGrabber\LastFMCoverGrabber.cs" />
     <Compile Include="Services\Music\MusicService.cs" />
     <Compile Include="Services\Music\Player\IMusicPlayer.cs" />
     <Compile Include="Services\Music\Player\IrrklangMusicPlayer.cs" />

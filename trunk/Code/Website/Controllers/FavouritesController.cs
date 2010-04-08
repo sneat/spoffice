@@ -23,11 +23,11 @@ namespace Spoffice.Website.Controllers
         }
         public ActionResult Add(string id)
         {
-            return MultiformatView(typeof(StatusOutput), DataContext.FavouriteRepository.AddToFavourites(id, UserGuid));
+            return MultiformatView(typeof(StatusOutput), DataContext.FavouriteRepository.AddToFavourites(new Guid(id), UserGuid));
         }
         public ActionResult Remove(string id)
         {
-            return MultiformatView(typeof(StatusOutput), DataContext.FavouriteRepository.RemoveFromFavourites(id, UserGuid));
+            return MultiformatView(typeof(StatusOutput), DataContext.FavouriteRepository.RemoveFromFavourites(new Guid(id), UserGuid));
         }
     }
  

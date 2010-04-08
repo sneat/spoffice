@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using SharpSpotLib.Media;
 using SharpSpotLib.Util;
 using Spoffice.Website.Helpers;
-using Spoffice.Website.Models.Spotify;
 
 namespace Spoffice.Website.Models.Output
 {

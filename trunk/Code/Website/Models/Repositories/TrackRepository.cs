@@ -102,10 +102,6 @@ namespace Spoffice.Website.Models
             return DataContext.Context.Tracks.Include("Artist").Include("Album").Where(m => m.Id == id).FirstOrDefault();
         }
 
-        public Track GetTrackById(string id)
-        {
-            return GetTrackById(BaseOutput.ConvertPublicToPrivate(id));
-        }
 
         #endregion
     }

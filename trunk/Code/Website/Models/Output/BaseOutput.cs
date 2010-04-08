@@ -15,47 +15,21 @@ namespace Spoffice.Website.Models.Output
         [XmlIgnore]
         [JsonIgnore]
         virtual protected string UrlType { get { return ""; } }
-        [XmlAttribute("publicid")]
-        public string PublicId;
         [XmlAttribute("musicbrainz")]
+
         public Guid MusicBrainzId;
-        [XmlIgnore]
-        [JsonIgnore]
-        public Guid PrivateId
+        [XmlAttribute("id")]
+        public Guid Id
         {
-            get
-            {
-                return ConvertPublicToPrivate(PublicId);
-            }
-            set
-            {
-                PublicId = ConvertPrivateToPublic(value);
-            }
-        }
-    
-        [XmlAttribute("uri")]
-        public string URI
-        {
-            get
-            {
-                return String.Format("spotify:{0}:{1}", UrlType, PublicId);
-            }
-            set { }
-        }
+            get;
+            set;
+        } 
         protected string CachePath
         {
             get
             {
-                return HttpContext.Current.Server.MapPath(String.Format("~/{1}{0}{2}{0}{3}{0}{4}.xml", Path.DirectorySeparatorChar, "Cache", "requests", UrlType, PublicId));
+                return HttpContext.Current.Server.MapPath(String.Format("~/{1}{0}{2}{0}{3}{0}{4}.xml", Path.DirectorySeparatorChar, "Cache", "requests", UrlType, Id.ToString("N")));
             }
-        }        
-        public static Guid ConvertPublicToPrivate(string publicId)
-        {
-            return new Guid(SpotifyURI.ToHex(publicId));
-        }
-        public static string ConvertPrivateToPublic(Guid privateId)
-        {
-            return SpotifyURI.ToBase62(privateId.ToString("N"));
-        }
+        } 
     }
 }

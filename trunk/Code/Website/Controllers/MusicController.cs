@@ -13,7 +13,6 @@ using System.IO;
 using Spoffice.Website.Helpers;
 using System.Xml.Linq;
 using Spoffice.Website.Services.Music;
-using Spoffice.Website.Models.Spotify;
 
 namespace Spoffice.Website.Controllers
 {
@@ -41,7 +40,7 @@ namespace Spoffice.Website.Controllers
         
         public ActionResult Search(string id)
         {
-            return MultiformatView(typeof(TrackListOutput), new TrackListOutput { Tracks = MusicSearch.SearchForTrack(id) });
+            return MultiformatView(typeof(TrackListOutput), new TrackListOutput { Tracks = Browser.SearchForTrack(id) });
         }
         public ActionResult Current()
         {
@@ -69,15 +68,15 @@ namespace Spoffice.Website.Controllers
         }
         public ActionResult Artist(string id)
         {
-            return MultiformatView(typeof(ArtistOutput), MetadataApiParser.GetArtistById(id));
+            return MultiformatView(typeof(ArtistOutput), Browser.GetArtistById(new Guid(id)));
         }
         public ActionResult Album(string id)
         {
-            return MultiformatView(typeof(AlbumOutput), MetadataApiParser.GetAlbumById(id));
+            return MultiformatView(typeof(AlbumOutput), Browser.GetAlbumById(new Guid(id)));
         }
         public RedirectResult AlbumImage(string id)
         {
-            return Redirect(covergrabber.GetCoverPath(new AlbumOutput { PublicId = id }));
+            return Redirect(covergrabber.GetCoverPath(new AlbumOutput { Id = new Guid(id) }));
         }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Vote(string id, string value)
@@ -87,11 +86,11 @@ namespace Spoffice.Website.Controllers
             switch (value)
             {
                 case "for":
-                    result = DataContext.RatingRepository.VoteForTrack(id, UserGuid);
+                    result = DataContext.RatingRepository.VoteForTrack(new Guid(id), UserGuid);
                     break;
                 case "against":
-                    result = DataContext.RatingRepository.VoteAgainstTrack(id, UserGuid);
-                    if (MusicService.CurrentTrack != null && MusicService.CurrentTrack.Id == BaseOutput.ConvertPublicToPrivate(id))
+                    result = DataContext.RatingRepository.VoteAgainstTrack(new Guid(id), UserGuid);
+                    if (MusicService.CurrentTrack != null && MusicService.CurrentTrack.Id == new Guid(id))
                     {
                         // Add a vote to skip
                         MusicService.AddVote(UserGuid);

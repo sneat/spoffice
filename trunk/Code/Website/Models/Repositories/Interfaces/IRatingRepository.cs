@@ -14,7 +14,7 @@ namespace Spoffice.Website.Models
         StatusOutput VoteForTrack(Track track, Guid userGuid);
         StatusOutput VoteAgainstTrack(Track track, Guid userGuid);
 
-        StatusOutput VoteForTrack(string trackid, Guid userGuid);
-        StatusOutput VoteAgainstTrack(string trackid, Guid userGuid);
+        StatusOutput VoteForTrack(Guid trackid, Guid userGuid);
+        StatusOutput VoteAgainstTrack(Guid trackid, Guid userGuid);
     }
 }

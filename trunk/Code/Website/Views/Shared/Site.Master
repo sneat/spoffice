@@ -18,12 +18,10 @@
 <body class="ui-widget-shadow">
  <div class="ui-widget ui-corner-bottom" id="available-languages" rel="available-languages">
     <ul>
-	    
     </ul>
   </div>
   <div class="ui-widget ui-corner-bottom" id="available-themes" rel="available-themes">
     <ul>
-	    
     </ul>
   </div>
   <div id="nav-right" class="ui-widget">

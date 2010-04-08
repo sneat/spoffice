@@ -10,7 +10,7 @@ namespace Spoffice.Website.Models
     {
         List<Favourite> GetUsersFavourites(Guid userid);
         Favourite GetTrackFavouriteForUser(Guid trackid, Guid userid);
-        StatusOutput AddToFavourites(string trackid, Guid userid);
-        StatusOutput RemoveFromFavourites(string trackid, Guid userid);
+        StatusOutput AddToFavourites(Guid trackid, Guid userid);
+        StatusOutput RemoveFromFavourites(Guid trackid, Guid userid);
     }
 }

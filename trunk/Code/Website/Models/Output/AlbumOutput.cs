@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using SharpSpotLib.Media;
 using SharpSpotLib.Util;
 using Newtonsoft.Json;
-using Spoffice.Website.Models.Spotify;
 
 namespace Spoffice.Website.Models.Output
 {
@@ -36,7 +35,7 @@ namespace Spoffice.Website.Models.Output
         {
             get
             {
-                return String.Format("{0}Cache\\albumart\\{1}.jpg", HttpRuntime.AppDomainAppPath, PrivateId.ToString());
+                return String.Format("{0}Cache\\albumart\\{1}.jpg", HttpRuntime.AppDomainAppPath, Id.ToString());
             }
         }
         [XmlIgnore]
@@ -45,7 +44,7 @@ namespace Spoffice.Website.Models.Output
         {
             get
             {
-                return String.Format("~/Cache/albumart/{0}.jpg", PrivateId.ToString());
+                return String.Format("~/Cache/albumart/{0}.jpg", Id.ToString());
             }
         }
         #endregion

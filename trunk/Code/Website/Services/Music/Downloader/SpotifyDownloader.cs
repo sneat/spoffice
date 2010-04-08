@@ -118,7 +118,7 @@ namespace Spoffice.Website.Services.Music.Downloader
             {
                 try
                 {
-                    SharpSpotLib.Media.Album spotify_album = connection.BrowseAlbum(album.PrivateId.ToString("N"));
+                    SharpSpotLib.Media.Album spotify_album = connection.BrowseAlbum(album.Id.ToString("N"));
                     if (spotify_album != null && spotify_album.Cover != null)
                     {
                         System.Drawing.Image img = connection.Image(spotify_album.Cover);

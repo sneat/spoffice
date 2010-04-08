@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Spoffice.Website.Models.Output;
-using Spoffice.Website.Models.Spotify;
+using Spoffice.Website.Services.Music;
+using Spoffice.Website.Controllers;
 
 namespace Spoffice.Website.Models
 {
@@ -16,10 +17,6 @@ namespace Spoffice.Website.Models
         {
             return DataContext.Context.Favourites.Include("Track.Artist").Include("Track.Album").Where(f => f.User.UserId == userid).ToList();
         }
-
-        #endregion
-
-        #region IFavouriteRepository Members
 
 
         public Favourite GetTrackFavouriteForUser(Guid trackid, Guid userid)
@@ -34,22 +31,22 @@ namespace Spoffice.Website.Models
         #region IFavouriteRepository Members
 
 
-        public StatusOutput AddToFavourites(string trackid, Guid userid)
+        public StatusOutput AddToFavourites(Guid trackid, Guid userid)
         {
             StatusOutput result = new StatusOutput();
             Boolean dbChanged = false;
-            TrackOutput trackNode = MetadataApiParser.GetTrackById(trackid);
+            TrackOutput trackNode = AuthorizedController.Browser.GetTrackById(trackid);
             ArtistOutput artistNode = trackNode.Artist;
             AlbumOutput albumNode = trackNode.Album;
 
-            Artist artist = DataContext.ArtistRepository.GetArtistById(artistNode.PrivateId);
+            Artist artist = DataContext.ArtistRepository.GetArtistById(artistNode.Id);
 
             if (artist == null)
             {
                 artist = new Artist
                 {
                     Name = artistNode.Name,
-                    Id = artistNode.PrivateId,
+                    Id = artistNode.Id,
                     MusicBrainzId = trackNode.MusicBrainzId
                 };
                 DataContext.Context.AddToArtists(artist);
@@ -61,14 +58,14 @@ namespace Spoffice.Website.Models
                 dbChanged = true;
             }
 
-            Album album = DataContext.AlbumRepository.GetAlbumById(albumNode.PrivateId);
+            Album album = DataContext.AlbumRepository.GetAlbumById(albumNode.Id);
 
             if (album == null)
             {
                 album = new Album
                 {
                     Name = albumNode.Name,
-                    Id = albumNode.PrivateId,
+                    Id = albumNode.Id,
                     MusicBrainzId = albumNode.MusicBrainzId
                 };
                 DataContext.Context.AddToAlbums(album);
@@ -80,7 +77,7 @@ namespace Spoffice.Website.Models
                 dbChanged = true;
             }
 
-            Track track = DataContext.TrackRepository.GetTrackById(trackNode.PrivateId);
+            Track track = DataContext.TrackRepository.GetTrackById(trackNode.Id);
 
             if (track == null)
             {
@@ -89,7 +86,7 @@ namespace Spoffice.Website.Models
                     Artist = artist,
                     Album = album,
                     Title = trackNode.Title,
-                    Id = trackNode.PrivateId,
+                    Id = trackNode.Id,
                     Length = trackNode.Length,
                     MusicBrainzId = trackNode.MusicBrainzId
                 };
@@ -150,11 +147,10 @@ namespace Spoffice.Website.Models
             return result;
         }
 
-        public StatusOutput RemoveFromFavourites(string trackid, Guid userid)
+        public StatusOutput RemoveFromFavourites(Guid privateId, Guid userid)
         {
             StatusOutput result;
 
-            Guid privateId = TrackOutput.ConvertPublicToPrivate(trackid);
 
             User user = (from m in DataContext.Context.Users
                          where m.UserId == userid

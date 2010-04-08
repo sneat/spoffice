@@ -15,7 +15,7 @@ namespace Spoffice.Website.Models
             {
                 node.MusicBrainzId = (Guid)MusicBrainzId;
             }
-            node.PrivateId = Id;
+            node.Id = Id;
             node.Name = Name;
             return node;
         }

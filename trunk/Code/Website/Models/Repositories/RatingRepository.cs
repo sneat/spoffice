@@ -33,7 +33,7 @@ namespace Spoffice.Website.Models
             }
             DataContext.Context.SaveChanges();
         }
-        public StatusOutput VoteForTrack(string trackid, Guid userGuid)
+        public StatusOutput VoteForTrack(Guid trackid, Guid userGuid)
         {
             Track track = DataContext.TrackRepository.GetTrackById(trackid);
             Rating rating = (from m in DataContext.Context.Ratings
@@ -48,9 +48,9 @@ namespace Spoffice.Website.Models
         }
         public StatusOutput VoteForTrack(Track track, Guid userGuid)
         {
-            return VoteForTrack(track.Id.ToString(), userGuid);
+            return VoteForTrack(track.Id, userGuid);
         }
-        public StatusOutput VoteAgainstTrack(string trackid, Guid userGuid)
+        public StatusOutput VoteAgainstTrack(Guid trackid, Guid userGuid)
         {
             return VoteAgainstTrack(DataContext.TrackRepository.GetTrackById(trackid), userGuid);
         }
@@ -70,8 +70,7 @@ namespace Spoffice.Website.Models
                 Favourite favourite = DataContext.FavouriteRepository.GetTrackFavouriteForUser(track.Id, user.UserId);
                 if (favourite != null)
                 {
-                    String publicId = TrackOutput.ConvertPrivateToPublic(track.Id);
-                    DataContext.FavouriteRepository.RemoveFromFavourites(publicId, user.UserId);
+                    DataContext.FavouriteRepository.RemoveFromFavourites(track.Id, user.UserId);
                 }
                 DataContext.Context.AddToRatings(new Rating
                 {
