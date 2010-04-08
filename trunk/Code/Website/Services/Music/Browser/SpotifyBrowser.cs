@@ -64,7 +64,7 @@ namespace Spoffice.Website.Services.Music.Browser
         public TrackOutput GetTrackById(Guid id)
         {
             string publicId = ConvertPrivateToPublic(id);
-            return ParseTrack(GetData(publicId, "http://ws.spotify.com/lookup/1/?uri={0}", "track", String.Format("{0}:{1}:{2}", "spotify", "track", publicId)));
+            return ParseTrack(GetData(publicId, "http://ws.spotify.com/lookup/1/?uri={0}", "track", String.Format("{0}:{1}:{2}", "spotify", "track", publicId)), id);
         }
 
         #endregion
@@ -98,15 +98,23 @@ namespace Spoffice.Website.Services.Music.Browser
         #endregion
 
         #region track parsing
-        public TrackOutput ParseTrack(XDocument track)
+        public TrackOutput ParseTrack(XDocument track, Guid id)
         {
-            return ParseTrack(track.Element(ns + "track"));
+            return ParseTrack(track.Element(ns + "track"), id);
         }
         public TrackOutput ParseTrack(XElement track)
+        {
+            return ParseTrack(track, Guid.Empty);
+        }
+        public TrackOutput ParseTrack(XElement track, Guid id)
         {
             TrackOutput output = new TrackOutput();
 
             output.Id = ParseHref(track);
+            if (id != Guid.Empty)
+            {
+                output.Id = id;
+            }
   
             output.MusicBrainzId = ParseMusicBrainz(track);
 

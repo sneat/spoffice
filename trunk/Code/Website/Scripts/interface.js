@@ -542,7 +542,7 @@
                 $('#current_track').append(td.children());
                 $('#voteFor, #voteAgainst').unbind().click(function(e) {
                     e.preventDefault();
-                   // console.log(updater.track.Id);
+                    // console.log(updater.track.Id);
                     //console.log($(this).attr('rel'));
                     load($(this).attr('href'), { id: updater.track.Id, value: $(this).attr('rel') }, function(data) {
                         //console.log(data);
@@ -578,7 +578,7 @@
 
             function createTrackHistoryRow(Track) {
                 var row = $("<tr />");
-                
+
                 row.append(createTrackTd(Track));
                 row.append(createTrackLengthTd(Track));
                 row.append(createArtistTd(Track.Artist));
@@ -620,6 +620,7 @@
             function isInFavourites(trackid) {
                 if (favourites != null) {
                     for (var i = 0; i < favourites.length; i++) {
+                        console.log(favourites[i].Track.Id);
                         if (favourites[i].Track.Id == trackid) {
                             return i;
                         }
@@ -666,7 +667,7 @@
                 if (track.Album == null || track.Album.IsAvailable) {
                     link.click(function() {
                         var id = $(this).attr("trackid");
-                        var index = isInFavourites(id)
+                        var index = isInFavourites(id);
                         if (index > -1) {
                             // Track is already a Favourite, therefore we want to remove it
                             load("/Favourites/Remove/" + id, null, function(data) {
