@@ -53,7 +53,7 @@
             var self = this;
 
             var checkTime = new Date().getTime();
-            if (this.lastCheck != null && (this.track != null && this.track.PublicId == data.Tracks[0].PublicId)) {
+            if (this.lastCheck != null && (this.track != null && this.track.Id == data.Tracks[0].Id)) {
                 var timeDifference = (checkTime - this.lastCheck);
                 this.position_speed = (data.PlayerPosition - this.position) / timeDifference;
                 this.totalbyte_speed = (data.TotalBytes - this.totalbytes) / timeDifference;
@@ -70,12 +70,11 @@
             var currentTrack = data.Tracks[0];
             if (this.track == null) {
                 this.refreshTracks(data);
-            } else if (this.track.PublicId != currentTrack.PublicId) {
+            } else if (this.track.Id != currentTrack.Id) {
+                var oldtrack = this.track;
                 this.refreshTracks(data);
-                this.onTrackChange();
+                this.onTrackChange(oldtrack);
             }
-
-
 
             var timeleft = this.length - this.positon;
 

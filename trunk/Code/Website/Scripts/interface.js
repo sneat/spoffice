@@ -507,7 +507,10 @@
                 * Initialise the now playing update
                 */
                 updater = $.MusicInfoUpdater.init("/Music/Current", {
-                    onTrackChange: function() {
+                    onTrackChange: function(oldtrack) {
+                        if (trackHistoryTable != null) {
+                            trackHistoryTable.prepend(createTrackHistoryRow(oldtrack));
+                        }
                         updateNowPlaying();
                         progressBar.progressbar("value", 0);
                     },
@@ -539,10 +542,10 @@
                 $('#current_track').append(td.children());
                 $('#voteFor, #voteAgainst').unbind().click(function(e) {
                     e.preventDefault();
-                    console.log(updater.track.Id);
-                    console.log($(this).attr('rel'));
+                   // console.log(updater.track.Id);
+                    //console.log($(this).attr('rel'));
                     load($(this).attr('href'), { id: updater.track.Id, value: $(this).attr('rel') }, function(data) {
-                        console.log(data);
+                        //console.log(data);
                     });
                 });
                 //$('#current_track').html(updater.track.title);
@@ -566,18 +569,21 @@
                         var rowcount = data.History.length;
                         for (var i = 0; i < rowcount; i++) {
                             var item = data.History[i];
-                            var row = $("<tr />");
-                            // Create the row containing the track history data
-                            var time = new Date(item.Timestamp).getTime();
-                            row.append(createTrackTd(item.Track));
-                            row.append(createTrackLengthTd(item.Track));
-                            row.append(createArtistTd(item.Track.Artist));
-                            row.append(createAlbumTd(item.Track.Album));
-                            row.appendTo(trackHistoryTable);
+                            createTrackHistoryRow(item.Track).appendTo(trackHistoryTable);
                         }
                         $(trackHistoryTable).appendTo(trackHistoryDiv);
                     });
                 }
+            }
+
+            function createTrackHistoryRow(Track) {
+                var row = $("<tr />");
+                
+                row.append(createTrackTd(Track));
+                row.append(createTrackLengthTd(Track));
+                row.append(createArtistTd(Track.Artist));
+                row.append(createAlbumTd(Track.Album));
+                return row;
             }
 
             /**
