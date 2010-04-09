@@ -133,6 +133,7 @@
     <Compile Include="Models\Album.cs" />
     <Compile Include="Models\Artist.cs" />
     <Compile Include="Models\Favourite.cs" />
+    <Compile Include="Models\Output\AccountInformationOutput.cs" />
     <Compile Include="Models\Output\FavouriteOutput.cs" />
     <Compile Include="Models\Output\FavouritesListOutput.cs" />
     <Compile Include="Models\Output\LanguageOutput.cs" />

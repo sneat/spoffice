@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
+    <title>Spoffice</title>
     <% Html.ScriptManager().ScriptInclude("jquery", "~/Scripts/jquery-latest.min.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_ui", "~/Scripts/jquery-ui-1.8.custom.min.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_ui_themeswitcher", "~/Scripts/jquery.themes.js"); %>
@@ -45,11 +45,11 @@
    <fieldset>
     <div class="form-row">
         <label id="lblLoginUsername"></label>
-        <input type="text" name="username" ref="userName" class="textfield ui-widget-content ui-corner-all" />
+        <input type="text" name="username" id="lblLoginUsername" ref="userName" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
         <label id="lblLoginPassword"></label>
-        <input type="password" name="password" ref="password" class="textfield ui-widget-content ui-corner-all" />
+        <input type="password" name="password" id="lblLoginPassword" ref="password" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
         <input type="checkbox" value="true" name="rememberMe" ref="rememberMe" /> <label id="lblLoginRememberMe"></label>
@@ -63,19 +63,19 @@
    <fieldset>
     <div class="form-row">
         <label id="lblRegisterUsername"></label>
-        <input type="text" name="username" ref="userName" class="textfield ui-widget-content ui-corner-all" />
+        <input type="text" name="username" id="lblRegisterUsername" ref="userName" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
         <label id="lblRegisterEmail"></label>
-        <input type="text" name="email" ref="email" class="textfield ui-widget-content ui-corner-all" />
+        <input type="text" name="email" id="lblRegisterEmail" ref="email" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
         <label id="lblRegisterPassword"></label>
-        <input type="password" name="password" ref="password" class="textfield ui-widget-content ui-corner-all" />
+        <input type="password" name="password" id="lblRegisterPassword" ref="password" class="textfield ui-widget-content ui-corner-all" />
     </div>
     <div class="form-row">
         <label id="lblRegisterConfirmPassword"></label>
-        <input type="password" name="confirmpassword" ref="confirmpassword" />
+        <input type="password" name="confirmpassword" id=lblRegisterConfirmPassword"" ref="confirmpassword" />
     </div>
    </fieldset>
   </form>
@@ -110,7 +110,7 @@
      <div id="middle">
       <div id="home"><asp:ContentPlaceHolder ID="homeTab" runat="server" /></div>
       <div id="trackhistory"></div>
-      <div id="myaccount"><asp:ContentPlaceHolder ID="myAccount" runat="server" /></div>
+      <div id="myaccount"><% Html.RenderPartial("MyAccount"); %></div>
       <div id="favourites"></div>
       <div id="searchresults"></div>
      </div>

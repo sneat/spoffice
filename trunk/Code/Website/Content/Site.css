@@ -84,8 +84,8 @@ a#themelabel span
 #available-languages a img
 {
 	position: absolute;
-	top: 5px;
-	left: 4px;
+	top: 10px;
+	left: 8px;
 	border: 0;
 }
 #search-form 
@@ -111,10 +111,15 @@ form .ui-state-error
 	padding: 0pt 0.7em;
 	margin-bottom: 10px;
 }
+form .ui-state-error p
+{
+	padding-left: 2em;
+}
 form .ui-state-error p span.ui-icon
 {
 	float: left;
 	margin-right: 0.3em;
+	margin-left: -2em; /* Pull the icon back to the left again */
 }
 #login-form,
 #register-form

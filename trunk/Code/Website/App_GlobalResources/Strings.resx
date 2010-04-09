@@ -117,13 +117,129 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountDuplicateEmail" xml:space="preserve">
+    <value>A username for that e-mail address already exists. Please enter a different e-mail address.</value>
+    <comment>Error message shown with account management</comment>
+  </data>
+  <data name="AccountDuplicateUserName" xml:space="preserve">
+    <value>Username already exists. Please enter a different user name.</value>
+    <comment>Error message shown with account management</comment>
+  </data>
+  <data name="AccountInformation" xml:space="preserve">
+    <value>Account Information</value>
+    <comment>Shown on the My Account page</comment>
+  </data>
+  <data name="AccountInformationEmail" xml:space="preserve">
+    <value>Email</value>
+    <comment>Used on the change account information form</comment>
+  </data>
+  <data name="AccountInformationLink" xml:space="preserve">
+    <value>Change account information</value>
+    <comment>Link shown on the My Account page to open the change account information form</comment>
+  </data>
+  <data name="AccountInformationTitle" xml:space="preserve">
+    <value>Change Account Information</value>
+    <comment>Title of the change account information form</comment>
+  </data>
+  <data name="AccountInvalidAnswer" xml:space="preserve">
+    <value>The password retrieval answer provided is invalid. Please check the value and try again.</value>
+    <comment>Error message shown with account management</comment>
+  </data>
+  <data name="AccountInvalidEmail" xml:space="preserve">
+    <value>The e-mail address provided is invalid. Please check the value and try again.</value>
+    <comment>Error message shown with account management</comment>
+  </data>
+  <data name="AccountInvalidPassword" xml:space="preserve">
+    <value>The password provided is invalid. Please enter a valid password value.</value>
+    <comment>Error message shown with account management</comment>
+  </data>
+  <data name="AccountInvalidQuestion" xml:space="preserve">
+    <value>The password retrieval question provided is invalid. Please check the value and try again.</value>
+    <comment>Error message shown with account management</comment>
+  </data>
+  <data name="AccountInvalidUserName" xml:space="preserve">
+    <value>The user name provided is invalid. Please check the value and try again.</value>
+    <comment>Error message shown with account management</comment>
+  </data>
+  <data name="AccountProviderError" xml:space="preserve">
+    <value>The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.</value>
+    <comment>Error message shown with account management</comment>
+  </data>
+  <data name="AccountUnknownError" xml:space="preserve">
+    <value>An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.</value>
+    <comment>Error message shown with account management</comment>
+  </data>
+  <data name="AccountUserRejected" xml:space="preserve">
+    <value>The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.</value>
+    <comment>Error message shown with account management</comment>
+  </data>
   <data name="Albums" xml:space="preserve">
     <value>Albums</value>
     <comment>Albums</comment>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Shown on some forms</comment>
+  </data>
+  <data name="ChangeAccountInformationErrors" xml:space="preserve">
+    <value>Account information change was unsuccessful. Please correct the errors and try again.</value>
+    <comment>Shown on the change account information form when errors occurred</comment>
+  </data>
+  <data name="ChangeAccountNoInfo" xml:space="preserve">
+    <value>You have not requested any changes to your account. Please check your entry and try again.</value>
+    <comment>Shown on the Change Account Information form if nothing is entered</comment>
+  </data>
+  <data name="ChangeEmailHint" xml:space="preserve">
+    <value>Leave blank unless you want to change your email address</value>
+    <comment>Shown on the Change Account Information form</comment>
+  </data>
+  <data name="ChangePasswordConfirmPassword" xml:space="preserve">
+    <value>Confirm new password</value>
+    <comment>Used on change password form</comment>
+  </data>
+  <data name="ChangePasswordCurrentMissing" xml:space="preserve">
+    <value>You must specify your current password.</value>
+    <comment>Error message shown when current password is missing</comment>
+  </data>
+  <data name="ChangePasswordCurrentPassword" xml:space="preserve">
+    <value>Current password</value>
+    <comment>Used on change password form</comment>
+  </data>
+  <data name="ChangePasswordErrors" xml:space="preserve">
+    <value>Password change was unsuccessful. Please correct the errors and try again.</value>
+    <comment>Shown on the change password form when errors occurred</comment>
+  </data>
   <data name="ChangePasswordFailed" xml:space="preserve">
-    <value>The current password is incorrect or the new password is invalid.</value>
-    <comment>Used in AccountController</comment>
+    <value>The current username or password provided is incorrect or the new password is invalid.</value>
+    <comment>Error message shown when trying to change password fails</comment>
+  </data>
+  <data name="ChangePasswordHint" xml:space="preserve">
+    <value>Leave blank unless you want to change your password</value>
+    <comment>Shown on the change account information form</comment>
+  </data>
+  <data name="ChangePasswordMinLength" xml:space="preserve">
+    <value>You must specify a new password of {0} or more characters.</value>
+    <comment>Error message shown when new password is too short</comment>
+  </data>
+  <data name="ChangePasswordNewPassword" xml:space="preserve">
+    <value>New password</value>
+    <comment>Used on change password form</comment>
+  </data>
+  <data name="ChangePasswordNoEmail" xml:space="preserve">
+    <value>You must specify an email address.</value>
+    <comment>Error message shown when no email entered</comment>
+  </data>
+  <data name="ChangePasswordNoMatch" xml:space="preserve">
+    <value>The new password and confirmation password do not match.</value>
+    <comment>Error message shown when changing passwords don't match</comment>
+  </data>
+  <data name="ChangePasswordNoPassword" xml:space="preserve">
+    <value>You must specify a password.</value>
+    <comment>Error message shown when no password entered</comment>
+  </data>
+  <data name="ChangePasswordNoUsername" xml:space="preserve">
+    <value>You must specify a username.</value>
+    <comment>Error message shown when no username entered</comment>
   </data>
   <data name="ChangeTheme" xml:space="preserve">
     <value>Change Theme</value>
@@ -161,6 +277,10 @@
     <value>Your've successfully removed this track from your favourites!</value>
     <comment>Message returned from a successful remove from favourites</comment>
   </data>
+  <data name="FormFieldsRequired" xml:space="preserve">
+    <value>Fields marked {0} are required.</value>
+    <comment>Shown on various forms to show which fields are required</comment>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
     <comment>Displayed on the Home tab</comment>
@@ -173,13 +293,29 @@
     <value>Login</value>
     <comment>Displayed on the login form</comment>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+    <comment>Shown on the My Account page</comment>
+  </data>
   <data name="ManageFavourites" xml:space="preserve">
     <value>Manage Favourites</value>
     <comment>Displayed on the Manage Favourites tab</comment>
   </data>
+  <data name="MediaPlayerEmpty" xml:space="preserve">
+    <value>No media player specified in app settings!</value>
+    <comment>Error message thrown in authorized controller</comment>
+  </data>
+  <data name="MediaPlayerInvalid" xml:space="preserve">
+    <value>Media player specified in app settings is not a valid option.</value>
+    <comment>Error message thrown in authorized controller</comment>
+  </data>
   <data name="MyAccount" xml:space="preserve">
     <value>My Account</value>
     <comment>Displayed on the My Account tab</comment>
+  </data>
+  <data name="MyAccountHeading" xml:space="preserve">
+    <value>{0}'s account</value>
+    <comment>Heading shown on the My Account page</comment>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
@@ -212,6 +348,14 @@
   <data name="SearchResults" xml:space="preserve">
     <value>Search Results</value>
     <comment>Displayed at the tab when a search is done</comment>
+  </data>
+  <data name="SpotifyLoginEmpty" xml:space="preserve">
+    <value>No username or password specified in app settings!</value>
+    <comment>Error message thrown in authorized controller</comment>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+    <comment>Used on some forms</comment>
   </data>
   <data name="TrackHistory" xml:space="preserve">
     <value>Track History</value>

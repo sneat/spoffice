@@ -62,18 +62,18 @@ namespace Spoffice.Website.Controllers
                         }
                         else
                         {
-                            throw new Exception("Media player specified in app settings is not a valid option.");
+                            throw new Exception(Res.Strings.MediaPlayerInvalid);
                         }
                         MusicService = new MusicService(Downloader, player);
                     }
                     else
                     {
-                        throw new Exception("No media player specified in app settings!");
+                        throw new Exception(Res.Strings.MediaPlayerEmpty);
                     }
                 }
                 else
                 {
-                    throw new Exception("No username or password specified in app settings!");
+                    throw new Exception(Res.Strings.SpotifyLoginEmpty);
                 }
             }
 

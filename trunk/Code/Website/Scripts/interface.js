@@ -52,6 +52,7 @@
             if (this.nodeName.toLowerCase() != "body") return;
             var loginForm;
             var loginButton;
+            var accountInformationForm;
             var centrallayout;
             var layout;
             var tabs;
@@ -367,20 +368,25 @@
                     } else {
                         loginButton.find(".ui-button-text").html(language.Login);
                         if (data.ErrorMessages != null && data.ErrorMessages.length > 0) {
-                            var messages = [];
-                            for (var i = 0; i < data.ErrorMessages.length; i++) {
-                                var error = data.ErrorMessages[i];
-                                loginForm.find("input[ref=" + error.Field + "]").addClass("ui-state-error");
-                                for (var a = 0; a < error.Message.length; a++) {
-                                    messages.push({ label: "Error", message: error.Message[0] });
-                                }
-                            }
-                            var errorMsg = createErrorMessage(messages).hide();
-                            loginForm.find("fieldset").prepend(errorMsg);
-                            errorMsg.slideDown();
+                            dealWithFormErrors(loginForm, data);
                         }
                     }
                 }
+            }
+
+            function dealWithFormErrors(form, data) {
+                var messages = [];
+                for (var i = 0; i < data.ErrorMessages.length; i++) {
+                    var error = data.ErrorMessages[i];
+                    form.find("input[ref=" + error.Field + "]").addClass("ui-state-error");
+                    form.find("#" + error.Field).addClass("ui-state-error");
+                    for (var a = 0; a < error.Message.length; a++) {
+                        messages.push({ label: "Error", field: error.Field, message: error.Message[0] });
+                    }
+                }
+                var errorMsg = createErrorMessage(messages).hide();
+                form.find("fieldset").prepend(errorMsg);
+                errorMsg.slideDown();
             }
 
             /**
@@ -410,12 +416,17 @@
 
                     favourites = data.Favourites;
 
-                    if (loginForm != null)
+                    if (loginForm != null) {
                         loginForm.dialog("close");
-
-                    if (layout == null)
+                    }
+                    if (layout == null) {
                         createLayout();
 
+                        // Update the My Account page with user details
+                        load("/Account/AccountInfo", null, function(data) {
+                            $('#myaccount h2').html(data.MyAccountHeading).after('<p>' + data.Email + '</p>');
+                        });
+                    }
                 });
             }
 
@@ -531,6 +542,17 @@
                 */
                 $(config.searchForm).submit(search).find('input[type=submit]').button();
                 $('#btnSearch').val(language.Search);
+
+                /**
+                * Set up the My Account tab
+                */
+                setupAccountInformationForm();
+                $('#myaccount a').button();
+                $('#changeInformationLink').click(function(e) {
+                    e.preventDefault();
+                    accountInformationForm.dialog("option", "buttons", createAccountInformationButtons());
+                    accountInformationForm.dialog("open");
+                });
             }
 
             /**
@@ -620,7 +642,6 @@
             function isInFavourites(trackid) {
                 if (favourites != null) {
                     for (var i = 0; i < favourites.length; i++) {
-                        console.log(favourites[i].Track.Id);
                         if (favourites[i].Track.Id == trackid) {
                             return i;
                         }
@@ -939,7 +960,7 @@
             }
 
             /**
-            * @returns {Boolean} The buttons with the appropriate language labels
+            * @returns {Object} The buttons with the appropriate language labels
             */
             function createRegisterButtons() {
                 var buttons = {};
@@ -1039,6 +1060,65 @@
             }
 
             /**
+            * @returns {Object} The buttons with the appropriate language labels
+            */
+            function createAccountInformationButtons() {
+                var buttons = {};
+                buttons[language.Submit] = function() {
+                    $(this).parent().find("button:contains(" + language.Submit + ")").find(".ui-button-text").html(language.Wait);
+                    submitAccountInformationForm(accountInformationForm.find("form"));
+                }
+                buttons[language.Cancel] = function() {
+                    $(this).dialog('close');
+                }
+                return buttons;
+            }
+
+            /**
+            * Displays the account information form
+            */
+            function setupAccountInformationForm() {
+                accountInformationForm = $('#ChangeInformationDialog');
+
+                $('#ChangeInformationForm').submit(function() {
+                    submitAccountInformationForm($(this));
+                    return false;
+                });
+                accountInformationForm.dialog({
+                    autoOpen: false,
+                    width: 350,
+                    closeOnEscape: false,
+                    autoResize: true,
+                    buttons: createAccountInformationButtons()
+                });
+            }
+
+            /**
+            * Handles the submitting of the account information form
+            * @param {Object} form The login form data
+            */
+            function submitAccountInformationForm(form) {
+                form.find('div.ui-state-error').slideUp();
+                form.find('input.ui-state-error').removeClass("ui-state-error");
+                load("/Account/ChangeInformation", form.serialize(), function(data) {
+                    if (data.Success) {
+                        accountInformationForm.dialog('close');
+                        if (data.Email != '') {
+                            $('#myaccount p:first').html(data.Email);
+                        }
+                    } else {
+                        accountInformationForm.dialog("option", "buttons", createAccountInformationButtons());
+                        if (!$(form).is(':visible')) {
+                            accountInformationForm.dialog('open');
+                        }
+                        if (data.ErrorMessages != null && data.ErrorMessages.length > 0) {
+                            dealWithFormErrors(form, data);
+                        }
+                    }
+                });
+            }
+
+            /**
             * Displays the register form
             */
             function displayRegisterForm() {
@@ -1089,17 +1169,7 @@
                     registerButton.find(".ui-button-text").html(language.Register);
                     if (!data.Success) {
                         if (data.ErrorMessages != null && data.ErrorMessages.length > 0) {
-                            var messages = [];
-                            for (var i = 0; i < data.ErrorMessages.length; i++) {
-                                var error = data.ErrorMessages[i];
-                                for (var a = 0; a < error.Message.length; a++) {
-                                    registerForm.find("input[ref=" + error.Field + "]").addClass("ui-state-error");
-                                    messages.push({ label: language.Error, message: error.Message[a] });
-                                }
-                            }
-                            var errorMsg = createErrorMessage(messages).hide();
-                            registerForm.find("fieldset").prepend(errorMsg);
-                            errorMsg.slideDown();
+                            dealWithFormErrors(registerForm, data);
                         }
                     }
                 });

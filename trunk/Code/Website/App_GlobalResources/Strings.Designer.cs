@@ -61,6 +61,132 @@ namespace Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A username for that e-mail address already exists. Please enter a different e-mail address..
+        /// </summary>
+        public static string AccountDuplicateEmail {
+            get {
+                return ResourceManager.GetString("AccountDuplicateEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username already exists. Please enter a different user name..
+        /// </summary>
+        public static string AccountDuplicateUserName {
+            get {
+                return ResourceManager.GetString("AccountDuplicateUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Information.
+        /// </summary>
+        public static string AccountInformation {
+            get {
+                return ResourceManager.GetString("AccountInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string AccountInformationEmail {
+            get {
+                return ResourceManager.GetString("AccountInformationEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change account information.
+        /// </summary>
+        public static string AccountInformationLink {
+            get {
+                return ResourceManager.GetString("AccountInformationLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Account Information.
+        /// </summary>
+        public static string AccountInformationTitle {
+            get {
+                return ResourceManager.GetString("AccountInformationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password retrieval answer provided is invalid. Please check the value and try again..
+        /// </summary>
+        public static string AccountInvalidAnswer {
+            get {
+                return ResourceManager.GetString("AccountInvalidAnswer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The e-mail address provided is invalid. Please check the value and try again..
+        /// </summary>
+        public static string AccountInvalidEmail {
+            get {
+                return ResourceManager.GetString("AccountInvalidEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password provided is invalid. Please enter a valid password value..
+        /// </summary>
+        public static string AccountInvalidPassword {
+            get {
+                return ResourceManager.GetString("AccountInvalidPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password retrieval question provided is invalid. Please check the value and try again..
+        /// </summary>
+        public static string AccountInvalidQuestion {
+            get {
+                return ResourceManager.GetString("AccountInvalidQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user name provided is invalid. Please check the value and try again..
+        /// </summary>
+        public static string AccountInvalidUserName {
+            get {
+                return ResourceManager.GetString("AccountInvalidUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator..
+        /// </summary>
+        public static string AccountProviderError {
+            get {
+                return ResourceManager.GetString("AccountProviderError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator..
+        /// </summary>
+        public static string AccountUnknownError {
+            get {
+                return ResourceManager.GetString("AccountUnknownError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator..
+        /// </summary>
+        public static string AccountUserRejected {
+            get {
+                return ResourceManager.GetString("AccountUserRejected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Albums.
         /// </summary>
         public static string Albums {
@@ -70,11 +196,146 @@ namespace Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The current password is incorrect or the new password is invalid..
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account information change was unsuccessful. Please correct the errors and try again..
+        /// </summary>
+        public static string ChangeAccountInformationErrors {
+            get {
+                return ResourceManager.GetString("ChangeAccountInformationErrors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have not requested any changes to your account. Please check your entry and try again..
+        /// </summary>
+        public static string ChangeAccountNoInfo {
+            get {
+                return ResourceManager.GetString("ChangeAccountNoInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Leave blank unless you want to change your email address.
+        /// </summary>
+        public static string ChangeEmailHint {
+            get {
+                return ResourceManager.GetString("ChangeEmailHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm new password.
+        /// </summary>
+        public static string ChangePasswordConfirmPassword {
+            get {
+                return ResourceManager.GetString("ChangePasswordConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify your current password..
+        /// </summary>
+        public static string ChangePasswordCurrentMissing {
+            get {
+                return ResourceManager.GetString("ChangePasswordCurrentMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current password.
+        /// </summary>
+        public static string ChangePasswordCurrentPassword {
+            get {
+                return ResourceManager.GetString("ChangePasswordCurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password change was unsuccessful. Please correct the errors and try again..
+        /// </summary>
+        public static string ChangePasswordErrors {
+            get {
+                return ResourceManager.GetString("ChangePasswordErrors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The current username or password provided is incorrect or the new password is invalid..
         /// </summary>
         public static string ChangePasswordFailed {
             get {
                 return ResourceManager.GetString("ChangePasswordFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Leave blank unless you want to change your password.
+        /// </summary>
+        public static string ChangePasswordHint {
+            get {
+                return ResourceManager.GetString("ChangePasswordHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify a new password of {0} or more characters..
+        /// </summary>
+        public static string ChangePasswordMinLength {
+            get {
+                return ResourceManager.GetString("ChangePasswordMinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New password.
+        /// </summary>
+        public static string ChangePasswordNewPassword {
+            get {
+                return ResourceManager.GetString("ChangePasswordNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify an email address..
+        /// </summary>
+        public static string ChangePasswordNoEmail {
+            get {
+                return ResourceManager.GetString("ChangePasswordNoEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The new password and confirmation password do not match..
+        /// </summary>
+        public static string ChangePasswordNoMatch {
+            get {
+                return ResourceManager.GetString("ChangePasswordNoMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify a password..
+        /// </summary>
+        public static string ChangePasswordNoPassword {
+            get {
+                return ResourceManager.GetString("ChangePasswordNoPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify a username..
+        /// </summary>
+        public static string ChangePasswordNoUsername {
+            get {
+                return ResourceManager.GetString("ChangePasswordNoUsername", resourceCulture);
             }
         }
         
@@ -160,6 +421,15 @@ namespace Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fields marked {0} are required..
+        /// </summary>
+        public static string FormFieldsRequired {
+            get {
+                return ResourceManager.GetString("FormFieldsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Home {
@@ -187,6 +457,15 @@ namespace Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage Favourites.
         /// </summary>
         public static string ManageFavourites {
@@ -196,11 +475,38 @@ namespace Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No media player specified in app settings!.
+        /// </summary>
+        public static string MediaPlayerEmpty {
+            get {
+                return ResourceManager.GetString("MediaPlayerEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Media player specified in app settings is not a valid option..
+        /// </summary>
+        public static string MediaPlayerInvalid {
+            get {
+                return ResourceManager.GetString("MediaPlayerInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My Account.
         /// </summary>
         public static string MyAccount {
             get {
                 return ResourceManager.GetString("MyAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}&apos;s account.
+        /// </summary>
+        public static string MyAccountHeading {
+            get {
+                return ResourceManager.GetString("MyAccountHeading", resourceCulture);
             }
         }
         
@@ -273,6 +579,24 @@ namespace Res {
         public static string SearchResults {
             get {
                 return ResourceManager.GetString("SearchResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No username or password specified in app settings!.
+        /// </summary>
+        public static string SpotifyLoginEmpty {
+            get {
+                return ResourceManager.GetString("SpotifyLoginEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string Submit {
+            get {
+                return ResourceManager.GetString("Submit", resourceCulture);
             }
         }
         

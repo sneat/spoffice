@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
@@ -33,6 +34,7 @@ namespace Spoffice.Website.Controllers
         {
             FormsAuth = formsAuth ?? new FormsAuthenticationService();
             MembershipService = service ?? new AccountMembershipService();
+            _MembershipService = new AccountMembershipService();
         }
 
         public IFormsAuthentication FormsAuth
@@ -42,6 +44,12 @@ namespace Spoffice.Website.Controllers
         }
 
         public IMembershipService MembershipService
+        {
+            get;
+            private set;
+        }
+
+        public AccountMembershipService _MembershipService
         {
             get;
             private set;
@@ -70,10 +78,22 @@ namespace Spoffice.Website.Controllers
             return MultiformatView(typeof(LoggedInStatusOutput), status);
         }
 
+        public ActionResult AccountInfo()
+        {
+            return MultiformatView(typeof(AccountInformationOutput), new AccountInformationOutput { 
+                Username = Membership.GetUser().UserName, 
+                Name = User.Identity.Name, 
+                Email = Membership.GetUser().Email,
+                MyAccountHeading = String.Format(System.Globalization.CultureInfo.CurrentCulture,
+                         Res.Strings.MyAccountHeading,
+                                 User.Identity.Name)
+            });
+        }
+
         public ActionResult LogOff()
         {
             FormsAuth.SignOut();
-            return MultiformatView(typeof(LoggedInStatusOutput), new LoggedInStatusOutput());
+            return MultiformatView(typeof(LoggedInStatusOutput), new LoggedInStatusOutput(), Redirect("~/"));
         }
 
         public ActionResult Register()
@@ -107,57 +127,65 @@ namespace Spoffice.Website.Controllers
         }
 
         [Authorize]
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        [Authorize]
-        public ActionResult ChangePassword()
-        {
-
-            ViewData["PasswordLength"] = MembershipService.MinPasswordLength;
-
-            return View();
-        }
-
-        [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Exceptions result in password not being changed.")]
-        public ActionResult ChangePassword(string currentPassword, string newPassword, string confirmPassword)
+        public ActionResult ChangeInformation(string email, string currentPassword, string newPassword, string confirmPassword)
         {
-
-            ViewData["PasswordLength"] = MembershipService.MinPasswordLength;
-
-            if (!ValidateChangePassword(currentPassword, newPassword, confirmPassword))
+            if (String.IsNullOrEmpty(email) && String.IsNullOrEmpty(newPassword))
             {
-                return View();
+                ModelState.AddModelError("_FORM", Res.Strings.ChangeAccountNoInfo);
+            }
+            if (!String.IsNullOrEmpty(email))
+            {
+                ValidateInformation(email);
+            }
+            if (!String.IsNullOrEmpty(newPassword))
+            {
+                ValidateChangePassword(currentPassword, newPassword, confirmPassword);
             }
 
-            try
+            // Perform changes if we don't have errors
+            if (ModelState.IsValid)
             {
-                if (MembershipService.ChangePassword(User.Identity.Name, currentPassword, newPassword))
+                if (!String.IsNullOrEmpty(email))
                 {
-                    return RedirectToAction("ChangePasswordSuccess");
+                    try
+                    {
+                        if (!_MembershipService.UpdateUser(User.Identity.Name, email))
+                        {
+                            ModelState.AddModelError("email", Res.Strings.ChangePasswordFailed);
+                        }
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError("_FORM", Res.Strings.ChangePasswordFailed);
+                    }
                 }
-                else
+                if (!String.IsNullOrEmpty(newPassword))
                 {
-                    ModelState.AddModelError("_FORM", "The current password is incorrect or the new password is invalid.");
-                    return View();
+                    try
+                    {
+                        if (!MembershipService.ChangePassword(User.Identity.Name, currentPassword, newPassword))
+                        {
+                            ModelState.AddModelError("_FORM", Res.Strings.ChangePasswordFailed);
+                        }
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError("_FORM", Res.Strings.ChangePasswordFailed);
+                    }
                 }
             }
-            catch
+
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("_FORM", "The current password is incorrect or the new password is invalid.");
-                return View();
+                return MultiformatView(typeof(AccountInformationOutput), new AccountInformationOutput { Success = true, Email = email });
             }
-        }
-
-        public ActionResult ChangePasswordSuccess()
-        {
-
-            return View();
+            else
+            {
+                return MultiformatView(typeof(AccountInformationOutput), new AccountInformationOutput { Success = false, Email = email, Errors = ModelState });
+            }
         }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -174,19 +202,42 @@ namespace Spoffice.Website.Controllers
         {
             if (String.IsNullOrEmpty(currentPassword))
             {
-                ModelState.AddModelError("currentPassword", "You must specify a current password.");
+                ModelState.AddModelError("currentPassword", Res.Strings.ChangePasswordCurrentMissing);
             }
             if (newPassword == null || newPassword.Length < MembershipService.MinPasswordLength)
             {
                 ModelState.AddModelError("newPassword",
                     String.Format(CultureInfo.CurrentCulture,
-                         "You must specify a new password of {0} or more characters.",
+                         Res.Strings.ChangePasswordMinLength,
                          MembershipService.MinPasswordLength));
             }
 
             if (!String.Equals(newPassword, confirmPassword, StringComparison.Ordinal))
             {
-                ModelState.AddModelError("_FORM", "The new password and confirmation password do not match.");
+                ModelState.AddModelError("_FORM", Res.Strings.ChangePasswordNoMatch);
+            }
+
+            return ModelState.IsValid;
+        }
+
+        private bool ValidateInformation(string email)
+        {
+            try
+            {
+                MailAddress address = new MailAddress(email);
+            }
+            catch (FormatException)
+            {
+                ModelState.AddModelError("email", Res.Strings.AccountInvalidEmail);
+            }
+            if (!ModelState.IsValid)
+            {
+                // Don't try to look up whether the email address is in use if it's not a valid email
+                string _user = Membership.GetUserNameByEmail(email);
+                if (!String.IsNullOrEmpty(_user) && _user != User.Identity.Name)
+                {
+                    ModelState.AddModelError("email", Res.Strings.AccountDuplicateEmail);
+                }
             }
 
             return ModelState.IsValid;
@@ -196,15 +247,15 @@ namespace Spoffice.Website.Controllers
         {
             if (String.IsNullOrEmpty(userName))
             {
-                ModelState.AddModelError("username", "You must specify a username.");
+                ModelState.AddModelError("username", Res.Strings.ChangePasswordNoUsername);
             }
             if (String.IsNullOrEmpty(password))
             {
-                ModelState.AddModelError("password", "You must specify a password.");
+                ModelState.AddModelError("password", Res.Strings.ChangePasswordNoPassword);
             }
             if (!MembershipService.ValidateUser(userName, password))
             {
-                ModelState.AddModelError("_FORM", "The username or password provided is incorrect.");
+                ModelState.AddModelError("_FORM", Res.Strings.ChangePasswordFailed);
             }
 
             return ModelState.IsValid;
@@ -214,22 +265,22 @@ namespace Spoffice.Website.Controllers
         {
             if (String.IsNullOrEmpty(userName))
             {
-                ModelState.AddModelError("username", "You must specify a username.");
+                ModelState.AddModelError("username", Res.Strings.ChangePasswordNoUsername);
             }
             if (String.IsNullOrEmpty(email))
             {
-                ModelState.AddModelError("email", "You must specify an email address.");
+                ModelState.AddModelError("email", Res.Strings.ChangePasswordNoEmail);
             }
             if (password == null || password.Length < MembershipService.MinPasswordLength)
             {
                 ModelState.AddModelError("password",
                     String.Format(CultureInfo.CurrentCulture,
-                         "You must specify a password of {0} or more characters.",
+                         Res.Strings.ChangePasswordMinLength,
                          MembershipService.MinPasswordLength));
             }
             if (!String.Equals(password, confirmPassword, StringComparison.Ordinal))
             {
-                ModelState.AddModelError("_FORM", "The new password and confirmation password do not match.");
+                ModelState.AddModelError("_FORM", Res.Strings.ChangePasswordNoMatch);
             }
             return ModelState.IsValid;
         }
@@ -241,34 +292,34 @@ namespace Spoffice.Website.Controllers
             switch (createStatus)
             {
                 case MembershipCreateStatus.DuplicateUserName:
-                    return "Username already exists. Please enter a different user name.";
+                    return Res.Strings.AccountDuplicateUserName;
 
                 case MembershipCreateStatus.DuplicateEmail:
-                    return "A username for that e-mail address already exists. Please enter a different e-mail address.";
+                    return Res.Strings.AccountDuplicateEmail;
 
                 case MembershipCreateStatus.InvalidPassword:
-                    return "The password provided is invalid. Please enter a valid password value.";
+                    return Res.Strings.AccountInvalidPassword;
 
                 case MembershipCreateStatus.InvalidEmail:
-                    return "The e-mail address provided is invalid. Please check the value and try again.";
+                    return Res.Strings.AccountInvalidEmail;
 
                 case MembershipCreateStatus.InvalidAnswer:
-                    return "The password retrieval answer provided is invalid. Please check the value and try again.";
+                    return Res.Strings.AccountInvalidAnswer;
 
                 case MembershipCreateStatus.InvalidQuestion:
-                    return "The password retrieval question provided is invalid. Please check the value and try again.";
+                    return Res.Strings.AccountInvalidQuestion;
 
                 case MembershipCreateStatus.InvalidUserName:
-                    return "The user name provided is invalid. Please check the value and try again.";
+                    return Res.Strings.AccountInvalidUserName;
 
                 case MembershipCreateStatus.ProviderError:
-                    return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return Res.Strings.AccountProviderError;
 
                 case MembershipCreateStatus.UserRejected:
-                    return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return Res.Strings.AccountUserRejected;
 
                 default:
-                    return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return Res.Strings.AccountUnknownError;
             }
         }
         #endregion
@@ -338,6 +389,21 @@ namespace Spoffice.Website.Controllers
             MembershipCreateStatus status;
             _provider.CreateUser(userName, password, email, null, null, true, null, out status);
             return status;
+        }
+
+        public bool UpdateUser(string userName, string email)
+        {
+            MembershipUser currentUser = _provider.GetUser(userName, true /* userIsOnline */);
+            currentUser.Email = email;
+            try
+            {
+                Membership.UpdateUser(currentUser);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
 
         public bool ChangePassword(string userName, string oldPassword, string newPassword)
