@@ -54,7 +54,7 @@ namespace Spoffice.Website.Models.Output
                         language = "en-GB";
                     }
                     CultureInfo info = CultureInfo.GetCultureInfo(language);
-                    AvailableLanguages.Add(info.TwoLetterISOLanguageName, info.DisplayName);
+                    AvailableLanguages.Add(info.TwoLetterISOLanguageName, info.NativeName);
                 }
             }
             CurrentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
