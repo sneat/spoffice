@@ -977,6 +977,10 @@
                 buttons[language.Register] = function() {
                     submitRegisterForm(registerForm.find("form"));
                 }
+                buttons[language.Cancel] = function() {
+                    $(this).dialog('close');
+                    loginForm.dialog('open');
+                }
                 return buttons;
             }
 
