@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Spoffice.Website.Services.Music.Downloader;
-using Spoffice.Website.Services.Music.Player;
+using Spoffice.Website.Services;
 using Spoffice.Website.Models.Output;
 namespace Spoffice.Website.Models
 {

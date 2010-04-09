@@ -301,13 +301,17 @@
     <value>Manage Favourites</value>
     <comment>Displayed on the Manage Favourites tab</comment>
   </data>
-  <data name="MediaPlayerEmpty" xml:space="preserve">
-    <value>No media player specified in app settings!</value>
-    <comment>Error message thrown in authorized controller</comment>
+  <data name="MusicBrowserNotSpecified" xml:space="preserve">
+    <value>No music browser specified in app settings!</value>
+    <comment>Error thrown when there is no music browser</comment>
   </data>
-  <data name="MediaPlayerInvalid" xml:space="preserve">
-    <value>Media player specified in app settings is not a valid option.</value>
-    <comment>Error message thrown in authorized controller</comment>
+  <data name="MusicDownloaderNotSpecified" xml:space="preserve">
+    <value>No music downloader specified in app settings!</value>
+    <comment>Error thrown when there is no music downloader</comment>
+  </data>
+  <data name="MusicPlayerNotSpecified" xml:space="preserve">
+    <value>No media player specified in app settings!</value>
+    <comment>Error thrown when there is no music player</comment>
   </data>
   <data name="MyAccount" xml:space="preserve">
     <value>My Account</value>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,22 +8,21 @@ using System.Threading;
 using System.IO;
 using Spoffice.Website.Models;
 using Spoffice.Website.Models.Output;
-using System.Configuration;
-using Spoffice.Website.Services.Music.CoverGrabber;
+using Spoffice.Website.Services;
+using Spoffice.Website;
 
-namespace Spoffice.Website.Services.Music.Downloader
+namespace Spoffice.Spotify
 {
-  
-    public class SpotifyDownloader : IMusicDownloader, ICoverGrabber
+    public class DownloaderAndCoverGrabber : IMusicDownloader, ICoverGrabber
     {
         private SharpSpotConnection connection;
-        public SpotifyDownloader()
+        public DownloaderAndCoverGrabber()
         {
             string username = ConfigurationManager.AppSettings["Spotify.Username"];
             string password = ConfigurationManager.AppSettings["Spotify.Password"];
             if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
             {
-                throw new Exception("Please specify Spotify.Username and Spotify.Password in the web.config");
+                throw new Exception(Res.Strings.SpotifyLoginEmpty);
             }
             connection = new SharpSpotConnection(new SharpSpotLib.Cache.FileCache(), new TimeSpan(0, 0, 20));
             try
@@ -66,7 +66,7 @@ namespace Spoffice.Website.Services.Music.Downloader
         /// <param name="t"></param>
         private void DoDownload(object t)
         {
-            Models.Track track = (Models.Track)t;
+            Spoffice.Website.Models.Track track = (Spoffice.Website.Models.Track)t;
             SharpSpotLib.Media.MusicStream stream = null;
             bool success = false;
             try
@@ -147,6 +147,6 @@ namespace Spoffice.Website.Services.Music.Downloader
 
         #endregion
 
-    
+
     }
 }

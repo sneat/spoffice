@@ -9,6 +9,9 @@
 -->
 <configuration>
   <configSections>
+    <section name="unity"
+        type="Microsoft.Practices.Unity.Configuration.UnityConfigurationSection,
+              Microsoft.Practices.Unity.Configuration" />
     <sectionGroup name="system.web.extensions" type="System.Web.Configuration.SystemWebExtensionsSectionGroup, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35">
       <sectionGroup name="scripting" type="System.Web.Configuration.ScriptingSectionGroup, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35">
         <section name="scriptResourceHandler" type="System.Web.Configuration.ScriptingScriptResourceHandlerSection, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" requirePermission="false" allowDefinition="MachineToApplication" />
@@ -21,20 +24,71 @@
       </sectionGroup>
     </sectionGroup>
   </configSections>
+  <unity>
+    <typeAliases>
+      <!-- Lifetime manager types -->
+      <typeAlias alias="singleton" type="Microsoft.Practices.Unity.ContainerControlledLifetimeManager,              Microsoft.Practices.Unity"/>
+      <typeAlias alias="external" type="Microsoft.Practices.Unity.ExternallyControlledLifetimeManager,              Microsoft.Practices.Unity"/>
+      <!-- Custom object types -->
+
+      <typeAlias alias="IMusicDownloader" type="Spoffice.Website.Services.IMusicDownloader, Spoffice.Website"/>
+      <typeAlias alias="IMusicPlayer" type="Spoffice.Website.Services.IMusicPlayer, Spoffice.Website"/>
+      <typeAlias alias="IMusicBrowser" type="Spoffice.Website.Services.IMusicBrowser, Spoffice.Website"/>
+      <typeAlias alias="ICoverGrabber" type="Spoffice.Website.Services.ICoverGrabber, Spoffice.Website"/>
+
+
+      <!-- Last FM -->
+      <typeAlias alias="LastFM.CoverGrabber" type="Spoffice.LastFM.CoverGrabber, Spoffice.LastFM"/>
+
+      <!-- Spotify -->
+      <typeAlias alias="Spotify.DownloaderAndCoverGrabber" type="Spoffice.Spotify.DownloaderAndCoverGrabber, Spoffice.Spotify"/>
+      <typeAlias alias="Spotify.MusicBrowser" type="Spoffice.Spotify.MusicBrowser, Spoffice.Spotify"/>
+
+      <!-- Irrklang -->
+      <typeAlias alias="Irrklang.MusicPlayer" type="Spoffice.Irrklang.MusicPlayer, Spoffice.Irrklang"/>
+
+      <!-- WMP -->
+      <typeAlias alias="WMP.MusicPlayer" type="Spoffice.WMP.MusicPlayer, Spoffice.WMP"/>
+
+    </typeAliases>
+    <containers>
+      <container name="services">
+        <types>
+          <type type="IMusicDownloader" mapTo="Spotify.DownloaderAndCoverGrabber">
+            <lifetime type="singleton"/>
+          </type>
+          <type type="IMusicBrowser" mapTo="Spotify.MusicBrowser">
+            <lifetime type="singleton"/>
+          </type>
+          <type type="IMusicPlayer" mapTo="Irrklang.MusicPlayer">
+            <lifetime type="singleton"/>
+          </type>
+          <type type="ICoverGrabber" mapTo="LastFM.CoverGrabber" name="LastFM.CoverGrabber">
+            <lifetime type="singleton"/>
+          </type>
+          <type type="ICoverGrabber" mapTo="Spotify.DownloaderAndCoverGrabber" name="Spotify.DownloaderAndCoverGrabber">
+            <lifetime type="singleton"/>
+          </type>
+        </types>
+      </container>
+    </containers>
+  </unity>
   <appSettings>
     <!-- Your Spotify username -->
-    <add key="Spotify.Username" value="username" />
+    <add key="Spotify.Username" value="" />
     <!-- Your Spotify password -->
-    <add key="Spotify.Password" value="password" />
+    <add key="Spotify.Password" value="" />
+
     <!-- 
-    Select the player you wish to use. Valid options are "Irrklang" and "WMP".
+    Select the player you wish to use. Valid options are "WMP" and "Irrklang".
     If using WMP you need to make sure you can play OGG files. See http://www.vorbis.com/setup_windows/ for codecs (DirectShow Filters link).
     -->
     <add key="Media.Player" value="Irrklang" />
   </appSettings>
   <connectionStrings>
     <add name="ApplicationServices" connectionString="Data Source=192.168.100.123;Initial Catalog=cooltunes;Persist Security Info=True;User ID=cooltunes;Password=RetR7T6e" providerName="System.Data.SqlClient" />
-    <add name="spofficeEntities" connectionString="metadata=res://*/Models.Spoffice.csdl|res://*/Models.Spoffice.ssdl|res://*/Models.Spoffice.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=192.168.100.123;Initial Catalog=cooltunes;Persist Security Info=True;User ID=cooltunes;Password=RetR7T6e;MultipleActiveResultSets=True&quot;" providerName="System.Data.EntityClient" /></connectionStrings>
+    <add name="spofficeEntities" connectionString="metadata=res://*/Models.Spoffice.csdl|res://*/Models.Spoffice.ssdl|res://*/Models.Spoffice.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=192.168.100.123;Initial Catalog=cooltunes;Persist Security Info=True;User ID=cooltunes;Password=RetR7T6e;MultipleActiveResultSets=True&quot;" providerName="System.Data.EntityClient" />
+  </connectionStrings>
   <system.web>
     <customErrors mode="Off" />
     <globalization culture="auto" uiCulture="auto" />

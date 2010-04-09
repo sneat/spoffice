@@ -8,11 +8,9 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Spoffice.Website.Helpers;
 using Spoffice.Website.Models;
-using Spoffice.Website.Services.Music;
-using Spoffice.Website.Services.Music.Downloader;
-using Spoffice.Website.Services.Music.Player;
+using Spoffice.Website.Services;
 using System.Configuration;
-using Spoffice.Website.Services.Music.Browser;
+using Microsoft.Practices.Unity;
 
 namespace Spoffice.Website.Controllers
 {
@@ -29,52 +27,35 @@ namespace Spoffice.Website.Controllers
                 return (Guid)Membership.GetUser().ProviderUserKey;
             }
         }
-        public static MusicService MusicService;
-        public static SpotifyDownloader Downloader;
+        protected IUnityContainer myContainer = null;
         public static IMusicBrowser Browser;
+        public static MusicService MusicService;
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            Object retrievedContainer = HttpContext.Application["ServicesContainer"];
+            myContainer = retrievedContainer as IUnityContainer;
             if (Browser == null)
-            {
-                Browser = new SpotifyBrowser();
+            {                
+                Browser = myContainer.Resolve<IMusicBrowser>();
+                if (Browser == null)
+                {
+                    throw new Exception(Res.Strings.MusicBrowserNotSpecified);
+                }
             }
             if (MusicService == null)
             {
-                string spotifyUsername = ConfigurationSettings.AppSettings["Spotify.Username"];
-                string spotifyPassword = ConfigurationSettings.AppSettings["Spotify.Password"];
-                if (!String.IsNullOrEmpty(spotifyUsername) && !String.IsNullOrEmpty(spotifyPassword))
+                
+                IMusicDownloader musicDownloader = myContainer.Resolve<IMusicDownloader>();
+                if (musicDownloader == null)
                 {
-                    if (Downloader == null)
-                    {
-                        Downloader = new SpotifyDownloader(spotifyUsername, spotifyPassword);
-                    }
-                    string mediaPlayer = ConfigurationSettings.AppSettings["Media.Player"];
-                    if (!String.IsNullOrEmpty(mediaPlayer))
-                    {
-                        IMusicPlayer player;
-                        if (mediaPlayer == "Irrklang")
-                        {
-                            player = new IrrklangMusicPlayer(DataContext.TrackRepository.GetTotalBytesPlayed());
-                        }
-                        else if (mediaPlayer == "WMP")
-                        {
-                            player = new WMPMusicPlayer(DataContext.TrackRepository.GetTotalBytesPlayed());
-                        }
-                        else
-                        {
-                            throw new Exception(Res.Strings.MediaPlayerInvalid);
-                        }
-                        MusicService = new MusicService(Downloader, player);
-                    }
-                    else
-                    {
-                        throw new Exception(Res.Strings.MediaPlayerEmpty);
-                    }
+                    throw new Exception(Res.Strings.MusicDownloaderNotSpecified);
                 }
-                else
+                IMusicPlayer musicPlayer = myContainer.Resolve<IMusicPlayer>();
+                if (musicPlayer == null)
                 {
-                    throw new Exception(Res.Strings.SpotifyLoginEmpty);
+                    throw new Exception(Res.Strings.MusicPlayerNotSpecified);
                 }
+                MusicService = new MusicService(musicPlayer, musicDownloader);
             }
 
             // Check if this action has NotAuthorizeAttribute

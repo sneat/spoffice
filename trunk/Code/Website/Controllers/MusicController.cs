@@ -12,7 +12,8 @@ using System.Xml.Serialization;
 using System.IO;
 using Spoffice.Website.Helpers;
 using System.Xml.Linq;
-using Spoffice.Website.Services.Music;
+using Microsoft.Practices.Unity;
+using Spoffice.Website.Services;
 
 namespace Spoffice.Website.Controllers
 {
@@ -20,15 +21,14 @@ namespace Spoffice.Website.Controllers
     public class MusicController : AuthorizedController
     {
         
-        private CoverGrabber covergrabber;
         public MusicController()
         {
-            List<ICoverGrabber> grabbers = new List<ICoverGrabber>();
+            /*List<ICoverGrabber> grabbers = new List<ICoverGrabber>();
 
             if (Downloader != null) grabbers.Add(Downloader);
             grabbers.Add(new LastFMCoverGrabber());
 
-            covergrabber = new CoverGrabber(grabbers);
+            covergrabber = new CoverGrabber(grabbers);*/
         }   
         //
         // GET: /Music/
@@ -47,7 +47,7 @@ namespace Spoffice.Website.Controllers
             return MultiformatView(typeof(PlayerStatusOutput), new PlayerStatusOutput
             {
                 PlayerPosition = MusicService.CurrentTrack != null ? MusicService.CurrentTrack.Progress : 0,
-                TotalBytes = MusicService.Player.TotalBytes,
+                TotalBytes = MusicService.TotalBytes,
                 Tracks  = MusicService.UpcomingTracks.Select(t=> t.AsOutput()).ToList(),
                 NumberOfVotes = MusicService.VoteCount,
                 NumberOfVotesRequired = MusicService.RequiredVotes
@@ -76,8 +76,23 @@ namespace Spoffice.Website.Controllers
         }
         public RedirectResult AlbumImage(string id)
         {
-            return Redirect(covergrabber.GetCoverPath(new AlbumOutput { Id = new Guid(id) }));
+            string cover = null;
+            AlbumOutput album = new AlbumOutput { Id = new Guid(id) };
+            foreach (ICoverGrabber grabber in myContainer.ResolveAll<ICoverGrabber>())
+            {
+                cover = grabber.GetCoverPath(album);
+                if (!String.IsNullOrEmpty(cover))
+                {
+                    break;
+                }
+            }
+            if (String.IsNullOrEmpty(cover))
+            {
+                cover = "~/Content/blank_album.png";
+            }
+            return Redirect(cover);
         }
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Vote(string id, string value)
         {

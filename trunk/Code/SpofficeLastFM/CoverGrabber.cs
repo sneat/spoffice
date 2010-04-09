@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
-using Spoffice.Website.Models.Output;
 using System.Xml.Linq;
+using Spoffice.Website.Services;
+using Spoffice.Website.Models.Output;
 
-namespace Spoffice.Website.Services.Music.CoverGrabber
+namespace Spoffice.LastFM
 {
-    public class LastFMCoverGrabber : ICoverGrabber
+    public class CoverGrabber : ICoverGrabber
     {
         #region ICoverGrabber Members
 

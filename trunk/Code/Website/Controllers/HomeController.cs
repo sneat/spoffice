@@ -6,7 +6,6 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using SharpSpotLib.Media;
 using Spoffice.Website.Helpers;
 using Spoffice.Website.Models;
 using Spoffice.Website.Models.Output;

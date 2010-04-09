@@ -52,9 +52,21 @@
     <OutputPath>bin\x86\Release2\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="irrKlang.NET2.0, Version=1.3.0.0, Culture=neutral, PublicKeyToken=a854741bd80517c7, processorArchitecture=x86">
+    <Reference Include="Microsoft.Practices.ObjectBuilder2, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External DLLs\irrKlang.NET2.0.dll</HintPath>
+      <HintPath>..\External DLLs\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External DLLs\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External DLLs\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.StaticFactory, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External DLLs\Microsoft.Practices.Unity.StaticFactory.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -133,7 +145,11 @@
     <Compile Include="Models\Album.cs" />
     <Compile Include="Models\Artist.cs" />
     <Compile Include="Models\Favourite.cs" />
+    <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\Output\AccountInformationOutput.cs" />
+    <Compile Include="Models\Output\AlbumOutput.cs" />
+    <Compile Include="Models\Output\ArtistOutput.cs" />
+    <Compile Include="Models\Output\BaseOutput.cs" />
     <Compile Include="Models\Output\FavouriteOutput.cs" />
     <Compile Include="Models\Output\FavouritesListOutput.cs" />
     <Compile Include="Models\Output\LanguageOutput.cs" />
@@ -141,8 +157,10 @@
     <Compile Include="Models\Output\PlayerStatusOutput.cs" />
     <Compile Include="Models\Output\RegisterStatusOutput.cs" />
     <Compile Include="Models\Output\StatusOutput.cs" />
-    <Compile Include="Models\DataContext.cs" />
+    <Compile Include="Models\Output\TrackHistoryListOutput.cs" />
     <Compile Include="Models\Output\TrackHistoryOutput.cs" />
+    <Compile Include="Models\Output\TrackListOutput.cs" />
+    <Compile Include="Models\Output\TrackOutput.cs" />
     <Compile Include="Models\Repositories\AlbumRepository.cs" />
     <Compile Include="Models\Repositories\ArtistRepository.cs" />
     <Compile Include="Models\Repositories\FavouriteRepository.cs" />
@@ -151,18 +169,12 @@
     <Compile Include="Models\Repositories\Interfaces\IFavouriteRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\IRatingRepository.cs" />
     <Compile Include="Models\Repositories\Interfaces\ITrackRepository.cs" />
-    <Compile Include="Models\Output\TrackHistoryListOutput.cs" />
-    <Compile Include="Models\Output\TrackListOutput.cs" />
     <Compile Include="Models\Repositories\RatingRepository.cs" />
     <Compile Include="Models\Spoffice.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Spoffice.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Output\AlbumOutput.cs" />
-    <Compile Include="Models\Output\ArtistOutput.cs" />
-    <Compile Include="Models\Output\BaseOutput.cs" />
-    <Compile Include="Models\Output\TrackOutput.cs" />
     <Compile Include="Models\Track.cs" />
     <Compile Include="Models\Repositories\TrackRepository.cs" />
     <Compile Include="Models\TrackHistory.cs" />
@@ -212,17 +224,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SiteStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\Music\Browser\IMusicBrowser.cs" />
-    <Compile Include="Services\Music\Browser\SpotifyBrowser.cs" />
-    <Compile Include="Services\Music\CoverGrabber\CoverGrabber.cs" />
-    <Compile Include="Services\Music\CoverGrabber\ICoverGrabber.cs" />
-    <Compile Include="Services\Music\Downloader\IMusicDownloader.cs" />
-    <Compile Include="Services\Music\Downloader\SpotifyDownloader.cs" />
-    <Compile Include="Services\Music\CoverGrabber\LastFMCoverGrabber.cs" />
-    <Compile Include="Services\Music\MusicService.cs" />
-    <Compile Include="Services\Music\Player\IMusicPlayer.cs" />
-    <Compile Include="Services\Music\Player\IrrklangMusicPlayer.cs" />
-    <Compile Include="Services\Music\Player\WMPMusicPlayer.cs" />
+    <Compile Include="Services\IMusicBrowser.cs" />
+    <Compile Include="Services\ICoverGrabber.cs" />
+    <Compile Include="Services\IMusicDownloader.cs" />
+    <Compile Include="Services\IMusicPlayer.cs" />
+    <Compile Include="Services\MusicService.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\CoolTunes.js" />
@@ -242,12 +250,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SharpSpotLib\SharpSpotLib.csproj">
-      <Project>{CF1CB80F-376B-4C1D-9D53-8DEE64DC6926}</Project>
-      <Name>SharpSpotLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_GlobalResources\Strings.fr.resx">
@@ -1183,17 +1185,10 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="WMPLib">
-      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
+    <None Include="Content\flags\.DS_Store" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\flags\.DS_Store" />
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -475,20 +475,29 @@ namespace Res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No media player specified in app settings!.
+        ///   Looks up a localized string similar to No music browser specified in app settings!.
         /// </summary>
-        public static string MediaPlayerEmpty {
+        public static string MusicBrowserNotSpecified {
             get {
-                return ResourceManager.GetString("MediaPlayerEmpty", resourceCulture);
+                return ResourceManager.GetString("MusicBrowserNotSpecified", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Media player specified in app settings is not a valid option..
+        ///   Looks up a localized string similar to No music downloader specified in app settings!.
         /// </summary>
-        public static string MediaPlayerInvalid {
+        public static string MusicDownloaderNotSpecified {
             get {
-                return ResourceManager.GetString("MediaPlayerInvalid", resourceCulture);
+                return ResourceManager.GetString("MusicDownloaderNotSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No media player specified in app settings!.
+        /// </summary>
+        public static string MusicPlayerNotSpecified {
+            get {
+                return ResourceManager.GetString("MusicPlayerNotSpecified", resourceCulture);
             }
         }
         
