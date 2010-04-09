@@ -214,6 +214,15 @@ namespace Res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Successfully updated your account details..
+        /// </summary>
+        public static string ChangeAccountInformationSuccess {
+            get {
+                return ResourceManager.GetString("ChangeAccountInformationSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have not requested any changes to your account. Please check your entry and try again..
         /// </summary>
         public static string ChangeAccountNoInfo {

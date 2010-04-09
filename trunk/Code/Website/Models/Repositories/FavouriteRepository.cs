@@ -52,11 +52,6 @@ namespace Spoffice.Website.Models
                 DataContext.Context.AddToArtists(artist);
                 dbChanged = true;
             }
-            else if ((artist.MusicBrainzId == null || artist.MusicBrainzId == Guid.Empty) && artistNode.MusicBrainzId != null)
-            {
-                artist.MusicBrainzId = artistNode.MusicBrainzId;
-                dbChanged = true;
-            }
 
             Album album = DataContext.AlbumRepository.GetAlbumById(albumNode.Id);
 
@@ -69,11 +64,6 @@ namespace Spoffice.Website.Models
                     MusicBrainzId = albumNode.MusicBrainzId
                 };
                 DataContext.Context.AddToAlbums(album);
-                dbChanged = true;
-            }
-            else if ((album.MusicBrainzId == null || album.MusicBrainzId == Guid.Empty) && albumNode.MusicBrainzId != null)
-            {
-                album.MusicBrainzId = albumNode.MusicBrainzId;
                 dbChanged = true;
             }
 
@@ -91,11 +81,6 @@ namespace Spoffice.Website.Models
                     MusicBrainzId = trackNode.MusicBrainzId
                 };
                 DataContext.Context.AddToTracks(track);
-                dbChanged = true;
-            }
-            else if ((track.MusicBrainzId == null || track.MusicBrainzId == Guid.Empty) && trackNode.MusicBrainzId != null)
-            {
-                track.MusicBrainzId = trackNode.MusicBrainzId;
                 dbChanged = true;
             }
 
@@ -122,7 +107,7 @@ namespace Spoffice.Website.Models
                     DataContext.Context.SaveChanges();
                     result = new StatusOutput
                     {
-                        StatusCode = "OK",
+                        StatusCode = "Success",
                         Favourite = favourite.AsOutput(),
                         Message = Res.Strings.FavouritesSuccessAdd
                     };
@@ -168,7 +153,7 @@ namespace Spoffice.Website.Models
 
                     result = new StatusOutput
                     {
-                        StatusCode = "OK",
+                        StatusCode = "Success",
                         Message = Res.Strings.FavouritesSuccessRemove
                     };
                 }

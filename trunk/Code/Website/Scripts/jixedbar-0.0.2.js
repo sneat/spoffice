@@ -3,6 +3,7 @@
  * http://code.google.com/p/jixedbar/
  * 
  * Version 0.0.2 - December 18, 2009
+ * Modified for use with spoffice - April 9, 2010
  * 
  * Copyright (c) 2009 Ryan Yonzon, http://ryan.rawswift.com/
  * Dual licensed under the MIT and GPL licenses:
@@ -20,36 +21,18 @@
             constBottom: "0px"
         };
         var defaults = {
-            hoverOpaque: false,
-            hoverOpaqueEffect: { enter: { speed: "fast", opacity: 1.0 }, leave: { speed: "fast", opacity: 0.80} },
-            roundedCorners: false, // only works in FF
-            roundedButtons: true // only works in FF
+            success: "",
+            error: "",
+            zIndex: "2"
         };
         var options = $.extend(defaults, options);
         var ie6 = (navigator.appName == "Microsoft Internet Explorer" && parseInt(navigator.appVersion) == 4 && navigator.appVersion.indexOf("MSIE 6.0") != -1);
 
         this.each(function() {
             var obj = $(this);
-            var $screen = jQuery(this);
-            var fullScreen = $screen.width(); // get screen width
-            var centerScreen = (fullScreen / 2) * (1); // get screen center
 
             // set html and body style for jixedbar to work
             $("html").css({ "overflow": "hidden", "height": "100%" });
-            $("body").css({ "margin": "0px", "overflow": "auto", "height": "100%" });
-
-            // initialize bar
-            $(this).css({
-                "overflow": constants['constOverflow'],
-                "bottom": constants['constBottom']
-            });
-
-            // add bar style (theme)
-            $(this).addClass("jx-bar");
-
-            // calculate and adjust bar to center
-            marginLeft = ($(window).width() - $(this).width()) / 2 + $(window).scrollLeft();
-            $(this).css({ 'margin-left': marginLeft });
 
             // fix image vertical alignment and border
             $("img", obj).css({
@@ -64,16 +47,42 @@
             });
 
             // create tooltip container
-            $("<div />").attr("id", "__jx_tooltip_con__").appendTo("body"); // create div element and append in html body
+            $(document.createElement('div')).attr("id", "__jx_tooltip_con__").addClass("ui-widget").appendTo("body"); // create div element and append in html body
             $("#__jx_tooltip_con__").css({
                 "height": "auto",
                 "margin-left": "0px",
                 "width": "100%", // use entire width
                 "overflow": constants['constOverflow'],
                 "position": constants['constPosition'],
-                "bottom": constants['constBottom']
+                "bottom": constants['constBottom'],
+                "z-index": options.zIndex
             });
-            $("#__jx_tooltip_con__").append($(this)).delay(3000).fadeOut("slow", function() { $("#__jx_tooltip_con__").remove(); }); ;
+
+            // create the wrapper and icon containers
+            var __wrapper = $(document.createElement('div')).addClass("ui-corner-all __jixed").appendTo("#__jx_tooltip_con__");
+            var __icon = $('<span class="ui-icon" style="float: left; margin-right: .3em;"></span>');
+
+            // calculate and adjust bar to center
+            marginLeft = ($(window).width() - __wrapper.width()) / 2 + $(window).scrollLeft();
+            __wrapper.css({ 'margin-left': marginLeft });
+
+            // add styles and message depending on whether it's a success message or error message.
+            if (options.success != '') {
+                __wrapper.addClass('ui-state-highlight');
+                __icon.addClass("ui-icon-info");
+                $(this).html(options.success);
+            } else if (options.error != '') {
+                __wrapper.addClass('ui-state-error');
+                __icon.addClass("ui-icon-alert");
+                $(this).html(options.error);
+            } else {
+                __icon = '';
+            }
+
+            $(this).prepend(__icon);
+
+            // add the message to the page
+            __wrapper.append(this).delay(3000).fadeOut("slow", function() { $("#__jx_tooltip_con__").remove(); });
 
             // fix PNG transparency problem in IE6
             if ($.browser.msie && ie6) {

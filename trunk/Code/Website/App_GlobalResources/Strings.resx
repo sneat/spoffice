@@ -185,6 +185,10 @@
     <value>Account information change was unsuccessful. Please correct the errors and try again.</value>
     <comment>Shown on the change account information form when errors occurred</comment>
   </data>
+  <data name="ChangeAccountInformationSuccess" xml:space="preserve">
+    <value>Successfully updated your account details.</value>
+    <comment>Message shown on a successful Account Information update</comment>
+  </data>
   <data name="ChangeAccountNoInfo" xml:space="preserve">
     <value>You have not requested any changes to your account. Please check your entry and try again.</value>
     <comment>Shown on the Change Account Information form if nothing is entered</comment>

@@ -7,6 +7,7 @@
     <title>Spoffice</title>
     <% Html.ScriptManager().ScriptInclude("jquery", "~/Scripts/jquery-latest.min.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_ui", "~/Scripts/jquery-ui-1.8.custom.min.js"); %>
+    <% Html.ScriptManager().ScriptInclude("jixed", "~/Scripts/jixedbar-0.0.2.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_ui_themeswitcher", "~/Scripts/jquery.themes.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_layout", "~/Scripts/jquery.layout.js"); %>
     <% Html.ScriptManager().ScriptInclude("jquery_lazyloader", "~/Scripts/lazyloader.jquery.js"); %>

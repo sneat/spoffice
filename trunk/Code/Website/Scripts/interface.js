@@ -567,7 +567,11 @@
                     // console.log(updater.track.Id);
                     //console.log($(this).attr('rel'));
                     load($(this).attr('href'), { id: updater.track.Id, value: $(this).attr('rel') }, function(data) {
-                        //console.log(data);
+                        if (data.StatusCode == 'Success') {
+                            $(document.createElement('p')).jixedbar({ success: data.Message });
+                        } else {
+                            $(document.createElement('p')).jixedbar({ error: data.Message });
+                        }
                     });
                 });
                 //$('#current_track').html(updater.track.title);
@@ -692,22 +696,27 @@
                         if (index > -1) {
                             // Track is already a Favourite, therefore we want to remove it
                             load("/Favourites/Remove/" + id, null, function(data) {
-                                if (data.StatusCode == "OK") {
+                                if (data.StatusCode == "Success") {
+                                    $(document.createElement('p')).jixedbar({ success: data.Message });
                                     favourites.splice(index, 1);
                                     if (favouritesTable != null) {
                                         favouritesTable.find("a[trackid=" + id + "]").parents("tr").fadeOut("slow", function() { $(this).remove(); }); ;
                                     }
                                     $(document.body).find("a[trackid=" + id + "]").find(".ui-icon")
                                     .removeClass("ui-icon-circle-minus").addClass("ui-icon-circle-plus");
+                                } else {
+                                    $(document.createElement('p')).jixedbar({ error: data.Message });
                                 }
                             });
                         } else {
                             // Track is not already a Favourite, therefore we want to add it
-                            load("/Favourites/Add/" + id, null, function(data) {
-                                if (data.StatusCode == "OK") {
+                        load("/Favourites/Add/" + id, null, function(data) {
+                                if (data.StatusCode == "Success") {
                                     favourites.push(data.Favourite);
                                     $(document.body).find("a[trackid=" + id + "]").find(".ui-icon")
                                     .removeClass("ui-icon-circle-plus").addClass("ui-icon-circle-minus");
+                                } else {
+                                    $(document.createElement('p')).jixedbar({ error: data.Message });
                                 }
                             });
                         }
@@ -1102,6 +1111,7 @@
                 form.find('input.ui-state-error').removeClass("ui-state-error");
                 load("/Account/ChangeInformation", form.serialize(), function(data) {
                     if (data.Success) {
+                        $(document.createElement('p')).jixedbar({ success: language.ChangeAccountInformationSuccess });
                         accountInformationForm.dialog('close');
                         if (data.Email != '') {
                             $('#myaccount p:first').html(data.Email);

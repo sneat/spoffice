@@ -271,3 +271,10 @@ a .ui-icon, span .ui-icon
 .ui-tabs .ui-tabs-panel {
 	padding: 0;
 }
+.__jixed {
+    width: 80%;
+}
+.__jixed p {
+    margin: 0;
+    padding: 0.5em;
+}
