@@ -710,8 +710,9 @@
                             });
                         } else {
                             // Track is not already a Favourite, therefore we want to add it
-                        load("/Favourites/Add/" + id, null, function(data) {
+                            load("/Favourites/Add/" + id, null, function(data) {
                                 if (data.StatusCode == "Success") {
+                                    $(document.createElement('p')).jixedbar({ success: data.Message });
                                     favourites.push(data.Favourite);
                                     $(document.body).find("a[trackid=" + id + "]").find(".ui-icon")
                                     .removeClass("ui-icon-circle-plus").addClass("ui-icon-circle-minus");
