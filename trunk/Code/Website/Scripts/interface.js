@@ -564,8 +564,6 @@
                 $('#current_track').append(td.children());
                 $('#voteFor, #voteAgainst').unbind().click(function(e) {
                     e.preventDefault();
-                    // console.log(updater.track.Id);
-                    //console.log($(this).attr('rel'));
                     load($(this).attr('href'), { id: updater.track.Id, value: $(this).attr('rel') }, function(data) {
                         if (data.StatusCode == 'Success') {
                             $(document.createElement('p')).jixedbar({ success: data.Message });
@@ -693,6 +691,8 @@
                     link.click(function() {
                         var id = $(this).attr("trackid");
                         var index = isInFavourites(id);
+                        var _icon = $(document.body).find("a[trackid=" + id + "]").find(".ui-icon");
+                        _icon.removeClass("ui-icon-circle-minus ui-icon-circle-plus").addClass("ui-icon-clock");
                         if (index > -1) {
                             // Track is already a Favourite, therefore we want to remove it
                             load("/Favourites/Remove/" + id, null, function(data) {
@@ -702,11 +702,10 @@
                                     if (favouritesTable != null) {
                                         favouritesTable.find("a[trackid=" + id + "]").parents("tr").fadeOut("slow", function() { $(this).remove(); }); ;
                                     }
-                                    $(document.body).find("a[trackid=" + id + "]").find(".ui-icon")
-                                    .removeClass("ui-icon-circle-minus").addClass("ui-icon-circle-plus");
                                 } else {
                                     $(document.createElement('p')).jixedbar({ error: data.Message });
                                 }
+                                _icon.removeClass("ui-icon-clock").addClass("ui-icon-circle-plus");
                             });
                         } else {
                             // Track is not already a Favourite, therefore we want to add it
@@ -714,11 +713,10 @@
                                 if (data.StatusCode == "Success") {
                                     $(document.createElement('p')).jixedbar({ success: data.Message });
                                     favourites.push(data.Favourite);
-                                    $(document.body).find("a[trackid=" + id + "]").find(".ui-icon")
-                                    .removeClass("ui-icon-circle-plus").addClass("ui-icon-circle-minus");
                                 } else {
                                     $(document.createElement('p')).jixedbar({ error: data.Message });
                                 }
+                                _icon.removeClass("ui-icon-clock").addClass("ui-icon-circle-minus");
                             });
                         }
                     }).hover(
