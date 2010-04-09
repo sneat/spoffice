@@ -13,6 +13,14 @@
     <% Html.ScriptManager().ScriptInclude("jquery_lazyloader", "~/Scripts/lazyloader.jquery.js"); %>
     <% Html.ScriptManager().ScriptInclude("interface", "~/Scripts/interface.js"); %>
     <% Html.ScriptManager().ScriptInclude("musicinfoupdater", "~/Scripts/MusicInfoUpdater.js"); %>
+    <% Html.ScriptManager().Script( "interface_init", () => {%>
+        $(function() {
+            $(document.body).spofficeInterface({
+                baseUrl : '<%=Page.ResolveUrl("~/") %>'
+            });
+        });
+    <%}); %>
+
     <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="../../Content/themes/black-tie/jquery.ui.all.css" rel="stylesheet" type="text/css" class="theme_css" />
 </head>

@@ -38,8 +38,6 @@ namespace Spoffice.Website.Models.Output
         {
 
         }
-
-
        
     }
 }

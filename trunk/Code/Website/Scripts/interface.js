@@ -45,7 +45,8 @@
             mainWestSize: 326,
             mainEastSize: 300,
             mainSpacingOpen: 4,
-            mainSpacingClosed: 4
+            mainSpacingClosed: 4,
+            baseUrl: ''
         };
         if (settings) $.extend(config, settings);
         this.each(function() {
@@ -322,9 +323,12 @@
             * @see <a href="http://api.jquery.com/jQuery.ajax/">jQuery AJAX Documentation</a>
             */
             function load(url, data, callback) {
+                if (config.baseUrl == "/") {
+                    config.baseUrl = "";
+                }
                 $.ajaxSetup({ async: true, callback: null, timeout: 20000 });
                 $.ajax({
-                    url: url,
+                    url: config.baseUrl + url,
                     type: data != null ? "POST" : "GET",
                     dataType: 'json',
                     data: data,
@@ -1210,10 +1214,3 @@ function reloadIE(id, display, url) {
     }
     first = false;
 }
-
-/**
- * When the DOM is ready, run the spofficeInterface on the document body
- */
-$(function() {
-    $(document.body).spofficeInterface();
-});
