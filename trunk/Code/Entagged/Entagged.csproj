@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{98F08B28-42E4-4AA3-80D4-CB0B8EE6B608}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Entagged</RootNamespace>
+    <AssemblyName>Entagged</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ape\MonkeyFileReader.cs" />
+    <Compile Include="Ape\MonkeyFileWriter.cs" />
+    <Compile Include="Ape\Util\ApeTagCreator.cs" />
+    <Compile Include="Ape\Util\ApeTagReader.cs" />
+    <Compile Include="Ape\Util\ApeTagWriter.cs" />
+    <Compile Include="Ape\Util\MonkeyDescriptor.cs" />
+    <Compile Include="Ape\Util\MonkeyHeader.cs" />
+    <Compile Include="Ape\Util\MonkeyInfoReader.cs" />
+    <Compile Include="Ape\Util\WavFormatHeader.cs" />
+    <Compile Include="Ape\Util\WavRIFFHeader.cs" />
+    <Compile Include="Asf\AsfFileReader.cs" />
+    <Compile Include="Asf\Util\AsfInfoReader.cs" />
+    <Compile Include="Asf\Util\AsfTagReader.cs" />
+    <Compile Include="Asf\Util\GUID.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AudioFile.cs" />
+    <Compile Include="AudioFileContainer.cs" />
+    <Compile Include="AudioFileIO.cs" />
+    <Compile Include="CreativeCommons.cs" />
+    <Compile Include="EncodingInfo.cs" />
+    <Compile Include="EntaggedTest.cs" />
+    <Compile Include="Exceptions\CannotReadException.cs" />
+    <Compile Include="Exceptions\CannotWriteException.cs" />
+    <Compile Include="Exceptions\UnsupportedFormatException.cs" />
+    <Compile Include="Flac\FlacFileReader.cs" />
+    <Compile Include="Flac\FlacFileWriter.cs" />
+    <Compile Include="Flac\Util\FlacInfoReader.cs" />
+    <Compile Include="Flac\Util\FlacTagCreator.cs" />
+    <Compile Include="Flac\Util\FlacTagReader.cs" />
+    <Compile Include="Flac\Util\FlacTagWriter.cs" />
+    <Compile Include="Flac\Util\MetadataBlockData.cs" />
+    <Compile Include="Flac\Util\MetadataBlockDataStreamInfo.cs" />
+    <Compile Include="Flac\Util\MetadataBlockHeader.cs" />
+    <Compile Include="Mp3\Id3Tag.cs" />
+    <Compile Include="Mp3\Mp3FileReader.cs" />
+    <Compile Include="Mp3\Util\Id3frames\ApicId3Frame.cs" />
+    <Compile Include="Mp3\Util\Id3frames\CommId3Frame.cs" />
+    <Compile Include="Mp3\Util\Id3frames\GenericId3Frame.cs" />
+    <Compile Include="Mp3\Util\Id3frames\Id3Frame.cs" />
+    <Compile Include="Mp3\Util\Id3frames\TextId3Frame.cs" />
+    <Compile Include="Mp3\Util\Id3v1TagReader.cs" />
+    <Compile Include="Mp3\Util\Id3v23TagReader.cs" />
+    <Compile Include="Mp3\Util\Id3v24TagReader.cs" />
+    <Compile Include="Mp3\Util\Id3v2TagReader.cs" />
+    <Compile Include="Mp3\Util\Id3v2TagSynchronizer.cs" />
+    <Compile Include="Mp3\Util\LameMPEGFrame.cs" />
+    <Compile Include="Mp3\Util\Mp3InfoReader.cs" />
+    <Compile Include="Mp3\Util\MPEGFrame.cs" />
+    <Compile Include="Mp3\Util\XingMPEGFrame.cs" />
+    <Compile Include="Mp4\Mp4FileReader.cs" />
+    <Compile Include="Mp4\Util\Mp4InfoReader.cs" />
+    <Compile Include="Mp4\Util\Mp4TagReader.cs" />
+    <Compile Include="Mpc\MpcFileReader.cs" />
+    <Compile Include="Mpc\MpcFileWriter.cs" />
+    <Compile Include="Mpc\Util\MpcHeader.cs" />
+    <Compile Include="Mpc\Util\MpcInfoReader.cs" />
+    <Compile Include="Ogg\OggFileReader.cs" />
+    <Compile Include="Ogg\OggFileWriter.cs" />
+    <Compile Include="Ogg\OggTag.cs" />
+    <Compile Include="Ogg\Util\OggCRCFactory.cs" />
+    <Compile Include="Ogg\Util\OggInfoReader.cs" />
+    <Compile Include="Ogg\Util\OggPageHeader.cs" />
+    <Compile Include="Ogg\Util\OggTagCreator.cs" />
+    <Compile Include="Ogg\Util\OggTagReader.cs" />
+    <Compile Include="Ogg\Util\VorbisCodecHeader.cs" />
+    <Compile Include="Ogg\Util\VorbisTagCreator.cs" />
+    <Compile Include="Ogg\Util\VorbisTagReader.cs" />
+    <Compile Include="Ogg\Util\VorbisTagWriter.cs" />
+    <Compile Include="Tag.cs" />
+    <Compile Include="Tracker\TrackerFileReader.cs" />
+    <Compile Include="Tracker\Util\TrackerTagReader.cs" />
+    <Compile Include="Util\AbstractTagCreator.cs" />
+    <Compile Include="Util\AudioFileReader.cs" />
+    <Compile Include="Util\AudioFileWriter.cs" />
+    <Compile Include="Util\ByteBuffer.cs" />
+    <Compile Include="Util\CustomAttributes.cs" />
+    <Compile Include="Util\TagField.cs" />
+    <Compile Include="Util\Utils.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

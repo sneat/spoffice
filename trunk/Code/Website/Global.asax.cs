@@ -13,8 +13,6 @@ namespace Spoffice.Website
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-
-
     public class MvcApplication : System.Web.HttpApplication
     {
         public static void RegisterRoutes(RouteCollection routes)
@@ -36,6 +34,7 @@ namespace Spoffice.Website
             UnityConfigurationSection section = (UnityConfigurationSection)ConfigurationManager.GetSection("unity");
             section.Containers["services"].Configure(myContainer);
             Application["ServicesContainer"] = myContainer;
+
         }
         protected void Application_End(object sender, EventArgs e)
         {

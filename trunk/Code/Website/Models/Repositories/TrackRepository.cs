@@ -61,37 +61,6 @@ namespace Spoffice.Website.Models
             return tracks;
         }
 
-        public long GetTotalBytesPlayed()
-        {
-            long totalbytes = 0;
-            var qry = from track in DataContext.Context.TrackHistories
-                      group track by track.Track
-                          into grp
-                          select new
-                          {
-                              Track_Id = grp.Select(x => x.Track.Id).FirstOrDefault(),
-                              Plays = grp.Select(x => x.Track).Distinct().Count()
-                          };
-            int lostTracks = 0;
-            List<long> bytes = new List<long>();
-            foreach (var row in qry)
-            {
-                string path = String.Format(new Track { Id = row.Track_Id }.CachePath, HttpRuntime.AppDomainAppPath, row.Track_Id.ToString());
-
-                if (System.IO.File.Exists(path))
-                {
-                    long length = new System.IO.FileInfo(path).Length;
-                    totalbytes += length;
-                    bytes.Add(length);
-                }
-                else
-                {
-                    lostTracks++;
-                }
-            }
-            return bytes.Count > 0 ? totalbytes + ((long)bytes.Average() * lostTracks) : totalbytes + 4000 * 1024 * lostTracks;
-        }
-
         #endregion
 
         #region ITrackRepository Members
