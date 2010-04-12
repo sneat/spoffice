@@ -365,6 +365,10 @@
     <value>Submit</value>
     <comment>Used on some forms</comment>
   </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Theme</value>
+    <comment>Displayed on the change theme button</comment>
+  </data>
   <data name="TrackHistory" xml:space="preserve">
     <value>Track History</value>
     <comment>Displayed on the Track History tab</comment>
