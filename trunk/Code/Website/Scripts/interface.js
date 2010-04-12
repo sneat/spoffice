@@ -192,10 +192,20 @@
                         me.toggleClass("ui-state-hover", true);
                         var related = $(me.attr("href"));
                         var offset = me.offset();
+                        var viewport = {
+                            x: $(window).scrollLeft(),
+                            cx: $(window).width()
+                        };
+
+                        var left = offset.left;
+                        // check horizontal position
+                        if (viewport.x + viewport.cx < related.width() + offset.left + 10) {
+                            left = viewport.cx - viewport.x - related.width() - 10;
+                        }
                         related.css({
                             'position': 'absolute',
                             'top': offset.top + me.outerHeight() + 2,
-                            'left': offset.left,
+                            'left': left,
                             'z-index': z++
                         })
                         related.slideDown();
@@ -245,10 +255,20 @@
                         var me = $(this);
                         var related = $(me.attr("href"));
                         var offset = me.offset();
+                        var viewport = {
+                            x: $(window).scrollLeft(),
+                            cx: $(window).width()
+                        };
+
+                        var left = offset.left;
+                        // check horizontal position
+                        if (viewport.x + viewport.cx < related.width() + offset.left + 10) {
+                            left = viewport.cx - viewport.x - related.width() - 10;
+                        }
                         related.css({
                             'position': 'absolute',
                             'top': offset.top + me.outerHeight(),
-                            'left': offset.left,
+                            'left': left,
                             'z-index': 100
                         });
                     });
@@ -264,19 +284,29 @@
                     $.each(data.AvailableLanguages, function(key, val) {
                         $('#language_' + key).toggleClass("ui-state-highlight", false).find("span").html(val);
                     });
-                    switchLanguage();
                     $('#languagelabel,#themelabel').each(function() {
                         var me = $(this);
                         var related = $(me.attr("href"));
                         var offset = me.offset();
+                        var viewport = {
+                            x: $(window).scrollLeft(),
+                            cx: $(window).width()
+                        };
+
+                        var left = offset.left;
+                        // check horizontal position
+                        if (viewport.x + viewport.cx < related.width() + offset.left + 10) {
+                            left = viewport.cx - viewport.x - related.width() - 10;
+                        }
                         related.css({
                             'position': 'absolute',
                             'top': offset.top + me.outerHeight(),
-                            'left': offset.left,
+                            'left': left,
                             'z-index': 100
                         });
                     });
                     $('a#language_' + data.CurrentCulture).toggleClass("ui-state-highlight", true);
+                    switchLanguage();
                 });
             }
 
@@ -306,6 +336,8 @@
                 $('#myaccount_tab').html(language.MyAccount);
                 $('.lblAlbums').html(language.Albums);
                 $('#btnSearch').val(language.Search);
+                $('#languagelabel span.lbl').html($('#available-languages ul li a.ui-state-highlight').text());
+                $('#themelabel span.lbl').html(language.Theme);
             }
 
             /**
@@ -476,6 +508,7 @@
                         }
                     }
                 });
+                $('#search-form').show();
                 $(config.resultsDiv).hide();
                 /**
                 * Add the tab interface to the center pane of the base layout
@@ -1006,7 +1039,6 @@
 
                     loginForm.dialog({
                         width: 350,
-                        modal: true,
                         closeOnEscape: false,
                         autoResize: true,
                         open: function() {
@@ -1157,7 +1189,6 @@
                     registerForm.show();
                     registerForm.dialog({
                         width: 350,
-                        modal: false,
                         closeOnEscape: false,
                         autoResize: true,
                         open: function() {

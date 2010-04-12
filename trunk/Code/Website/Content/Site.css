@@ -92,6 +92,7 @@ a#themelabel span
 {
 	float: left;
 	margin-left: 5px;
+	display: none;
 }
 #switcher 
 {
