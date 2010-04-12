@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -36,6 +36,7 @@
       <HintPath>..\External DLLs\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -70,4 +71,13 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+  	<ItemGroup>
+        	<AllDll Include=".\**\*.dll" />
+      		<WebsiteBin Include="..\Website\bin"/>
+  	</ItemGroup>
+  	<Copy
+	          SourceFiles="@(AllDll)"
+          DestinationFolder="@(WebsiteBin)"  />
+  </Target>
 </Project>
