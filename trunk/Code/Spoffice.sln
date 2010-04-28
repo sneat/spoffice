@@ -11,13 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpZipLibLight", "SharpZi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{5368B896-F614-4E1D-A913-FDCA44CBF9DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoffice.Spotify", "SpofficeSpotify\Spoffice.Spotify.csproj", "{BD916F98-DFFD-4EFB-BBB0-309D14809A1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoffice.Spotify", "Spoffice.Spotify\Spoffice.Spotify.csproj", "{BD916F98-DFFD-4EFB-BBB0-309D14809A1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoffice.LastFM", "SpofficeLastFM\Spoffice.LastFM.csproj", "{CD905421-306C-41BB-8042-8B37F652877E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoffice.LastFM", "Spoffice.LastFM\Spoffice.LastFM.csproj", "{CD905421-306C-41BB-8042-8B37F652877E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoffice.Irrklang", "SpofficeIrrklang\Spoffice.Irrklang.csproj", "{B1F73129-F839-44D9-96CF-3F27BF0C0364}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoffice.Irrklang", "Spoffice.Irrklang\Spoffice.Irrklang.csproj", "{B1F73129-F839-44D9-96CF-3F27BF0C0364}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoffice.WMP", "SpofficeWMP\Spoffice.WMP.csproj", "{F5EDD0DF-856E-439B-874E-A6FD9953CCFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoffice.WMP", "Spoffice.WMP\Spoffice.WMP.csproj", "{F5EDD0DF-856E-439B-874E-A6FD9953CCFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

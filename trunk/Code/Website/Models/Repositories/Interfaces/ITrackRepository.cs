@@ -16,7 +16,5 @@ namespace Spoffice.Website.Models
         List<Track> GetTracksToPlay(int maxCount, List<Guid> exclude);
 
         Track GetTrackById(Guid id);
-
-        long GetTotalBytesPlayed();
     }
 }

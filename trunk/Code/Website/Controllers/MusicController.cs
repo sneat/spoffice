@@ -47,7 +47,6 @@ namespace Spoffice.Website.Controllers
             return MultiformatView(typeof(PlayerStatusOutput), new PlayerStatusOutput
             {
                 PlayerPosition = MusicService.CurrentTrack != null ? MusicService.CurrentTrack.Progress : 0,
-                TotalBytes = MusicService.TotalBytes,
                 Tracks  = MusicService.UpcomingTracks.Select(t=> t.AsOutput()).ToList(),
                 NumberOfVotes = MusicService.VoteCount,
                 NumberOfVotesRequired = MusicService.RequiredVotes
