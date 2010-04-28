@@ -1,4 +1,4 @@
-﻿//FIXME: Debug
+//FIXME: Debug
 //#define ADAPTER_MODE
 
 using System;
@@ -18,7 +18,7 @@ namespace SharpSpotLib.Protocol
         #region constants
         
 	    /* Always up to date! ;-P */
-	    public const Int32 CLIENT_REVISION = 99998;
+	    public const Int32 CLIENT_REVISION = 65324;
 
         #endregion
 
