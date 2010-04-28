@@ -69,8 +69,18 @@ namespace Spoffice.Website.Services
         /// </summary>
         private IMusicPlayer Player;
 
+        private long previousTotalBytes;
+        public long TotalBytes
+        {
+            get
+            {
+                return previousTotalBytes + Player.TotalBytes;
+            }
+        }
+
         public MusicService(IMusicPlayer player, IMusicDownloader downloader)
         {
+            previousTotalBytes = DataContext.TrackRepository.GetTotalBytesPlayed();
             Downloader = downloader;
             Player = player;
             OrganizePlaylist();
@@ -134,10 +144,6 @@ namespace Spoffice.Website.Services
         private void OnTrackDownloaded(Track track)
         {
             System.Diagnostics.Debug.WriteLine("track downloaded!");
-            if (String.IsNullOrEmpty(track.FilePath))
-            {
-                throw new Exception("Your music downloader didnt set the tracks file path. This needs to be set in the Download method");
-            }
             OrganizePlaylist();
         }
         private void OnTrackPlayed(Track track)

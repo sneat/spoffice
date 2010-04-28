@@ -74,7 +74,6 @@
     </containers>
   </unity>
   <appSettings>
-    <add key="Spoffice.AvailableLanguages" value="bg,de,fr,en-GB" />
     <!-- Your Spotify username -->
     <add key="Spotify.Username" value="" />
     <!-- Your Spotify password -->

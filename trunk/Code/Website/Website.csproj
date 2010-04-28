@@ -132,7 +132,6 @@
     <Compile Include="Controllers\FavouritesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MusicController.cs" />
-    <Compile Include="Helpers\CacheHelper.cs" />
     <Compile Include="Helpers\SimpleScriptManager.cs" />
     <Compile Include="Helpers\SimpleScriptManagerExtension.cs" />
     <Compile Include="Helpers\StringFormatter.cs" />
@@ -239,6 +238,7 @@
     <Content Include="Scripts\jquery.defaultvalue.js" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Web.config" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\MicrosoftAjax.js" />
     <Content Include="Scripts\MicrosoftAjax.debug.js" />
@@ -1186,7 +1186,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\flags\.DS_Store" />
-    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -8,7 +8,6 @@ using System.Globalization;
 using System.Reflection;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Configuration;
 
 namespace Spoffice.Website.Models.Output
 {
@@ -31,7 +30,6 @@ namespace Spoffice.Website.Models.Output
                 System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
             }
 
-
             ResourceManager manager = new ResourceManager("Spoffice.Website.App_GlobalResources.Strings", Assembly.GetExecutingAssembly());
             
             ResourceSet resources = manager.GetResourceSet(culture, true, true);
@@ -44,11 +42,20 @@ namespace Spoffice.Website.Models.Output
             }
 
             AvailableLanguages = new Dictionary<string, string>();
-            string[] languageCodes = ConfigurationManager.AppSettings["Spoffice.AvailableLanguages"].Split(new char[] { ',' });
-            foreach (string str in languageCodes)
+            string[] list = Directory.GetFiles(HttpContext.Current.Server.MapPath("~/App_GlobalResources"));
+            foreach (string str in list)
             {
-                CultureInfo info = CultureInfo.GetCultureInfo(str);
-                AvailableLanguages.Add(info.TwoLetterISOLanguageName, info.DisplayName);
+                Regex regex = new Regex("[a-zA-Z-]*.resx");
+                if (regex.IsMatch(str))
+                {
+                    string language = regex.Match(str).ToString().Replace(".resx", String.Empty);
+                    if (language == "Strings")
+                    {
+                        language = "en-GB";
+                    }
+                    CultureInfo info = CultureInfo.GetCultureInfo(language);
+                    AvailableLanguages.Add(info.TwoLetterISOLanguageName, info.NativeName);
+                }
             }
             CurrentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
         }

@@ -78,7 +78,7 @@
                 header: "ui-icon-folder-collapsed",
                 headerSelected: "ui-icon-folder-open"
             };
-            var THEME_COOKIE_NAME = 'themeID';
+            var now = new Date();
             var themes = {  // The definitions of the available themes
                 'blacktie': { display: 'Black Tie', icon: 0, preview: 0,
                     url: 'black-tie/ui.all.css'
@@ -232,6 +232,10 @@
                     $('#languagelabel span.lbl').html(language.Language);
                     $('#themelabel span.lbl').html(language.Theme);
 
+                    _theme = $.JSONCookie("spoffice_theme");
+                    if (_theme.key != undefined) { switchTheme(_theme.key, _theme.theme); }
+                    _lang = $.JSONCookie("spoffice_lang");
+                    if (_lang.language != undefined) { loadLanguage(_lang.language); }
                     removeStaticContent();
                     getLoginStatus();
                 });
@@ -273,6 +277,8 @@
                         });
                     });
                 }, 500);
+                _data = { key: key, theme: theme };
+                $.JSONCookie("spoffice_theme", _data);
             }
 
             /**
@@ -308,6 +314,8 @@
                     $('a#language_' + data.CurrentCulture).toggleClass("ui-state-highlight", true);
                     switchLanguage();
                 });
+                _data = { language: lang };
+                $.JSONCookie("spoffice_lang", _data);
             }
 
             /**
@@ -541,11 +549,6 @@
                 albumaccordion = $(config.albumAccordionDiv);
                 centrallayout.hide(config.artistLocation);
                 centrallayout.hide(config.albumLocation);
-
-                /**
-                * Initialise the themes switcher
-                */
-                $(config.switcher).themes();
 
                 progressBar = $(config.progressBar).progressbar({
                     value: 0

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using Spoffice.Website.Services;
 using Spoffice.Website.Models.Output;
-using System.Configuration;
 namespace Spoffice.Website.Models
 {
     public enum TrackState
@@ -56,10 +55,12 @@ namespace Spoffice.Website.Models
         /// <summary>
         /// Path to the music cache on the harddrive
         /// </summary>
-        public string FilePath
+        public string CachePath
         {
-            get;
-            set;
+            get
+            {
+                return String.Format("{0}Cache\\music\\{1}.ogg", HttpRuntime.AppDomainAppPath, Id.ToString());
+            }
         }
 
         /// <summary>

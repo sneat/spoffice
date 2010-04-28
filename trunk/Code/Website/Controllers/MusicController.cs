@@ -47,6 +47,7 @@ namespace Spoffice.Website.Controllers
             return MultiformatView(typeof(PlayerStatusOutput), new PlayerStatusOutput
             {
                 PlayerPosition = MusicService.CurrentTrack != null ? MusicService.CurrentTrack.Progress : 0,
+                TotalBytes = MusicService.TotalBytes,
                 Tracks  = MusicService.UpcomingTracks.Select(t=> t.AsOutput()).ToList(),
                 NumberOfVotes = MusicService.VoteCount,
                 NumberOfVotesRequired = MusicService.RequiredVotes
@@ -76,7 +77,8 @@ namespace Spoffice.Website.Controllers
         public RedirectResult AlbumImage(string id)
         {
             string cover = null;
-            AlbumOutput album = new AlbumOutput { Id = new Guid(id) };
+            AlbumOutput album = AuthorizedController.Browser.GetAlbumById(new Guid(id));
+            album.Id = new Guid(id);
             foreach (ICoverGrabber grabber in myContainer.ResolveAll<ICoverGrabber>())
             {
                 cover = grabber.GetCoverPath(album);

@@ -26,6 +26,11 @@ namespace Spoffice.Website.Models
                     select m).FirstOrDefault();
         }
 
+        #endregion
+
+        #region IFavouriteRepository Members
+
+
         public StatusOutput AddToFavourites(Guid trackid, Guid userid)
         {
             StatusOutput result = new StatusOutput();
@@ -107,7 +112,7 @@ namespace Spoffice.Website.Models
                         Message = Res.Strings.FavouritesSuccessAdd
                     };
                 }
-                catch (Exception e)
+                catch
                 {
                     result = new StatusOutput
                     {
