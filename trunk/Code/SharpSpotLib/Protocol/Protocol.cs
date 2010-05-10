@@ -1,4 +1,4 @@
-﻿//FIXME: Debug
+//FIXME: Debug
 //#define ADAPTER_MODE
 
 using System;
@@ -152,7 +152,7 @@ namespace SharpSpotLib.Protocol
 		    /* Append fields to buffer. */
 		    buffer.PutShort((short)3); /* Version: 3 */
 		    buffer.PutShort((short)0); /* Length (update later) */
-		    buffer.PutInt(0x00000000); /* Unknown */
+		    buffer.PutInt(0x00000300); /* Unknown */
 		    buffer.PutInt(0x00030C00); /* Unknown */
 		    buffer.PutInt(this._session.ClientRevision);
 		    buffer.PutInt(0x00000000); /* Unknown */
