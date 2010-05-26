@@ -25,7 +25,7 @@ namespace Spoffice.Lib
             }
         }
 
-        public int maxQueueLength = 2;
+        public int maxQueueLength = 4;
         private ITrackRepository repository;
         private IMusicPlayer player;
         public List<Track> queue = new List<Track>();
@@ -39,7 +39,7 @@ namespace Spoffice.Lib
         #region Init
         public void Init(ITrackRepository _repository)
         {
-            Init(_repository, new IrrklangMusicPlayer());
+            Init(_repository, new WMPMusicPlayer());
         }
         public void Init(ITrackRepository _repository, IMusicPlayer _player)
         {
@@ -62,25 +62,20 @@ namespace Spoffice.Lib
                 }
 
                 // download the next undownloaded track
-                Track trackToDownload = queue.Where(x => x.State == TrackState.Empty).FirstOrDefault();
-                if (trackToDownload != null)
+                if (queue.Where(x => x.State == TrackState.Buffering).Count() == 0)
                 {
-                    MusicServiceManager.GetServiceForTrack(trackToDownload).Download(trackToDownload);
-                }
-
-                // remove any played and invalid tracks.
-                foreach (Track track in queue)
-                {
-                    if (track.State == TrackState.Played || track.State == TrackState.Invalid)
+                    Track trackToDownload = queue.Where(x => x.State == TrackState.Empty).FirstOrDefault();
+                    if (trackToDownload != null)
                     {
-                        // if it's invalid we'll let the repository know
-                        if (track.State == TrackState.Invalid)
-                        {
-                            repository.RemoveInvalidTrack(track);
-                        }
-                        queue.Remove(track);
+                        MusicServiceManager.DownloadTrack(trackToDownload);
                     }
                 }
+
+                foreach (Track invalidTrack in queue.Where(x => x.State == TrackState.Invalid))
+                {
+                    repository.RemoveInvalidTrack(invalidTrack);
+                }
+                queue.RemoveAll(x => x.State == TrackState.Played || x.State == TrackState.Invalid);
 
                 // if the first track on the list isnt playing lets make sure we play it
                 Track trackToPlay = queue.FirstOrDefault();

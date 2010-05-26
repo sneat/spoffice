@@ -31,6 +31,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DnDns, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External DLLs\DnDns.dll</HintPath>
+    </Reference>
+    <Reference Include="MentalisCryptography, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External DLLs\MentalisCryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpSpotLib, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharpSpotLib\obj\Debug\SharpSpotLib.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpZipLibLight, Version=0.85.5.452, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External DLLs\SharpZipLibLight.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -50,7 +66,7 @@
     <Compile Include="Interfaces\ITrackRepository.cs" />
     <Compile Include="Interfaces\IMusicService.cs" />
     <Compile Include="Interfaces\IMusicPlayer.cs" />
-    <Compile Include="MusicPlayers\IrrklangMusicPlayer.cs" />
+    <Compile Include="MusicPlayers\WMPMusicPlayer.cs" />
     <Compile Include="Repositories\XmlRepository.cs" />
     <Compile Include="Track.cs" />
     <Compile Include="MusicServiceManager.cs" />
@@ -58,6 +74,16 @@
     <Compile Include="MusicServices\SpotifyMusicService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DatabaseRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,8 @@
+D:\Users\Mikee\Documents\Projects\Spoffice2\Code\SharpSpotLib\bin\Debug\SharpSpotLib.dll
+D:\Users\Mikee\Documents\Projects\Spoffice2\Code\SharpSpotLib\bin\Debug\SharpSpotLib.pdb
+D:\Users\Mikee\Documents\Projects\Spoffice2\Code\SharpSpotLib\bin\Debug\DnDns.dll
+D:\Users\Mikee\Documents\Projects\Spoffice2\Code\SharpSpotLib\bin\Debug\MentalisCryptography.dll
+D:\Users\Mikee\Documents\Projects\Spoffice2\Code\SharpSpotLib\bin\Debug\SharpZipLibLight.dll
+D:\Users\Mikee\Documents\Projects\Spoffice2\Code\SharpSpotLib\obj\Debug\ResolveAssemblyReference.cache
+D:\Users\Mikee\Documents\Projects\Spoffice2\Code\SharpSpotLib\obj\Debug\SharpSpotLib.dll
+D:\Users\Mikee\Documents\Projects\Spoffice2\Code\SharpSpotLib\obj\Debug\SharpSpotLib.pdb

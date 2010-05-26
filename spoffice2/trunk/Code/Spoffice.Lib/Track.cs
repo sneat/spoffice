@@ -41,7 +41,11 @@ namespace Spoffice.Lib
             get;
             set;
         }
-
+        public string FilePath
+        {
+            get;
+            set;
+        }
         public string StateString
         {
             get

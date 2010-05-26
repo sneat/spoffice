@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Spoffice.Lib.Interfaces;
 using System.Threading;
+using IrrKlang;
 
 namespace Spoffice.Lib.MusicPlayers
 {
@@ -11,8 +12,15 @@ namespace Spoffice.Lib.MusicPlayers
     {
         #region IMusicPlayer Members
 
+        private ISoundEngine engine;
+        public IrrklangMusicPlayer()
+        {
+            engine = new ISoundEngine();
+        }
+
         public void Play(Track track)
         {
+            engine.StopAllSounds();
             track.State = TrackState.Playing;
             Thread thread = new Thread(new ParameterizedThreadStart(doPlay));
             thread.Start(track);
@@ -21,10 +29,11 @@ namespace Spoffice.Lib.MusicPlayers
         private void doPlay(object otrack)
         {
             Track track = otrack as Track;
-            int i = 0;
-            while (i++ < 100)
+            Thread.Sleep(1000);
+            ISound sound = engine.Play2D(track.FilePath);
+            while (!sound.Finished)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(500);
             }
             track.State = TrackState.Played;
         }

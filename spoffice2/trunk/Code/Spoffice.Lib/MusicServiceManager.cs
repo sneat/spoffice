@@ -8,14 +8,21 @@ namespace Spoffice.Lib
 {
     public class MusicServiceManager
     {
-        private static Dictionary<string, IMusicService> Services = new Dictionary<string, IMusicService>();
+        private static Dictionary<string, IMusicService> services = new Dictionary<string, IMusicService>();
         public static void AddService(string name, IMusicService service)
         {
-            Services.Add(name, service);
+            services.Add(name, service);
         }
-        public static IMusicService GetServiceForTrack(Track track)
+        public static void DownloadTrack(Track track)
         {
-            return Services[track.MusicService];
+            if (services.ContainsKey(track.MusicService))
+            {
+                services[track.MusicService].Download(track);
+            }
+            else
+            {
+                track.State = TrackState.Invalid;
+            }
         }
     }
 }

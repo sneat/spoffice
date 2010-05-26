@@ -12,39 +12,42 @@ namespace Spoffice.Lib.Repositories
     public class XmlRepository : ITrackRepository
     {
         List<Track> tracks = new List<Track>();
+        private string xmlpath;
         public XmlRepository(string path)
         {
-            XDocument doc = XDocument.Load(path);
+            xmlpath = path;
+            tracks = getAllTracksFromXml();
+        }
+
+        private List<Track> getAllTracksFromXml()
+        {
+            XDocument doc = XDocument.Load(xmlpath);
+            List<Track> newTracks = new List<Track>();
             foreach (XElement track in doc.Descendants("Track"))
             {
-                tracks.Add(new Track
+                newTracks.Add(new Track
                 {
                     Id = new Guid(track.Attribute("Id").Value),
                     Title = track.Element("Title").Value,
                     Album = track.Element("Album").Value,
                     Artist = track.Element("Artist").Value,
-                    MusicService = track.Element("MusicService").Value
+                    MusicService = track.Element("MusicService").Value,
+                    FilePath = track.Element("FilePath").Value                    
                 });
             }
+            return newTracks;
         }
 
         #region ITrackRepository Members
 
         List<Track> ITrackRepository.GetTracks(int count)
         {
-            List<Track> ts = (from t in tracks orderby Guid.NewGuid() select t).Take(count).ToList();
-
-            // reset the state
-            foreach (Track t in ts)
-            {
-                t.State = TrackState.Empty;
-            }
-            return ts;
+            return (from t in getAllTracksFromXml() orderby Guid.NewGuid() select t).Take(count).ToList();
         }
 
         void ITrackRepository.RemoveInvalidTrack(Track track)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         #endregion
