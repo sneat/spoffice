@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Tracks>
+ <Track Id="407f42ef-8048-4f7f-a469-21d3a30ab8df">
+  <Title>Fuck The Pain Away</Title>
+  <Album>The Teaches Of Peaches</Album>
+  <Artist>Peaches</Artist> 
+  <MusicService>spotify</MusicService> 
+ </Track>
+ <Track Id="09578a77-f3f2-4956-b50d-db58e9147cd0">
+  <Title>Karma Police</Title>
+  <Album>The Best Of</Album>
+  <Artist>Radiohead</Artist> 
+  <MusicService>spotify</MusicService> 
+ </Track>
+ <Track Id="79b43219-22ad-412f-9845-4f3568a34774">
+  <Title>Wait for me - Ambient</Title>
+  <Album>Wait For me</Album>
+  <Artist>Moby</Artist> 
+  <MusicService>spotify</MusicService> 
+ </Track>
+ <Track Id="29E3B5AA-5CDD-47C0-9422-357E11A02E85">
+  <Title>Boy Toy</Title>
+  <Album>Monsieur Gainsbourg Revisited</Album>
+  <Artist>Trash Palace</Artist> 
+  <MusicService>spotify</MusicService> 
+ </Track>
+ <Track Id="0BD3F9EB-6C8A-458C-B8CC-20AFC02EA8AE">
+  <Title>All These Things That I've Done</Title>
+  <Album>Hot Fuss</Album>
+  <Artist>The Killers</Artist> 
+  <MusicService>spotify</MusicService> 
+ </Track>
+ <Track Id="332170BC-3781-44FA-993F-3F7D67CC6A7D">
+  <Title>Creep</Title>
+  <Album>The Best Of</Album>
+  <Artist>Radiohead</Artist> 
+  <MusicService>spotify</MusicService> 
+ </Track>
+</Tracks>

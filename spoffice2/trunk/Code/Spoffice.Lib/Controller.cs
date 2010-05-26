@@ -25,7 +25,7 @@ namespace Spoffice.Lib
             }
         }
 
-        public int maxQueueLength = 5;
+        public int maxQueueLength = 2;
         private ITrackRepository repository;
         private IMusicPlayer player;
         public List<Track> queue = new List<Track>();
@@ -58,17 +58,14 @@ namespace Spoffice.Lib
                 // lets fill the queue with new tracks
                 if (queue.Count < maxQueueLength)
                 {
-                    repository.GetTracks(maxQueueLength - queue.Count);
+                    queue.AddRange(repository.GetTracks(maxQueueLength - queue.Count));
                 }
 
                 // download the next undownloaded track
-                foreach (Track track in queue)
+                Track trackToDownload = queue.Where(x => x.State == TrackState.Empty).FirstOrDefault();
+                if (trackToDownload != null)
                 {
-                    if (track.State == TrackState.Empty)
-                    {
-                        MusicServiceManager.GetServiceForTrack(track).Download(track);
-                        break;
-                    }
+                    MusicServiceManager.GetServiceForTrack(trackToDownload).Download(trackToDownload);
                 }
 
                 // remove any played and invalid tracks.
@@ -86,13 +83,13 @@ namespace Spoffice.Lib
                 }
 
                 // if the first track on the list isnt playing lets make sure we play it
-                Track firstTrack = queue.FirstOrDefault();
-                if (firstTrack.State == TrackState.Buffered)
+                Track trackToPlay = queue.FirstOrDefault();
+                if (trackToPlay != null && trackToPlay.State == TrackState.Buffered)
                 {
-                    player.Play(firstTrack);
+                    player.Play(trackToPlay);
                 }
 
-                Thread.Sleep(50);
+                Thread.Sleep(1000);
             }
         }
     }

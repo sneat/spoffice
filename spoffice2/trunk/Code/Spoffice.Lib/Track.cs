@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Spoffice.Lib
 {
@@ -40,6 +41,29 @@ namespace Spoffice.Lib
             get;
             set;
         }
+
+        public string StateString
+        {
+            get
+            {
+                switch (state)
+                {
+                    case TrackState.Buffered:
+                        return "buffered";
+                    case TrackState.Buffering:
+                        return "buffering";
+                    case TrackState.Empty:
+                        return "empty";
+                    case TrackState.Invalid:
+                        return "invalid";
+                    case TrackState.Played:
+                        return "played";
+                    case TrackState.Playing:
+                        return "playing";
+                }
+                return String.Empty;
+            }
+        }
         private TrackState state = TrackState.Empty;
         public TrackState State
         {
@@ -49,7 +73,7 @@ namespace Spoffice.Lib
             }
             set
             {
-                OnChangeState(this);
+                //OnChangeState(this);
                 state = value;
             }
         }
