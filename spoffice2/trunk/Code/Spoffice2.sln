@@ -4,6 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Spoffice.fm", "Spoffice.fm\", "{34A2C98F-E3AA-41E3-9143-280D3386403C}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFramework = "3.5"
+		ProjectReferences = "{33192AC2-97D1-4814-B76A-65591AE638B6}|Spoffice.Lib.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/Spoffice.fm"
 		Debug.AspNetCompiler.PhysicalPath = "Spoffice.fm\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Spoffice.fm\"
