@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Spoffice.fm", "Spoffice.fm\", "{34A2C98F-E3AA-41E3-9143-280D3386403C}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFramework = "3.5"
+		Debug.AspNetCompiler.VirtualPath = "/Spoffice.fm"
+		Debug.AspNetCompiler.PhysicalPath = "Spoffice.fm\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Spoffice.fm\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/Spoffice.fm"
+		Release.AspNetCompiler.PhysicalPath = "Spoffice.fm\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\Spoffice.fm\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "49226"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoffice.Lib", "Spoffice.Lib\Spoffice.Lib.csproj", "{33192AC2-97D1-4814-B76A-65591AE638B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lastfm-sharp", "lastfm-sharp\lastfm-sharp.csproj", "{91E7DBDB-431C-432F-8430-8A1E564B43DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34A2C98F-E3AA-41E3-9143-280D3386403C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34A2C98F-E3AA-41E3-9143-280D3386403C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34A2C98F-E3AA-41E3-9143-280D3386403C}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{34A2C98F-E3AA-41E3-9143-280D3386403C}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{33192AC2-97D1-4814-B76A-65591AE638B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33192AC2-97D1-4814-B76A-65591AE638B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33192AC2-97D1-4814-B76A-65591AE638B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33192AC2-97D1-4814-B76A-65591AE638B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91E7DBDB-431C-432F-8430-8A1E564B43DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91E7DBDB-431C-432F-8430-8A1E564B43DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91E7DBDB-431C-432F-8430-8A1E564B43DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91E7DBDB-431C-432F-8430-8A1E564B43DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
