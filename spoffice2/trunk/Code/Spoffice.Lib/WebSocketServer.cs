@@ -19,11 +19,6 @@ namespace Spoffice.Lib
         public event ClientConnectedEventHandler ClientConnected;
 
         /// <summary>
-        /// TextWriter used for logging
-        /// </summary>
-        public TextWriter Logger { get; set; }     // stream used for logging
-
-        /// <summary>
         /// How much information do you want, the server to post to the stream
         /// </summary>
         public ServerLogLevel LogLevel = ServerLogLevel.Subtle;
@@ -183,9 +178,10 @@ namespace Spoffice.Lib
 
         private void Log(string str, ServerLogLevel level)
         {
-            if (Logger != null && (int)LogLevel >= (int)level)
+            if ((int)LogLevel >= (int)level)
             {
-                Logger.Write(str);
+                // changed it to write it out to the debugger thingy wotsit
+                System.Diagnostics.Debug.WriteLine(str);
             }
         }
 

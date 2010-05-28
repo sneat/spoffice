@@ -8,6 +8,7 @@ using WMPLib;
 using System.Timers;
 using System.Threading;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace Spoffice.Lib
 {
@@ -21,6 +22,7 @@ namespace Spoffice.Lib
 
         public List<Track> UpcomingTracks = new List<Track>();
         public Track CurrentTrack;
+        private List<User> Users = new List<User>();
 
         private bool songEnded;
 
@@ -40,6 +42,7 @@ namespace Spoffice.Lib
                 return current ?? (current = new Controller());
             }
         }
+        private WebSocketServer server;
         protected Controller()
         {
             // ok, as soon as a controller is created (i.e. when you start the app)...
@@ -54,11 +57,11 @@ namespace Spoffice.Lib
 
             // create a new station..
             Station = new Station(StationURI.GetRecommended("coolpink-dev"), session);
-            StringBuilder builder = new StringBuilder();
-            StringWriter writer = new StringWriter(builder);
 
-            WebSocketServer server = new WebSocketServer(8181, "http://localhost:49226/", "ws://localhost:8181/service");
-            server.Logger = writer;
+            server = new WebSocketServer(8181, "http://localhost:49226", "ws://localhost:8181/service");
+
+            // removed the logger <<-----
+
             server.LogLevel = ServerLogLevel.Verbose;
             server.ClientConnected += new ClientConnectedEventHandler(OnClientConnected);
             server.Start();
@@ -77,6 +80,11 @@ namespace Spoffice.Lib
         }
         void OnClientConnected(WebSocketConnection sender, EventArgs e)
         {
+            Users.Add(new User() { Connection = sender });
+            StringWriter Output = new StringWriter(new StringBuilder());
+            XmlSerializer x = new XmlSerializer(typeof(Track));
+            x.Serialize(Output, CurrentTrack);
+            server.SendToAll(Output.ToString());
             System.Diagnostics.Debug.WriteLine("Client connected");
             sender.Disconnected += new WebSocketDisconnectedEventHandler(OnClientDisconnected);
             sender.DataReceived += new DataReceivedEventHandler(OnClientMessage);
