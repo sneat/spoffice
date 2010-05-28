@@ -6,6 +6,8 @@ using Lastfm;
 using Lastfm.Radio;
 using WMPLib;
 using System.Timers;
+using System.Threading;
+using System.IO;
 
 namespace Spoffice.Lib
 {
@@ -15,7 +17,7 @@ namespace Spoffice.Lib
         public Station Station;
 
         private WindowsMediaPlayer player;
-        private Timer timer;
+        private System.Timers.Timer timer;
 
         public List<Track> UpcomingTracks = new List<Track>();
         public Track CurrentTrack;
@@ -52,7 +54,16 @@ namespace Spoffice.Lib
 
             // create a new station..
             Station = new Station(StationURI.GetRecommended("coolpink-dev"), session);
+            StringBuilder builder = new StringBuilder();
+            StringWriter writer = new StringWriter(builder);
 
+            WebSocketServer server = new WebSocketServer(8181, "http://localhost:49226/", "ws://localhost:8181/service");
+            server.Logger = writer;
+            server.LogLevel = ServerLogLevel.Verbose;
+            server.ClientConnected += new ClientConnectedEventHandler(OnClientConnected);
+            server.Start();
+            Thread ServerThread = new Thread(new ThreadStart(KeepAlive));
+            ServerThread.Start();
 
             player = new WindowsMediaPlayer();
             player.PlayStateChange += new _WMPOCXEvents_PlayStateChangeEventHandler(player_PlayStateChange);
@@ -60,9 +71,30 @@ namespace Spoffice.Lib
             fetchMoreTracks();
             playNextTrack();
 
-            timer = new Timer(1000);
+            timer = new System.Timers.Timer(1000);
             timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
 
+        }
+        void OnClientConnected(WebSocketConnection sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Client connected");
+            sender.Disconnected += new WebSocketDisconnectedEventHandler(OnClientDisconnected);
+            sender.DataReceived += new DataReceivedEventHandler(OnClientMessage);
+        }
+        void OnClientMessage(WebSocketConnection sender, DataReceivedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Client message");
+        }
+        void OnClientDisconnected(WebSocketConnection sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Client disconnected");
+
+        }
+        private void KeepAlive()
+        {
+            while (true)
+            {
+            }
         }
         private void timer_Elapsed(object sender, ElapsedEventArgs e)
         {
