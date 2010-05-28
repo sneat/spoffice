@@ -17,10 +17,18 @@ namespace Spoffice.Lib
         private WindowsMediaPlayer player;
         private Timer timer;
 
-        private List<Track> tracks = new List<Track>();
+        public List<Track> UpcomingTracks = new List<Track>();
         public Track CurrentTrack;
 
         private bool songEnded;
+
+        public string PlayerState
+        {
+            get
+            {
+                return player.status;
+            }
+        }
 
         private static Controller current;
         public static Controller Current
@@ -45,16 +53,15 @@ namespace Spoffice.Lib
             // create a new station..
             Station = new Station(StationURI.GetRecommended("coolpink-dev"), session);
 
-            fetchMoreTracks();
 
             player = new WindowsMediaPlayer();
             player.PlayStateChange += new _WMPOCXEvents_PlayStateChangeEventHandler(player_PlayStateChange);
 
+            fetchMoreTracks();
             playNextTrack();
 
             timer = new Timer(1000);
             timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
-            timer.Start();
 
         }
         private void timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -80,21 +87,24 @@ namespace Spoffice.Lib
         }
         private void playNextTrack()
         {
-            if (tracks.Count < 2)
+            CurrentTrack = UpcomingTracks.FirstOrDefault();
+            if (CurrentTrack != null)
+            {
+                UpcomingTracks.Remove(CurrentTrack);
+                player.controls.stop();
+                player.URL = CurrentTrack.StreamPath;
+                player.controls.play();
+            }
+            if (UpcomingTracks.Count < 1)
             {
                 fetchMoreTracks();
             }
-            CurrentTrack = tracks.FirstOrDefault();
-            tracks.Remove(CurrentTrack);
-            player.controls.stop();
-            player.URL = CurrentTrack.StreamPath;
-            player.controls.play();
         }
         private void fetchMoreTracks()
         {
             foreach (Track track in Station.FetchTracks(true, true))
             {
-                tracks.Add(track);
+                UpcomingTracks.Add(track);
             }
         }
 
