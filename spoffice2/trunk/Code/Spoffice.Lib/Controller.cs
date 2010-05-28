@@ -12,7 +12,8 @@ namespace Spoffice.Lib
 
     public class Controller
     {
-        public List<Track> UpcomingTracks = new List<Track>();
+
+        public string currentTrack;
         public Station Station;
         private WindowsMediaPlayer player;
 
@@ -45,36 +46,49 @@ namespace Spoffice.Lib
             // add an event listener
             player.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(Player_PlayStateChange);
 
-            // play track
-            playUpcomingTrack();
+            // fill up our playlist with new tracks!
+            fillPlaylist();
+
+            currentTrack = player.currentMedia.sourceURL;
+
+            player.controls.play();
 
         }
-        private void playUpcomingTrack()
+        private void fillPlaylist()
         {
+            System.Diagnostics.Debug.WriteLine("fill");
             // get the list again.
-            UpcomingTracks = Station.FetchTracks(true, true).ToList();
+            Track[] tracks = Station.FetchTracks(true, true);
+
             // if theres a track in there
-            if (UpcomingTracks.Count > 0)
-            {
+            foreach (Track track in tracks){
 
-                // get the first
-                Track trackToPlay = UpcomingTracks.FirstOrDefault();
-
-                // set the stream path
-                player.URL = trackToPlay.StreamPath;
-
-                // play it
-                player.controls.play();
+                System.Diagnostics.Debug.WriteLine("adding track = " + track.StreamPath);
+                WMPLib.IWMPMedia media = player.newMedia(track.StreamPath);
+                player.currentPlaylist.appendItem(media);
+                
             }
         }
         private void Player_PlayStateChange(int NewState)
         {
-            // if a track has been played
-            if ((WMPLib.WMPPlayState)NewState == WMPLib.WMPPlayState.wmppsStopped)
+
+            currentTrack = player.currentMedia.sourceURL;
+
+            // write out the current track url
+            System.Diagnostics.Debug.WriteLine("track url = "+currentTrack);
+
+            // write out the state
+            System.Diagnostics.Debug.WriteLine("state = "+NewState.ToString());
+
+            // write out the length of the playlist
+            System.Diagnostics.Debug.WriteLine("playlist length = "+player.currentPlaylist.count.ToString());
+
+            // write out the length of the playlist
+            System.Diagnostics.Debug.WriteLine("playlist length = " + player.currentPlaylist.count.ToString());
+
+            if (player.currentPlaylist.count < 2)
             {
-                player.controls.stop();
-                // play a new upcoming track
-                playUpcomingTrack();
+                fillPlaylist();
             }
         }
 
