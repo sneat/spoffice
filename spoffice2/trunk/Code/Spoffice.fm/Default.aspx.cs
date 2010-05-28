@@ -10,6 +10,6 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        currentTrack.Text = Controller.Current.currentTrack;
+        currentTrack.Text = Controller.Current.CurrentTrack.Title;
     }
 }

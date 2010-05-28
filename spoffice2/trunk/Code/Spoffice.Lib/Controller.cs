@@ -4,18 +4,23 @@ using System.Linq;
 using System.Text;
 using Lastfm;
 using Lastfm.Radio;
-using System.Threading;
 using WMPLib;
+using System.Timers;
 
 namespace Spoffice.Lib
 {
 
     public class Controller
     {
-
-        public string currentTrack;
         public Station Station;
+
         private WindowsMediaPlayer player;
+        private Timer timer;
+
+        private List<Track> tracks = new List<Track>();
+        public Track CurrentTrack;
+
+        private bool songEnded;
 
         private static Controller current;
         public static Controller Current
@@ -40,55 +45,56 @@ namespace Spoffice.Lib
             // create a new station..
             Station = new Station(StationURI.GetRecommended("coolpink-dev"), session);
 
-            // create a new player
+            fetchMoreTracks();
+
             player = new WindowsMediaPlayer();
+            player.PlayStateChange += new _WMPOCXEvents_PlayStateChangeEventHandler(player_PlayStateChange);
 
-            // add an event listener
-            player.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(Player_PlayStateChange);
+            playNextTrack();
 
-            // fill up our playlist with new tracks!
-            fillPlaylist();
-
-            currentTrack = player.currentMedia.sourceURL;
-
-            player.controls.play();
+            timer = new Timer(1000);
+            timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
+            timer.Start();
 
         }
-        private void fillPlaylist()
+        private void timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("fill");
-            // get the list again.
-            Track[] tracks = Station.FetchTracks(true, true);
-
-            // if theres a track in there
-            foreach (Track track in tracks){
-
-                System.Diagnostics.Debug.WriteLine("adding track = " + track.StreamPath);
-                WMPLib.IWMPMedia media = player.newMedia(track.StreamPath);
-                player.currentPlaylist.appendItem(media);
-                
+            if (songEnded)
+            {
+                playNextTrack();
+                songEnded = false;
+                timer.Stop();
             }
         }
-        private void Player_PlayStateChange(int NewState)
+        private void player_PlayStateChange(int NewState)
         {
-
-            currentTrack = player.currentMedia.sourceURL;
-
-            // write out the current track url
-            System.Diagnostics.Debug.WriteLine("track url = "+currentTrack);
-
-            // write out the state
-            System.Diagnostics.Debug.WriteLine("state = "+NewState.ToString());
-
-            // write out the length of the playlist
-            System.Diagnostics.Debug.WriteLine("playlist length = "+player.currentPlaylist.count.ToString());
-
-            // write out the length of the playlist
-            System.Diagnostics.Debug.WriteLine("playlist length = " + player.currentPlaylist.count.ToString());
-
-            if (player.currentPlaylist.count < 2)
+            switch (player.playState)
             {
-                fillPlaylist();
+                case WMPLib.WMPPlayState.wmppsMediaEnded:
+                    songEnded = true;
+                    timer.Start();
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void playNextTrack()
+        {
+            if (tracks.Count < 2)
+            {
+                fetchMoreTracks();
+            }
+            CurrentTrack = tracks.FirstOrDefault();
+            tracks.Remove(CurrentTrack);
+            player.controls.stop();
+            player.URL = CurrentTrack.StreamPath;
+            player.controls.play();
+        }
+        private void fetchMoreTracks()
+        {
+            foreach (Track track in Station.FetchTracks(true, true))
+            {
+                tracks.Add(track);
             }
         }
 
