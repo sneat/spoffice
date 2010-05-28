@@ -10,9 +10,6 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        currentTrack.Text = Controller.Current.CurrentTrack.Title;
-        playerState.Text = Controller.Current.PlayerState;
-        GridView1.DataSource = Controller.Current.UpcomingTracks;
-        GridView1.DataBind();
+     
     }
 }

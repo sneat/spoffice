@@ -15,20 +15,18 @@
             SOAPClient.Proxy = "SpofficeService.asmx"; //Specify web-service address or a proxy file
             SOAPClient.SendRequest(sr, processResponse);
             function processResponse(respObj) {
-                console.log(respObj);
+                $('#trackTitle').html(respObj.find("Title").text());
+                $('#artistName').html(respObj.find("Artist").text());
+                $('#albumTitle').html(respObj.find("AlbumTitle").text());
             }
         });    
     </script>
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-        <asp:GridView ID="GridView1" runat="server">
-        </asp:GridView>
-     <asp:Literal ID="currentTrack" runat="server" />
-     <asp:Literal ID="playerState" runat="server" />
-    
-    </div>
+    <h1 id="trackTitle"></h1>
+    <h2 id="artistName"></h2>
+    <h3 id="albumTitle"></h3>
     </form>
 </body>
 </html>
