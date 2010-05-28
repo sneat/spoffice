@@ -5,6 +5,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="jqSoapClient.beta.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var soapBody = new SOAPObject("GetCurrentTrack");
+            soapBody.ns = "http://tempuri.org/";
+            var sr = new SOAPRequest("http://tempuri.org/GetCurrentTrack", soapBody); //Request is ready to be sent
+            SOAPClient.Proxy = "SpofficeService.asmx"; //Specify web-service address or a proxy file
+            SOAPClient.SendRequest(sr, processResponse);
+            function processResponse(respObj) {
+                console.log(respObj);
+            }
+        });    
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
